@@ -3,5 +3,6 @@
 3. 커밋, pull 할 때 현재 브랜치 꼭 확인하기(master에는 commit 안할것)
 4. update reset은 사용 X//rebase,clone보다는 merge pull. reset보다는 revert
 5. 로컬 깃이랑 원격 깃 상태 생각하면서 작업하기
+6.revert는 돌아갈려는 곳이 아니라 잘못된 최신 커밋에 하기
 
 commit/push, checkout, pull, merge, revert 정도 사용

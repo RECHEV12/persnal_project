@@ -14,7 +14,7 @@
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
                 class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+            <ul class="navbar-nav me-auto ">
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
                 <li class="nav-item dropdown">
@@ -29,25 +29,27 @@
                         <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
                     </ul>
                 </li>
+                <form method="get"  class="d-flex" role="search" action="/product/productSearch.wow" style="margin-bottom: auto;">
+                    <div class="input-group">
+                        <select class="form-select" aria-label="Size 3 select example" name="searchType">
+                            <option selected value="name">제품명</option>
+                            <option value="user">제작자</option>
+                        </select>
+                        <input type="text" class="form-control " placeholder="검색어를 입력하세요" aria-label="검색어를 입력하세요"
+                               aria-describedby="button-addon2" name="searchWord" >
+                        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">🔎</button>
+                    </div>
+                </form>
             </ul>
-            <form method="get" action="/product/productSearch.wow">
-                <div class="input-group">
-                    <select class="form-select" aria-label="Size 3 select example" name="searchType">
-                        <option selected value="name">제품명</option>
-                        <option value="user">제작자</option>
-                    </select>
-                    <input type="text" class="form-control" placeholder="검색어를 입력하세요" aria-label="검색어를 입력하세요"
-                           aria-describedby="button-addon2" name="searchWord">
-                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">🔎</button>
-                </div>
-            </form>
+
             <div>
                 <button class="btn btn-outline-dark" type="submit">
                     <i class="bi-cart-fill me-1">cart</i>
                     <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
                 </button>
             </div>
-
         </div>
+
+
     </div>
 </nav>

@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface IProductService {
     public List<ProductVO> getProdList(ProductSearchVO productSearch);
+    public ProductVO getProduct(int prodNo);
+
 }

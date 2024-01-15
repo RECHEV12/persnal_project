@@ -21,5 +21,24 @@
             <if test='search.searchType  == "name"'>AND prod_title Like '%' || #{search.searchWord} || '%'</if>
             <if test='search.searchType  == "user"'>AND prod_user_id Like '%' || #{search.searchWord} || '%'</if>
         </if>
+        ORDER BY prod_no asc
+    </select>
+    <select id="getProduct" resultType="com.study.product.vo.ProductVO" parameterType="int">
+        SELECT
+            prod_no,
+            prod_title,
+            prod_content,
+            prod_total_sell,
+            prod_price,
+            prod_image,
+            prod_cate_code,
+            TO_CHAR(prod_reg_date,'YYYY-MM-DD') AS prod_reg_date,
+            prod_del_yn,
+            prod_user_id
+        FROM
+            products
+        WHERE
+            prod_del_yn = 'N'
+        AND prod_no = #{prodNo}
     </select>
 </mapper>

@@ -17,12 +17,17 @@ public class ProductController {
     ProductServiceImpl productService;
 
     @RequestMapping("/product/productSearch.wow")
-    public String goSearch(Model model, ProductSearchVO productSearch) {
+    public String prodSearch(Model model, ProductSearchVO productSearch) {
         List<ProductVO> prodList = productService.getProdList(productSearch);
-
-        System.out.println(prodList);
         model.addAttribute("prodList", prodList);
         return "product/productSearch";
+    }
+
+    @RequestMapping("/product/productView.wow")
+    public String prodView(Model model, int prodNo) {
+        ProductVO product = productService.getProduct(prodNo);
+        model.addAttribute("product", product);
+        return "product/productView";
     }
 
 }

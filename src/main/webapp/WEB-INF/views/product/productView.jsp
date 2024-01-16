@@ -20,7 +20,7 @@
                                        src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=${product.prodImage}"
                                        style="height: 600px;width: 600px"/></div>
             <div class="col-md-6">
-                <a href="http://localhost:8080">
+                <a href="/user/userProfile.wow?userId=${product.prodUserId}">
                     <div class="small mb-1">${product.prodUserName}</div>
                 </a>
                 <h1 class="display-5 fw-bolder">${product.prodTitle}</h1>

@@ -1,20 +1,22 @@
 package com.study.user.vo;
 
 public class UserVO {
-    private String userId     ;            /*아이디    */
-    private String userName   ;            /*이름      */
-    private String userPass   ;            /*비밀번호  */
-    private String userBirth  ;            /*생년월일  */
-    private String userGender ;            /*성별      */
-    private String userHp     ;            /*전화번호  */
-    private String userEmail  ;            /*이메일    */
-    private int userZip       ;            /*우편번호  */
-    private String userAdd1   ;            /*주소1     */
-    private String userAdd2   ;            /*주소2     */
-    private String userClass  ;            /*판매자여부 */
-    private String userRegDate;            /*등록일자   */
-    private String userLogin  ;            /*로그인여부 */
-    private String userOut    ;            /*탈퇴여부   */
+    private String userId           ;            /*아이디        */
+    private String userName         ;            /*이름          */
+    private String userPass         ;            /*비밀번호      */
+    private String userBirth        ;            /*생년월일      */
+    private String userGender       ;            /*성별          */
+    private String userHp           ;            /*전화번호      */
+    private String userEmail        ;            /*이메일        */
+    private int userZip             ;            /*우편번호      */
+    private String userAdd1         ;            /*주소1         */
+    private String userAdd2         ;            /*주소2         */
+    private String userClass        ;            /*판매자여부     */
+    private String userRegDate      ;            /*등록일자       */
+    private String userLogin        ;            /*로그인여부     */
+    private String userOut          ;            /*탈퇴여부       */
+    private String userIcon         ;            /*프로필아이콘   */
+    private String userIntroduce    ;            /*프로필내용     */
 
     public UserVO() {
     }
@@ -36,6 +38,8 @@ public class UserVO {
                 ", userRegDate='" + userRegDate + '\'' +
                 ", userLogin='" + userLogin + '\'' +
                 ", userOut='" + userOut + '\'' +
+                ", userIcon='" + userIcon + '\'' +
+                ", userIntroduce='" + userIntroduce + '\'' +
                 '}';
     }
 
@@ -149,5 +153,21 @@ public class UserVO {
 
     public void setUserOut(String userOut) {
         this.userOut = userOut;
+    }
+
+    public String getUserIcon() {
+        return userIcon;
+    }
+
+    public void setUserIcon(String userIcon) {
+        this.userIcon = userIcon;
+    }
+
+    public String getUserIntroduce() {
+        return userIntroduce;
+    }
+
+    public void setUserIntroduce(String userIntroduce) {
+        this.userIntroduce = userIntroduce;
     }
 }

@@ -15,8 +15,8 @@
                 class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto ">
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="http://localhost:8080">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="#!">로그인</a></li>
+                <li class="nav-item"><a class="nav-link" href="#!">회원가입</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">Category</a>
@@ -38,6 +38,7 @@
                         <button class="btn btn-outline-light" type="submit" id="button-addon2">🔎</button>
                     </div>
                 </form>
+
             </ul>
 
             <div>

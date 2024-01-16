@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.study.user.dao.IUserDAO">
-    <select id="getUser" resultType="com.study.user.vo.UserVO"></select>
+    <select id="getUser" resultType="com.study.user.vo.UserVO" parameterType="string">
+        SELECT u.USER_ID,
+               u.USER_NAME,
+               u.USER_PASS,
+               u.USER_BIRTH,
+               u.USER_GENDER,
+               u.USER_HP,
+               u.USER_EMAIL,
+               u.USER_ZIP,
+               u.USER_ADD1,
+               u.USER_ADD2,
+               u.USER_CLASS,
+               u.USER_REG_DATE,
+               u.USER_LOGIN,
+               u.USER_OUT,
+               pf.user_icon      AS user_icon,
+               pf.user_introduce AS user_introduce
+        FROM USERS u,
+             profile pf
+        WHERE u.USER_OUT = 'N'
+          AND u.user_id = #{userId}
+          AND u.user_id = pf.user_id
+    </select>
 </mapper>

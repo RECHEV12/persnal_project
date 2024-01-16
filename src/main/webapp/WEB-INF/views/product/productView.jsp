@@ -16,11 +16,12 @@
 <section>
     <div class="container px-4 px-lg-5 my-5">
         <div class="row gx-4 gx-lg-5 align-items-center">
-            <div class="col-md-6"> <img class="img-thumbnail"
-                                        src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=apple.jpeg" style="height: 600px;width: 600px"/></div>
+            <div class="col-md-6"><img class="img-thumbnail"
+                                       src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=${product.prodImage}"
+                                       style="height: 600px;width: 600px"/></div>
             <div class="col-md-6">
                 <a href="http://localhost:8080">
-                    <div class="small mb-1">${product.prodUserId}</div>
+                    <div class="small mb-1">${product.prodUserName}</div>
                 </a>
                 <h1 class="display-5 fw-bolder">${product.prodTitle}</h1>
                 <div class="fs-5 mb-5" style="display: flex">
@@ -35,35 +36,38 @@
                     </div>
 
                 </div>
-
-                <div class="d-flex">
-
-                    <button class="btn btn-outline-dark flex-shrink-0 col-6" type="button">
-                        <i class="bi-cart-fill me-1"></i>
-                        장바구니
-                    </button>
-
-                    <button class="btn btn-outline-dark flex-shrink-0 col-6" type="button">
-                        <i class="bi-cart-fill me-1"></i>
-                        선물하기
-                    </button>
-                </div>
-                <div class="d-flex " name="option" style="border: #6c757d 1px solid; height: 50px; align-items: center">
+                <div class="d-flex my-4" name="option"
+                     style="border: #6c757d 1px solid; height: 50px; align-items: center">
                     옵션을 선택해주세요.
                 </div>
-                <div>
-                    <button class="btn btn-outline-dark flex-shrink-0 col-12" type="button">
-                        <i class="bi-cart-fill me-1"></i>
-                        바로구매
-                    </button>
+                <div class="my-4">
+                    <div class="d-flex">
+
+                        <button class="btn btn-outline-dark flex-shrink-0 col-6" type="button">
+                            <i class="bi-cart-fill me-1"></i>
+                            장바구니
+                        </button>
+
+                        <button class="btn btn-outline-dark flex-shrink-0 col-6" type="button">
+                            <i class="bi-cart-fill me-1"></i>
+                            선물하기
+                        </button>
+                    </div>
+
+                    <div>
+                        <button class="btn btn-outline-dark flex-shrink-0 col-12" type="button">
+                            <i class="bi-cart-fill me-1"></i>
+                            바로구매
+                        </button>
+                    </div>
                 </div>
-                <div>
+                <div class="my-2">
                     배송비 : 무료배송
                 </div>
-                <div>
+                <div class="my-2">
                     배송일 3일 이내
                 </div>
-                <div>
+                <div class="my-2">
                     수량 :100개
                 </div>
             </div>
@@ -110,12 +114,12 @@ ${product}
 
     }
     $("div[name='option']").on("click", (e) => {
-      const div =  e.target;
+        const div = e.target;
         if (optChk === 1) {
             optChk = 2;
             div.textContent = "옵션 선택"
         } else {
-            optChk =1;
+            optChk = 1;
             div.textContent = "옵션을 선택해주세요."
         }
 

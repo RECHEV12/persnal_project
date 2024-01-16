@@ -33,7 +33,7 @@
                                  src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=${prod.prodImage}"/>
                         </div>
                         <div class="card-body" style="text-align: left">
-                            <p class="card-subtitle" style="color: #6c757d; font-size: 14px">${prod.prodUserId}</p>
+                            <p class="card-subtitle" style="color: #6c757d; font-size: 14px">${prod.prodUserName}</p>
                             <p class="card-title" style="font-size: 20px">${prod.prodTitle}</p>
                             <p>${prod.prodPrice}원</p>
                             <p>5.0dd</p>

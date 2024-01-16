@@ -1,16 +1,17 @@
 package com.study.product.vo;
 
 public class ProductVO {
-    private int prodNo;                 /*제품번호 */
-    private String prodTitle;           /*제 품 명 */
-    private String prodContent;         /*제품 내용*/
-    private int prodTotalSell;          /*판매량   */
-    private int prodPrice;              /*가격     */
-    private String prodImage;           /*이미지   */
-    private String prodCateCode;        /*분류     */
-    private String prodRegDate;         /*등록일자 */
-    private String prodDelYn;           /*삭제여부 */
-    private String prodUserId;          /*판매자   */
+    private int prodNo;                 /*제품번호      */
+    private String prodTitle;           /*제 품 명      */
+    private String prodContent;         /*제품 내용     */
+    private int prodTotalSell;          /*판매량        */
+    private int prodPrice;              /*가격          */
+    private String prodImage;           /*이미지        */
+    private String prodCateCode;        /*분류          */
+    private String prodRegDate;         /*등록일자      */
+    private String prodDelYn;           /*삭제여부      */
+    private String prodUserId;          /*판매자아이디  */
+    private String prodUserName;        /*판매자 이름   */
 
     @Override
     public String toString() {
@@ -106,5 +107,13 @@ public class ProductVO {
 
     public void setProdUserId(String prodUserId) {
         this.prodUserId = prodUserId;
+    }
+
+    public String getProdUserName() {
+        return prodUserName;
+    }
+
+    public void setProdUserName(String prodUserName) {
+        this.prodUserName = prodUserName;
     }
 }

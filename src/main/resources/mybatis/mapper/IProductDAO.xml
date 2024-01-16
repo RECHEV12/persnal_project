@@ -3,25 +3,27 @@
 <mapper namespace="com.study.product.dao.IProductDAO">
     <select id="getProdListByKeyword" resultType="com.study.product.vo.ProductVO" parameterType="com.study.product.vo.ProductSearchVO">
         SELECT
-            prod_no,
-            prod_title,
-            prod_content,
-            prod_total_sell,
-            prod_price,
-            prod_image,
-            prod_cate_code,
-            TO_CHAR(prod_reg_date,'YYYY-MM-DD') AS prod_reg_date,
-            prod_del_yn,
-            prod_user_id
+        p.prod_no,
+        p.prod_title,
+        p.prod_content,
+        p.prod_total_sell,
+        p.prod_price,
+        p.prod_image,
+        p.prod_cate_code,
+        TO_CHAR(p.prod_reg_date,'YYYY-MM-DD') AS prod_reg_date,
+        p.prod_del_yn,
+        p.prod_user_id,
+        u.user_name AS prod_user_name
         FROM
-            products
+        products p, users u
         WHERE
-        prod_del_yn = 'N'
+        p.prod_del_yn = 'N'
         <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(search.searchWord)">
-            <if test='search.searchType  == "name"'>AND prod_title Like '%' || #{search.searchWord} || '%'</if>
-            <if test='search.searchType  == "user"'>AND prod_user_id Like '%' || #{search.searchWord} || '%'</if>
+            <if test='search.searchType  == "name"'>AND p.prod_title Like '%' || #{search.searchWord} || '%'</if>
+            <if test='search.searchType  == "user"'>AND u.user_name Like '%' || #{search.searchWord} || '%'</if>
         </if>
-        ORDER BY prod_no asc
+        AND u.user_id=p.prod_user_id
+        ORDER BY p.prod_no asc
     </select>
 
     <select id="getProdListByCategory" resultType="com.study.product.vo.ProductVO">
@@ -35,15 +37,17 @@
         prod_cate_code,
         TO_CHAR(prod_reg_date,'YYYY-MM-DD') AS prod_reg_date,
         prod_del_yn,
-        prod_user_id
+        p.prod_user_id,
+        u.user_name AS prod_user_name
         FROM
-        products
+        products p, users u
         WHERE
         prod_del_yn = 'N'
         <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(category)">
             <if test='category  == "fassion"'>AND prod_cate_code Like '%' || 'CL' || '%'</if>
             <if test='category  == "food"'>AND prod_cate_code Like '%' || 'FD' || '%'</if>
         </if>
+        AND u.user_id=p.prod_user_id
         ORDER BY prod_no asc
     </select>
     <select id="getProduct" resultType="com.study.product.vo.ProductVO" parameterType="int">
@@ -57,12 +61,14 @@
             prod_cate_code,
             TO_CHAR(prod_reg_date,'YYYY-MM-DD') AS prod_reg_date,
             prod_del_yn,
-            prod_user_id
+            p.prod_user_id,
+            u.user_name AS prod_user_name
         FROM
-            products
+            products p, users u
         WHERE
             prod_del_yn = 'N'
         AND prod_no = #{prodNo}
+          AND u.user_id=p.prod_user_id
     </select>
 
 </mapper>

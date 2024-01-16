@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.study.product.dao.IProductDAO">
-    <select id="getProdList" resultType="com.study.product.vo.ProductVO" parameterType="com.study.product.vo.ProductSearchVO">
+    <select id="getProdListByKeyword" resultType="com.study.product.vo.ProductVO" parameterType="com.study.product.vo.ProductSearchVO">
         SELECT
             prod_no,
             prod_title,
@@ -23,6 +23,29 @@
         </if>
         ORDER BY prod_no asc
     </select>
+
+    <select id="getProdListByCategory" resultType="com.study.product.vo.ProductVO">
+        SELECT
+        prod_no,
+        prod_title,
+        prod_content,
+        prod_total_sell,
+        prod_price,
+        prod_image,
+        prod_cate_code,
+        TO_CHAR(prod_reg_date,'YYYY-MM-DD') AS prod_reg_date,
+        prod_del_yn,
+        prod_user_id
+        FROM
+        products
+        WHERE
+        prod_del_yn = 'N'
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(category)">
+            <if test='category  == "fassion"'>AND prod_cate_code Like '%' || 'CL' || '%'</if>
+            <if test='category  == "food"'>AND prod_cate_code Like '%' || 'FD' || '%'</if>
+        </if>
+        ORDER BY prod_no asc
+    </select>
     <select id="getProduct" resultType="com.study.product.vo.ProductVO" parameterType="int">
         SELECT
             prod_no,
@@ -41,4 +64,5 @@
             prod_del_yn = 'N'
         AND prod_no = #{prodNo}
     </select>
+
 </mapper>

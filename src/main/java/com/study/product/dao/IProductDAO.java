@@ -9,6 +9,7 @@ import java.util.List;
 
 @Mapper
 public interface IProductDAO {
-    public List<ProductVO> getProdList(@Param("search") ProductSearchVO productSearch);
+    public List<ProductVO> getProdListByKeyword(@Param("search") ProductSearchVO productSearch);
+    public List<ProductVO> getProdListByCategory(String category);
     public ProductVO getProduct(int prodNo);
 }

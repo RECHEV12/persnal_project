@@ -7,26 +7,24 @@
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-success">
     <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="#!">Start Bootstrap</a>
+        <a class="navbar-brand" href="http://localhost:8080">Persnal Spring Project</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
                 class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto ">
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="http://localhost:8080">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
+                       data-bs-toggle="dropdown" aria-expanded="false">Category</a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">All Products</a></li>
-                        <li>
-                            <hr class="dropdown-divider"/>
-                        </li>
-                        <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                        <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
+                        <li><a class="dropdown-item" href="#!"></a></li>
+
+                        <li><a class="dropdown-item" href="/product/productSearch.do?category=fassion">패션</a></li>
+                        <li><a class="dropdown-item" href="/product/productSearch.do?category=food">식품</a></li>
                     </ul>
                 </li>
                 <form method="get"  class="d-flex" role="search" action="/product/productSearch.wow" style="margin-bottom: auto;">
@@ -37,15 +35,15 @@
                         </select>
                         <input type="text" class="form-control " placeholder="검색어를 입력하세요" aria-label="검색어를 입력하세요"
                                aria-describedby="button-addon2" name="searchWord" >
-                        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">🔎</button>
+                        <button class="btn btn-outline-light" type="submit" id="button-addon2">🔎</button>
                     </div>
                 </form>
             </ul>
 
             <div>
-                <button class="btn btn-outline-dark" type="submit">
+                <button class="btn btn-outline-light" type="button">
                     <i class="bi-cart-fill me-1">cart</i>
-                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                    <span class="badge bg-success text-white ms-1 rounded-pill">0</span>
                 </button>
             </div>
         </div>

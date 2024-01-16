@@ -15,8 +15,13 @@ public class ProductServiceImpl implements IProductService {
     IProductDAO productDAO;
 
     @Override
-    public List<ProductVO> getProdList(ProductSearchVO productSearch) {
-            return productDAO.getProdList(productSearch);
+    public List<ProductVO> getProdListByKeyword(ProductSearchVO productSearch) {
+            return productDAO.getProdListByKeyword(productSearch);
+    }
+
+    @Override
+    public List<ProductVO> getProdListByCategory(String category) {
+            return productDAO.getProdListByCategory(category);
     }
 
     @Override

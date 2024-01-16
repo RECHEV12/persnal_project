@@ -16,19 +16,20 @@
 <section>
     <div class="container px-4 px-lg-5 my-5">
         <div class="row gx-4 gx-lg-5 align-items-center">
-            <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0"
-                                       src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..."/></div>
+            <div class="col-md-6"> <img class="img-thumbnail"
+                                        src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=apple.jpeg" style="height: 600px;width: 600px"/></div>
             <div class="col-md-6">
                 <a href="http://localhost:8080">
                     <div class="small mb-1">${product.prodUserId}</div>
                 </a>
                 <h1 class="display-5 fw-bolder">${product.prodTitle}</h1>
                 <div class="fs-5 mb-5" style="display: flex">
+
                     <div class="col-6" style="text-align: left">
                         <%--                    <span class="text-decoration-line-through">$45.00</span>--%>
                         <span>${product.prodPrice}원</span>
-
                     </div>
+
                     <div class="col-6" style="text-align: right">
                         <span>ㅁㄴㅇㄹ</span>
                     </div>
@@ -47,24 +48,77 @@
                         선물하기
                     </button>
                 </div>
+                <div class="d-flex " name="option" style="border: #6c757d 1px solid; height: 50px; align-items: center">
+                    옵션을 선택해주세요.
+                </div>
                 <div>
                     <button class="btn btn-outline-dark flex-shrink-0 col-12" type="button">
                         <i class="bi-cart-fill me-1"></i>
                         바로구매
                     </button>
                 </div>
+                <div>
+                    배송비 : 무료배송
+                </div>
+                <div>
+                    배송일 3일 이내
+                </div>
+                <div>
+                    수량 :100개
+                </div>
             </div>
         </div>
     </div>
 </section>
-<!-- Related items section-->
-
 <section>
+    <ul class="nav nav-tabs px-4 px-lg-5 my-5">
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#" name="prodView">상품정보</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" name="prodView">리뷰</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" name="prodView">문의</a>
+        </li>
 
+    </ul>
 </section>
 ${product}
 
+</body>
 <%@include file="/WEB-INF/inc/footer.jsp" %>
 <%@include file="/WEB-INF/inc/script.jsp" %>
-</body>
+<script>
+    let optChk = 1;
+    const tab = document.querySelectorAll(".nav-link[name='prodView']");
+    tab.forEach((v, i) => {
+        v.addEventListener("click", function (e) {
+            e.preventDefault();
+            tabChk(e.target);
+        })
+    })
+
+    const tabChk = (target) => {
+        tab.forEach((v, i) => {
+            if (v === target) {
+                v.className = "nav-link active"
+            } else {
+                v.className = "nav-link"
+            }
+        })
+
+    }
+    $("div[name='option']").on("click", (e) => {
+      const div =  e.target;
+        if (optChk === 1) {
+            optChk = 2;
+            div.textContent = "옵션 선택"
+        } else {
+            optChk =1;
+            div.textContent = "옵션을 선택해주세요."
+        }
+
+    })
+</script>
 </html>

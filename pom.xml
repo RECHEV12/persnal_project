@@ -56,7 +56,13 @@
       <artifactId>aspectjweaver</artifactId>
       <version>1.9.7</version>
     </dependency>
-
+    <!-- commons io -->
+    <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.11.0</version>
+    </dependency>
 
     <!-- Logging -->
     <dependency>

@@ -21,6 +21,25 @@ public class UserVO {
     public UserVO() {
     }
 
+    public UserVO(String userId, String userName, String userPass, String userBirth, String userGender, String userHp, String userEmail, int userZip, String userAdd1, String userAdd2, String userClass, String userRegDate, String userLogin, String userOut, String userIcon, String userIntroduce) {
+        this.userId = userId;
+        this.userName = userName;
+        this.userPass = userPass;
+        this.userBirth = userBirth;
+        this.userGender = userGender;
+        this.userHp = userHp;
+        this.userEmail = userEmail;
+        this.userZip = userZip;
+        this.userAdd1 = userAdd1;
+        this.userAdd2 = userAdd2;
+        this.userClass = userClass;
+        this.userRegDate = userRegDate;
+        this.userLogin = userLogin;
+        this.userOut = userOut;
+        this.userIcon = userIcon;
+        this.userIntroduce = userIntroduce;
+    }
+
     @Override
     public String toString() {
         return "UserVO{" +

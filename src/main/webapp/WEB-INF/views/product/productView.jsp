@@ -34,11 +34,33 @@
                     <div class="col-6" style="text-align: right">
                         <span>ㅁㄴㅇㄹ</span>
                     </div>
+                </div>
+                <div>
+                    <span id="first" name="opts" style="display: none">-> 옵션1</span>
+                    <c:forEach items="${optFirst}" var="optOne">
+                        <div name="optFirst" data-opt-first="${optOne}" style="display: none">==>${optOne}</div>
+                    </c:forEach>
+                </div>
+                <div>
+                    <span id="second" name="opts" style="display: none">-> 옵션2</span>
+                    <c:forEach items="${optSecond}" var="optTwo">
+                        <div name="optSecond" data-opt-second="${optTwo}" style="display: none">
+                            ==>${optTwo}</div>
+                    </c:forEach>
 
                 </div>
-                <div class="d-flex my-4" name="option"
-                     style="border: #6c757d 1px solid; height: 50px; align-items: center">
-                    옵션을 선택해주세요.
+                <div id="optDiv">
+                    <select class="form-select" aria-label="Default select example">
+                        <option selected>옵션 1</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select> <select class="form-select" aria-label="Default select example">
+                    <option selected>옵션 2</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
                 </div>
                 <div class="my-4">
                     <div class="d-flex">
@@ -67,26 +89,26 @@
                 <div class="my-2">
                     배송일 3일 이내
                 </div>
-                <div class="my-2">
-                    수량 :100개
-                </div>
             </div>
         </div>
     </div>
 </section>
 <section>
-    <ul class="nav nav-tabs px-4 px-lg-5 my-5">
-        <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#" name="prodView">상품정보</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#" name="prodView">리뷰</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#" name="prodView">문의</a>
-        </li>
-
-    </ul>
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="row gx-4 gx-lg-5">
+            <ul class="nav nav-tabs px-4 px-lg-5 my-5">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#" name="prodView">상품정보</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" name="prodView">리뷰</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" name="prodView">문의</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </section>
 ${product}
 
@@ -94,35 +116,7 @@ ${product}
 <%@include file="/WEB-INF/inc/footer.jsp" %>
 <%@include file="/WEB-INF/inc/script.jsp" %>
 <script>
-    let optChk = 1;
-    const tab = document.querySelectorAll(".nav-link[name='prodView']");
-    tab.forEach((v, i) => {
-        v.addEventListener("click", function (e) {
-            e.preventDefault();
-            tabChk(e.target);
-        })
-    })
 
-    const tabChk = (target) => {
-        tab.forEach((v, i) => {
-            if (v === target) {
-                v.className = "nav-link active"
-            } else {
-                v.className = "nav-link"
-            }
-        })
 
-    }
-    $("div[name='option']").on("click", (e) => {
-        const div = e.target;
-        if (optChk === 1) {
-            optChk = 2;
-            div.textContent = "옵션 선택"
-        } else {
-            optChk = 1;
-            div.textContent = "옵션을 선택해주세요."
-        }
-
-    })
 </script>
 </html>

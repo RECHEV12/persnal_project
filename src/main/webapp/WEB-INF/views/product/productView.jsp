@@ -36,31 +36,27 @@
                     </div>
                 </div>
                 <div>
-                    <span id="first" name="opts" style="display: none">-> 옵션1</span>
-                    <c:forEach items="${optFirst}" var="optOne">
-                        <div name="optFirst" data-opt-first="${optOne}" style="display: none">==>${optOne}</div>
-                    </c:forEach>
-                </div>
-                <div>
-                    <span id="second" name="opts" style="display: none">-> 옵션2</span>
-                    <c:forEach items="${optSecond}" var="optTwo">
-                        <div name="optSecond" data-opt-second="${optTwo}" style="display: none">
-                            ==>${optTwo}</div>
-                    </c:forEach>
-
-                </div>
-                <div id="optDiv">
+<%--                        //온체인지--%>
                     <select class="form-select" aria-label="Default select example">
                         <option selected>옵션 1</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select> <select class="form-select" aria-label="Default select example">
+                        <c:forEach items="${optFirst}" var="optOne">
+                            <option value="${optOne}">${optOne}</option>
+                        </c:forEach>
+
+                    </select><select class="form-select" aria-label="Default select example">
                     <option selected>옵션 2</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    <c:forEach items="${optSecond}" var="optTwo">
+                    <option value="${optTwo}">${optTwo}</option>
+                    </c:forEach>
                 </select>
+                </div>
+                <div class="p-3 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3" id="optDiv">
+                    <div>옵션1 : <span>as</span></div>
+                    <div>옵션2 : <span>as</span></div>
+                    <div></div>
+                    <div></div>
+
+
                 </div>
                 <div class="my-4">
                     <div class="d-flex">

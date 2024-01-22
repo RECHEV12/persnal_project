@@ -17,11 +17,11 @@
             <ul class="navbar-nav me-auto ">
                 <c:if test='<%=session.getAttribute("USER_INFO")==null%>'>
                     <li class="nav-item">
-                        <a class="nav-link" href="/common/login.wow">
+                        <a class="nav-link" href="/user/login.wow">
                             로그인
                         </a>
                     <li class="nav-item">
-                        <a class="nav-link" href="/common/signUp.wow">
+                        <a class="nav-link" href="/user/signUp.wow">
                             회원가입
                         </a>
                     </li>
@@ -37,7 +37,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/user/userProfile.wow?userId=<%=userInfo.getUserId()%>">마이페이지</a></li>
-                            <li><a class="dropdown-item" href="/common/logout.wow">로그아웃</a></li>
+                            <li><a class="dropdown-item" href="/user/logout.wow">로그아웃</a></li>
                         </ul>
                     </li>
                 </c:if>
@@ -71,7 +71,7 @@
             <div>
                 <button class="btn btn-outline-light" type="button">
                     <i class="bi-cart-fill me-1">cart</i>
-                    <span class="badge bg-success text-white ms-1 rounded-pill">0</span>
+                    <span id="cartIcon" class="badge bg-success text-white ms-1 rounded-pill">0</span>
                 </button>
             </div>
         </div>

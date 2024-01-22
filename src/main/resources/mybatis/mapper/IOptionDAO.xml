@@ -6,4 +6,11 @@
         FROM OPTIONS
         WHERE OPT_PROD_NO = #{prodNo}
     </select>
+    <select id="getOptPrice" resultType="com.study.product.vo.OptionVO">
+        SELECT OPT_NO, OPT_FIRST, OPT_SECOND, OPT_STOCK, OPT_PROD_NO
+        FROM OPTIONS
+        WHERE OPT_PROD_NO = #{prodNo}
+        AND OPT_FIRST = #{first}
+        AND OPT_SECOND = #{second}
+    </select>
 </mapper>

@@ -25,7 +25,7 @@
 %>
 <div class="container">
 
-    <form method="post" action="/common/login.wow">
+    <form method="post" action="/user/login.wow">
         <div>
             <div class="my-3">
                 <label class="user-select-none" for="userId">ID</label>

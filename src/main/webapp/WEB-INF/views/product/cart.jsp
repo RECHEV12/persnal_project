@@ -12,7 +12,7 @@
 <body>
 <%@include file="/WEB-INF/inc/top.jsp" %>
 <div>
-    <form action="/common/signUp.wow" method="post">
+    <form action="/user/signUp.wow" method="post">
 
 
     </form>

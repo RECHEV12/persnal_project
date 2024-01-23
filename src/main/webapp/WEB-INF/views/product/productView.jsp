@@ -209,6 +209,7 @@ ${product}
     const changePrice = () => {
         $("#price").text(nowPrice * Number($("#prodCnt").val()))
     }
+
     $("#cart").on("click", (e) => {
         e.preventDefault();
         let chk = $("#priceDiv").attr("hidden") == undefined;

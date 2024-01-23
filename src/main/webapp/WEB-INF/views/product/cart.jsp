@@ -17,7 +17,7 @@
 %>
 <div>
     <div id="cartBox">
-        <div name="noCartItem">현재 아이템이 없습니다</div>
+
     </div>
     <form action="/user/signUp.wow" method="post">
 
@@ -29,6 +29,7 @@
 <%@include file="/WEB-INF/inc/script.jsp" %>
 </body>
 <script>
+    let cartEmpty = 0;
     $(document).ready(
         () => {
 
@@ -40,7 +41,7 @@
                     let div = document.createElement("div")
                     $(div).load("/product/getCartItem", data)
                     $("#cartBox").append(div)
-                    console.log($(div).find("#btnParent"))
+                    cartEmpty++;
                 } else {
 
                 }
@@ -51,15 +52,29 @@
     $(document).ready(() => {
         $("#cartBox").on("click", 'button[name="deleteItem"]', function (e) {
             console.log("Delete button clicked");
-            const parent  = $($(e.target).parent()).parent();
-            $(parent).remove();
-            console.log($(parent).data("index"))
-            // localStorage.key(
+            const parent = $($(e.target).parent()).parent();
 
+            let list = JSON.parse(localStorage.getItem("cart"))
+            let deleteList = list.filter((values) => {
+                return values.userId === "${loginUserId}" && values.optNo !== $(parent).data("opt")
+            })
+            console.log(deleteList)
+            $(parent).remove();
+            localStorage.setItem("cart", JSON.stringify(deleteList))
+
+            cartNum();
+            cartEmpty--;
+            addEmptyDiv();
         });
     });
-
-
+    const addEmptyDiv = () => {
+        console.log(cartEmpty)
+        if (cartEmpty === 0) {
+            let div = "<div name='noCartItem'>현재 아이템이 없습니다</div>"
+            $("#cartBox").append(div);
+        }
+    }
+    addEmptyDiv()
 
 </script>
 </html>

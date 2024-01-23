@@ -11,7 +11,7 @@
     <title>Title</title>
 </head>
 <body>
-<div name="cartItem" data-index="${index}" class="m-auto"
+<div name="cartItem" data-opt="${option.optNo}" class="m-auto"
      style="display: flex; justify-content:center ;align-items: center; width: 80%; height: 10%">
 
     <div style="width: 3%;">

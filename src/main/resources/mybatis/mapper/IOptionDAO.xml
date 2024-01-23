@@ -6,6 +6,11 @@
         FROM OPTIONS
         WHERE OPT_PROD_NO = #{prodNo}
     </select>
+    <select id="getOpt" resultType="com.study.product.vo.OptionVO" parameterType="int">
+        SELECT OPT_NO, OPT_FIRST, OPT_SECOND, OPT_STOCK, OPT_PROD_NO
+        FROM OPTIONS
+        WHERE OPT_NO = #{optNo}
+    </select>
     <select id="getOptPrice" resultType="com.study.product.vo.OptionVO">
         SELECT OPT_NO, OPT_FIRST, OPT_SECOND, OPT_STOCK, OPT_PROD_NO
         FROM OPTIONS

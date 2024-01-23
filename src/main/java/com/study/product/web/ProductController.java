@@ -1,13 +1,16 @@
 package com.study.product.web;
 
+import com.study.common.web.CommonController;
 import com.study.product.service.IOptionService;
 import com.study.product.service.IProductService;
 import com.study.product.service.ProductServiceImpl;
 import com.study.product.vo.OptionVO;
 import com.study.product.vo.ProductSearchVO;
 import com.study.product.vo.ProductVO;
+import com.study.user.vo.UserVO;
 import org.apache.commons.io.FileUtils;
 import org.aspectj.util.FileUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
@@ -16,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.DispatcherServlet;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +30,7 @@ import java.io.IOException;
 import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 
@@ -36,6 +41,7 @@ public class ProductController {
 
     @Inject
     IOptionService optionService;
+
 
     //키워드 검색
     @RequestMapping("/product/productSearch.wow")
@@ -57,15 +63,12 @@ public class ProductController {
     }
 
     @RequestMapping("/product/productView.wow")
-    public String prodView(Model model, int prodNo, HttpServletRequest request, HttpSession session ){
-        if (session.getAttribute("USER_INFO")==null){
-            System.out.println("asdf");
-            request.setAttribute("msg", "회원만 이용가능한 서비스입니다.");
-            request.setAttribute("url", "/user/login.wow");
-            return "/common/alert";
+    public String prodView(Model model, int prodNo, HttpServletRequest request, HttpSession session) {
+        if (session.getAttribute("USER_INFO") == null) {
+            return "redirect:/common/alert.wow";
         }
         ProductVO product = productService.getProduct(prodNo);
-        List<OptionVO> optList = getOpt(prodNo);
+        List<OptionVO> optList = getOptList(prodNo);
 
         List<String> optFirst = new ArrayList<>();
         List<String> optSecond = new ArrayList<>();
@@ -116,22 +119,40 @@ public class ProductController {
         return result;
     }
 
-    private List<OptionVO> getOpt(int prodNo) {
+    private List<OptionVO> getOptList(int prodNo) {
         return optionService.getOptList(prodNo);
     }
 
     @RequestMapping("/prod/getProdPrice.wow")
     @ResponseBody
     public OptionVO getOptPrice(int prodNo, String opt_first, String opt_second) {
-        OptionVO option = optionService.getOptPrice(prodNo,opt_first,opt_second);
+        OptionVO option = optionService.getOptPrice(prodNo, opt_first, opt_second);
         System.out.println(option);
         return option;
     }
 
     @RequestMapping("/product/cart.wow")
-    public String dff(){
-        System.out.println("asdfasnruinoagh!~!!!");
+    public String goCart(HttpSession session) {
+        if (session.getAttribute("USER_INFO") == null) {
+            return "redirect:/common/alert.wow";
+        }
         return "product/cart";
     }
 
+    @RequestMapping("/product/getCartItem")
+    public String getCartItemData(Model model,int  index, int prodNo, int optNo, String itemCnt) {
+            ProductVO product = productService.getProduct(prodNo);
+            OptionVO option = optionService.getOpt(optNo);
+            System.out.println("bowaegoaobavewtobatvewbotaweobatweoawbetowaibvetobweaitvwaeotbvitovebwtvoewatovwe"+option);
+            model.addAttribute("product",product);
+            model.addAttribute("option",option);
+            model.addAttribute("index", index);
+            model.addAttribute("itemCnt", Integer.parseInt(itemCnt));
+            return "product/cartItem";
+    }
+
+//    @RequestMapping("/product/cartItem")
+//    public String getCartItem(String prodName, String prodImage, String firstOpt, String secondOpt) {
+//
+//    }
 }

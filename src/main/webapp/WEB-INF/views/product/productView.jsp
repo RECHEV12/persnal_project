@@ -59,7 +59,7 @@
                             <span>가격 :
                                 <span id="price">${product.prodPrice}</span>
                             </span>
-                            <span>재고 :
+                            <span>재고 : <%=request.getContextPath()%>
                                 <span id="stock"></span>
                             </span>
                         </div>
@@ -214,36 +214,7 @@ ${product}
         let chk = $("#priceDiv").attr("hidden") == undefined;
 
         if (chk) {
-            const cartItem = {
-                userId: "<%=((UserVO)session.getAttribute("USER_INFO")).getUserId()%>",
-                prodNo: nowProdNo,
-                optNo: nowOptNo,
-                nowCnt: $("#prodCnt").val()
-            };
-            let list = JSON.parse(localStorage.getItem("cart")) || [];
-            let dupleChk = 0;
-            if (list !== []) {
-                //동일상품 체크
-                list.map((v, i) => {
-                    console.log(v)
-                    if (cartItem.userId === v.userId && cartItem.optNo === v.optNo) {
-                        dupleChk++;
-                    }
-                })
-            }
-            console.log(dupleChk)
-            if (dupleChk == 0) {
-                //동일한 상품 없음
-                list.push(cartItem)
-                // 상품번호
-                // 옵션번호
-                // 갯수
-                $("#showFirstOpt").text("옵션을 선택해주세요")
-                $("#showSecondOpt").text("옵션을 선택해주세요")
-                $("#secondOpt").val("blank")
-                $("#firstOpt").val("blank")
-                $("#priceDiv").attr("hidden", "hidden")
-                localStorage.setItem("cart", JSON.stringify(list))
+            if (addCart()) {
                 alert("장바구니에 상품이 추가되었습니다.")
             } else {
                 alert("동일 상품이 장바구니에 있습니다.")
@@ -255,8 +226,45 @@ ${product}
 
     $("#buyNow").on("click", (e) => {
         e.preventDefault();
-console.log(JSON.parse(localStorage.getItem("cart")).length)
-        // window.location.href = "/product/cart.wow"
+        console.log(JSON.parse(localStorage.getItem("cart")).length)
+        if (addCart()) {
+            window.location.href = "/product/cart.wow"
+        } else {
+            alert("동일 상품이 장바구니에 있습니다.")
+        }
     })
+    const addCart = () => {
+        const cartItem = {
+            userId: "<%=((UserVO)session.getAttribute("USER_INFO")).getUserId()%>",
+            prodNo: nowProdNo,
+            optNo: nowOptNo,
+            nowCnt: $("#prodCnt").val()
+        };
+        let list = JSON.parse(localStorage.getItem("cart")) || [];
+        let dupleChk = 0;
+
+        if (list !== []) {
+            //동일상품 체크
+            list.map((v, i) => {
+                console.log(v)
+                if (cartItem.userId === v.userId && cartItem.optNo === v.optNo) {
+                    dupleChk++;
+                }
+            })
+        }
+        if (dupleChk === 0) {
+            list.push(cartItem)
+            $("#showFirstOpt").text("옵션을 선택해주세요")
+            $("#showSecondOpt").text("옵션을 선택해주세요")
+            $("#secondOpt").val("blank")
+            $("#firstOpt").val("blank")
+            $("#priceDiv").attr("hidden", "hidden")
+            localStorage.setItem("cart", JSON.stringify(list))
+            cartNum();
+            return true;
+        } else {
+            return false;
+        }
+    }
 </script>
 </html>

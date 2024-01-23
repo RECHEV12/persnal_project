@@ -26,5 +26,11 @@ public class CommonController {
         return "home";
     }
 
+    @RequestMapping("/common/alert.wow")
+    public String onlyUserCan( HttpServletRequest request) {
+            request.setAttribute("msg", "회원만 이용가능한 서비스입니다.");
+            request.setAttribute("url", "/user/login.wow");
+            return "/common/alert";
 
+    }
 }

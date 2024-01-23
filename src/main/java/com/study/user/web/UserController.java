@@ -21,26 +21,15 @@ public class UserController {
     IUserService userService;
 
     @RequestMapping("/user/userProfile.wow")
-    public String goProfile(Model model, String userId, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        UserVO userInfo = (UserVO) session.getAttribute("USER_INFO");
-
+    public String goProfile(Model model, String userId) {
         UserVO user = userService.getUser(userId);
         model.addAttribute("user", user);
-        if (userInfo != null) {
-            if (userId.equals(userInfo.getUserId())) {
-                return "user/myPage";
-            } else {
-
-                return "user/userProfile";
-            }
-        } else {
             return "user/userProfile";
-        }
+
     }
 
     @RequestMapping("/user/myPage.wow")
-    public String goYyPage(Model model) {
+    public String goMyPage(Model model) {
 //        UserVO user = userService.getUser(userId);
 //        model.addAttribute("user", user);
         return "user/myPage";

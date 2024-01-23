@@ -17,6 +17,11 @@ public class OptionServiceImpl implements IOptionService {
     }
 
     @Override
+    public OptionVO getOpt(int optNo) {
+        return optionDAO.getOpt(optNo);
+    }
+
+    @Override
     public OptionVO getOptPrice(int prodNo, String opt_first, String opt_second) {
         return optionDAO.getOptPrice(prodNo,opt_first,opt_second);
     }

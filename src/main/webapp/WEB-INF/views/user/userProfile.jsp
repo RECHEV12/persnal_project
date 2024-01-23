@@ -37,6 +37,17 @@ ${user}
         자기소개 : ${user.userIntroduce}
     </div>
 </div>
+<%
+    UserVO userInfo = (UserVO) session.getAttribute("USER_INFO");
+    if (userInfo != null) request.setAttribute("userId", userInfo.getUserId());
+%>
+<c:if test="${userId != null}">
+    <c:if test="${userId eq user.userId}">
+        <a href="/user/myPage.wow">
+            <button>수정</button>
+        </a>
+    </c:if>
+</c:if>
 
 
 <%@include file="/WEB-INF/inc/footer.jsp" %>

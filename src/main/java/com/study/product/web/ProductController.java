@@ -141,19 +141,18 @@ public class ProductController {
     }
 
     @RequestMapping("/product/getCartItem")
-    public String getCartItemData(Model model,int  index, int prodNo, int optNo, String itemCnt) {
-            ProductVO product = productService.getProduct(prodNo);
-            OptionVO option = optionService.getOpt(optNo);
-            System.out.println("bowaegoaobavewtobatvewbotaweobatweoawbetowaibvetobweaitvwaeotbvitovebwtvoewatovwe"+option);
-            model.addAttribute("product",product);
-            model.addAttribute("option",option);
-            model.addAttribute("index", index);
-            model.addAttribute("itemCnt", Integer.parseInt(itemCnt));
-            return "product/cartItem";
+    public String getCartItemData(Model model, int index, int prodNo, int optNo, String itemCnt) {
+        ProductVO product = productService.getProduct(prodNo);
+        OptionVO option = optionService.getOpt(optNo);
+        model.addAttribute("product", product);
+        model.addAttribute("option", option);
+        model.addAttribute("index", index);
+        model.addAttribute("itemCnt", Integer.parseInt(itemCnt));
+        return "product/cartItem";
     }
 
-    @GetMapping("/product/buyItem.wow")
+    @RequestMapping("/product/buyItem.wow")
     public String buyItem(String prodName, String prodImage, String firstOpt, String secondOpt) {
-return "";
+        return "product/buyItem";
     }
 }

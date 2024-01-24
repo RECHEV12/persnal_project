@@ -22,12 +22,16 @@
     <div>
         <span> 가격 : </span><span id="totalPrice"></span>
     </div>
-    <a href="/product/buyItem.wow">
-        <button class="btn btn-success">구매하기</button>
-    </a>
-    <form action="/user/signUp.wow" method="post">
+
+    <form action="/product/buyItem.wow" method="get">
+
+        <input type="text" name="addr1">
+        <input type="text" name="addr2">
+        <input type="text" name="zip">
+        <input type="hidden" name="userId" value="${loginUserId}">
 
 
+        <button type="submit" class="btn btn-success">구매하기</button>
     </form>
 </div>
 

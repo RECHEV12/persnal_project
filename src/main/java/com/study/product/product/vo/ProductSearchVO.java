@@ -1,4 +1,4 @@
-package com.study.product.vo;
+package com.study.product.product.vo;
 
 public class ProductSearchVO {
     private String searchType;

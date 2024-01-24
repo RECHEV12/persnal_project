@@ -28,16 +28,18 @@
                 </c:if>
 
                 <c:if test='<%=session.getAttribute("USER_INFO")!=null%>'>
-                    <% UserVO userInfo = (UserVO) session.getAttribute("USER_INFO");%>
+                    <% UserVO userInfo = (UserVO) session.getAttribute("USER_INFO");
+                    request.setAttribute("nowUserId", userInfo.getUserId());
+                    %>
 
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="getUserTag" data-user-id="<%=userInfo.getUserId()%>"
+                        <a class="nav-link dropdown-toggle" id="getUserTag" data-user-id="${nowUserId}"
                            role="button" data-bs-toggle="dropdown"
                            aria-expanded="false">
                             <%=userInfo.getUserName()%>님, 환영합니다.
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/user/userProfile.wow?userId=<%=userInfo.getUserId()%>">마이페이지</a>
+                            <li><a class="dropdown-item" href="/user/userProfile.wow?userId=${nowUserId}">마이페이지</a>
                             </li>
                             <li><a class="dropdown-item" href="/user/logout.wow">로그아웃</a></li>
                         </ul>
@@ -71,7 +73,7 @@
             </ul>
 
             <div>
-                <a href="/product/cart.wow">
+                <a href="/cart/cart.wow?userId=${nowUserId}">
                     <button class="btn btn-outline-light" type="button">
                         <i class="bi-cart-fill me-1">cart</i>
                         <span id="cartIcon" class="badge bg-success text-white ms-1 rounded-pill">0</span>

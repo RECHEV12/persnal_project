@@ -1,38 +1,26 @@
-package com.study.product.web;
+package com.study.product.product.web;
 
-import com.study.common.web.CommonController;
-import com.study.product.service.IOptionService;
-import com.study.product.service.IProductService;
-import com.study.product.service.ProductServiceImpl;
-import com.study.product.vo.OptionVO;
-import com.study.product.vo.ProductSearchVO;
-import com.study.product.vo.ProductVO;
-import com.study.user.vo.UserVO;
+import com.study.product.option.service.IOptionService;
+import com.study.product.product.service.IProductService;
+import com.study.product.option.vo.OptionVO;
+import com.study.product.product.vo.ProductSearchVO;
+import com.study.product.product.vo.ProductVO;
 import org.apache.commons.io.FileUtils;
-import org.aspectj.util.FileUtil;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.DispatcherServlet;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
-import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 
 @Controller
@@ -132,24 +120,7 @@ public class ProductController {
         return option;
     }
 
-    @RequestMapping("/product/cart.wow")
-    public String goCart(HttpSession session) {
-        if (session.getAttribute("USER_INFO") == null) {
-            return "redirect:/common/alert.wow";
-        }
-        return "product/cart";
-    }
 
-    @RequestMapping("/product/getCartItem")
-    public String getCartItemData(Model model, int index, int prodNo, int optNo, String itemCnt) {
-        ProductVO product = productService.getProduct(prodNo);
-        OptionVO option = optionService.getOpt(optNo);
-        model.addAttribute("product", product);
-        model.addAttribute("option", option);
-        model.addAttribute("index", index);
-        model.addAttribute("itemCnt", Integer.parseInt(itemCnt));
-        return "product/cartItem";
-    }
 
     @RequestMapping("/product/buyItem.wow")
     public String buyItem(String prodName, String prodImage, String firstOpt, String secondOpt) {

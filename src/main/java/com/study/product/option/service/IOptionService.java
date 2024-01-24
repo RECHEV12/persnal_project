@@ -1,6 +1,6 @@
-package com.study.product.service;
+package com.study.product.option.service;
 
-import com.study.product.vo.OptionVO;
+import com.study.product.option.vo.OptionVO;
 
 import java.util.List;
 

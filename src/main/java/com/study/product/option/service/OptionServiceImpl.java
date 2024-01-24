@@ -1,7 +1,8 @@
-package com.study.product.service;
+package com.study.product.option.service;
 
-import com.study.product.dao.IOptionDAO;
-import com.study.product.vo.OptionVO;
+import com.study.product.option.dao.IOptionDAO;
+import com.study.product.option.service.IOptionService;
+import com.study.product.option.vo.OptionVO;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;

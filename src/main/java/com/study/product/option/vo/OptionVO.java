@@ -1,4 +1,4 @@
-package com.study.product.vo;
+package com.study.product.option.vo;
 
 public class OptionVO {
     private int optNo        ;      /*옵션 번호       */

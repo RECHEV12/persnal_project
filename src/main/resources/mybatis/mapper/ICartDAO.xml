@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.study.product.cart.dao.ICartDAO">
+
+
+    <select id="cartItemDupleCheck" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM CARTS
+        WHERE 1=1
+          AND USER_ID = #{userId}
+          AND OPT_NO = #{optNo}
+    </select>
+
+    <delete id="deleteCartItem">
+        DELETE FROM CARTS
+        WHERE USER_ID=#{userId} AND OPT_NO=#{optNo}
+    </delete>
+    <update id="changeCnt">
+        UPDATE CARTS
+        SET  NOW_CNT= #{cnt}
+        WHERE USER_ID =#{userId}
+          AND OPT_NO =#{optNo}
+    </update>
+    <insert id="addCart">
+        INSERT INTO CARTS
+            (USER_ID  , OPT_NO  , PROD_NO  , NOW_CNT  )
+        VALUES
+            (#{userId}, #{optNo}, #{prodNo}, #{nowCnt})
+    </insert>
+
+    <select id="getCartList" resultType="com.study.product.cart.vo.CartVO" parameterType="string">
+        SELECT
+            c.USER_ID, c.OPT_NO, c.PROD_NO, c.NOW_CNT,
+            p.prod_title,p.prod_image, p.prod_price,
+            op.opt_FIRST, op.opt_second, op.opt_stock
+        FROM
+            carts c, products p, PROD_OPTIONS op
+        WHERE 1=1
+          AND c.user_id = #{userId}
+          AND c.prod_no = p.prod_no
+          AND c.opt_no = op.opt_no
+    </select>
+
+
+
+</mapper>

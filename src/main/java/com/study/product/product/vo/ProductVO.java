@@ -1,4 +1,4 @@
-package com.study.product.vo;
+package com.study.product.product.vo;
 
 public class ProductVO {
     private int prodNo;                 /*제품번호      */

@@ -1,7 +1,7 @@
-package com.study.product.service;
+package com.study.product.product.service;
 
-import com.study.product.vo.ProductSearchVO;
-import com.study.product.vo.ProductVO;
+import com.study.product.product.vo.ProductSearchVO;
+import com.study.product.product.vo.ProductVO;
 
 import java.util.List;
 

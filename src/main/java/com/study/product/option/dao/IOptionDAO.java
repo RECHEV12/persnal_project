@@ -1,6 +1,6 @@
-package com.study.product.dao;
+package com.study.product.option.dao;
 
-import com.study.product.vo.OptionVO;
+import com.study.product.option.vo.OptionVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

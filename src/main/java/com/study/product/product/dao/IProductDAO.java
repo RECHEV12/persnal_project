@@ -1,7 +1,7 @@
-package com.study.product.dao;
+package com.study.product.product.dao;
 
-import com.study.product.vo.ProductSearchVO;
-import com.study.product.vo.ProductVO;
+import com.study.product.product.vo.ProductSearchVO;
+import com.study.product.product.vo.ProductVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.DispatcherServlet;
@@ -151,8 +152,8 @@ public class ProductController {
             return "product/cartItem";
     }
 
-//    @RequestMapping("/product/cartItem")
-//    public String getCartItem(String prodName, String prodImage, String firstOpt, String secondOpt) {
-//
-//    }
+    @GetMapping("/product/buyItem.wow")
+    public String buyItem(String prodName, String prodImage, String firstOpt, String secondOpt) {
+return "";
+    }
 }

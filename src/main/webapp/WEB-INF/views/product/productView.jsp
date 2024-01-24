@@ -59,7 +59,7 @@
                             <span>가격 :
                                 <span id="price">${product.prodPrice}</span>
                             </span>
-                            <span>재고 : <%=request.getContextPath()%>
+                            <span>재고 :
                                 <span id="stock"></span>
                             </span>
                         </div>
@@ -181,7 +181,7 @@ ${product}
         }
     })
 
-    // 갯수 올리기 버튼
+    // 갯수 내리기 버튼
     $("#downBtn").on("click", (e) => {
         e.preventDefault();
         const nowCnt = Number(($("#prodCnt").val()));
@@ -193,7 +193,7 @@ ${product}
         }
 
     })
-    // 갯수 내리기 버튼
+    // 갯수 올리기 버튼
     $("#upBtn").on("click", (e) => {
         e.preventDefault();
         const nowCnt = Number($("#prodCnt").val());

@@ -11,11 +11,11 @@
     <title>Title</title>
 </head>
 <body>
-<div name="cartItem" data-opt="${option.optNo}" class="m-auto"
-     style="display: flex; justify-content:center ;align-items: center; width: 80%; height: 10%">
+<div name="cartItem" data-opt="${option.optNo}" class="m-auto border border-dark-subtle"
+     style="display: flex; justify-content:center ;align-items: center; width: 80%; height: 15%">
 
     <div style="width: 3%;">
-        <input type="checkbox">
+        <input type="checkbox" name="itemCheck">
     </div>
     <div class="mx-3" style="width: 15%;  text-align: center">
         <img class="img-thumbnail"
@@ -30,12 +30,32 @@
             <span>옵션1 : ${option.optFirst} / </span>
             <span>옵션2 : ${option.optSecond}</span>
         </div>
-    </div>
-    <div class="d-flex" style="align-items: center" id="btnParent">
         <div>
-            수량 : ${itemCnt}
+            <span>
+             재고 :
+            </span>
+            <span name="stock">${option.optStock}</span>
         </div>
-        <button type="button" class="btn btn-danger" name="deleteItem">삭제</button>
+    </div>
+    <div class="d-flex" style="align-items: center; width: 20%" name="btnParent">
+        <div class="text-center col-6">
+            <div class=" ">
+                수량
+            </div>
+            <div class="d-flex border-bottom">
+                <button type="button" name="downBtn" class="btn btn-success"> <</button>
+                <span><input name="prodCnt" type="number" style="width: 70%; " value="${itemCnt}"></span>
+                <button type="button" name="upBtn" class="btn btn-success"> ></button>
+            </div>
+            <div class="">
+                가격
+            </div>
+            <div name="prodPrice" data-price="${product.prodPrice}">${itemCnt * product.prodPrice}</div>
+        </div>
+        <div class=" text-center col-6">
+
+            <button type="button" class="btn btn-danger" name="deleteItem">삭제</button>
+        </div>
     </div>
 </div>
 <div>

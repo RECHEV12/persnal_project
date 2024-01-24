@@ -2,6 +2,7 @@ package com.study.product.cart.service;
 
 import com.study.product.cart.dao.ICartDAO;
 import com.study.product.cart.vo.CartVO;
+import com.study.user.vo.UserVO;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -32,7 +33,22 @@ public class CartServiceImpl implements ICartService{
     }
 
     @Override
+    public int cartItemSetChecked(String userId, int optNo, String check) {
+        return cartDAO.cartItemSetChecked(userId, optNo, check);
+    }
+
+    @Override
     public List<CartVO> getCartList(String userId) {
         return cartDAO.getCartList(userId);
+    }
+
+    @Override
+    public List<CartVO> getCheckCartList(String userId) {
+        return cartDAO.getCheckCartList(userId);
+    }
+
+    @Override
+    public int doBuyItem(UserVO user, String userWant, String totalPrice) {
+        return cartDAO.doBuyItem(user, userWant, totalPrice);
     }
 }

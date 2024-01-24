@@ -54,7 +54,7 @@ public class ProductController {
     @RequestMapping("/product/productView.wow")
     public String prodView(Model model, int prodNo, HttpServletRequest request, HttpSession session) {
         if (session.getAttribute("USER_INFO") == null) {
-            return "redirect:/common/alert.wow";
+            return "redirect:/common/alert.wow?msg=users&url=/user/login.wow";
         }
         ProductVO product = productService.getProduct(prodNo);
         List<OptionVO> optList = getOptList(prodNo);
@@ -122,8 +122,5 @@ public class ProductController {
 
 
 
-    @RequestMapping("/product/buyItem.wow")
-    public String buyItem(String prodName, String prodImage, String firstOpt, String secondOpt) {
-        return "product/buyItem";
-    }
+
 }

@@ -5,6 +5,7 @@ public class CartVO {
     private int optNo;
     private int prodNo;
     private int nowCnt;
+    private String cartCheck;
     private String prodTitle;
     private String prodImage;
     private int prodPrice;
@@ -19,6 +20,7 @@ public class CartVO {
                 ", optNo=" + optNo +
                 ", prodNo=" + prodNo +
                 ", nowCnt=" + nowCnt +
+                ", cartCheck='" + cartCheck + '\'' +
                 ", prodTitle='" + prodTitle + '\'' +
                 ", prodImage='" + prodImage + '\'' +
                 ", prodPrice=" + prodPrice +
@@ -106,5 +108,13 @@ public class CartVO {
 
     public void setOptStock(int optStock) {
         this.optStock = optStock;
+    }
+
+    public String getCartCheck() {
+        return cartCheck;
+    }
+
+    public void setCartCheck(String cartCheck) {
+        this.cartCheck = cartCheck;
     }
 }

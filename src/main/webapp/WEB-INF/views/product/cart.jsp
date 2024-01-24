@@ -26,7 +26,7 @@
             >
 
                 <div style="width: 3%;">
-                    <input type="checkbox" name="itemCheck">
+                    <input type="checkbox" name="itemCheck" ${cart.cartCheck=='Y'?'checked':''}>
                 </div>
                 <div class="mx-3" style="width: 15%;  text-align: center">
                     <img class="img-thumbnail"
@@ -76,16 +76,9 @@
         <span> 가격 : </span><span id="totalPrice"></span>
     </div>
 
-    <form action="/product/buyItem.wow" method="get">
-
-        <input type="text" name="addr1">
-        <input type="text" name="addr2">
-        <input type="text" name="zip">
-        <input type="hidden" name="userId" value="${loginUserId}">
-
-
+    <a href="/product/buyItem.wow?userId=${loginUserId}">
         <button type="submit" class="btn btn-success">구매하기</button>
-    </form>
+    </a>
 </div>
 
 <%@include file="/WEB-INF/inc/footer.jsp" %>
@@ -123,6 +116,30 @@ let cartEmpty = ${cartList.size()};
         }
     }
     addEmptyDiv();
+
+
+$(document).ready(() => {
+    $("#cartBox").on("click", 'input[name="itemCheck"]', function (e) {
+        let checked;
+        const optNo = $($(e.target).parents("div[name=cartItem]")).data("opt");
+        if($(e.target).prop('checked')){
+            console.log("체크")
+            checked = "Y"
+
+        }else {
+            checked = "N"
+        }
+        $.ajax({
+            url : "/cart/cartItemSetChecked",
+            data:{userId :"${loginUserId}" ,optNo : Number(optNo), check : checked},
+            success : function (resultRow){
+
+            }
+        })
+
+    });
+});
+
 
     // 체크박스별로 가격 합산 함수
     $(document).ready(() => {

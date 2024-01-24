@@ -21,16 +21,21 @@
         WHERE USER_ID =#{userId}
           AND OPT_NO =#{optNo}
     </update>
+    <update id="cartItemSetChecked">
+        UPDATE CARTS
+        SET  CART_CHECK=#{check}
+        WHERE USER_ID =#{userId}
+          AND OPT_NO =#{optNo}
+    </update>
     <insert id="addCart">
         INSERT INTO CARTS
             (USER_ID  , OPT_NO  , PROD_NO  , NOW_CNT  )
         VALUES
             (#{userId}, #{optNo}, #{prodNo}, #{nowCnt})
     </insert>
-
     <select id="getCartList" resultType="com.study.product.cart.vo.CartVO" parameterType="string">
         SELECT
-            c.USER_ID, c.OPT_NO, c.PROD_NO, c.NOW_CNT,
+            c.USER_ID, c.OPT_NO, c.PROD_NO, c.NOW_CNT, c.CART_CHECK,
             p.prod_title,p.prod_image, p.prod_price,
             op.opt_FIRST, op.opt_second, op.opt_stock
         FROM
@@ -40,7 +45,23 @@
           AND c.prod_no = p.prod_no
           AND c.opt_no = op.opt_no
     </select>
-
-
+    <select id="getCheckCartList" resultType="com.study.product.cart.vo.CartVO" parameterType="string">
+        SELECT
+            c.USER_ID, c.OPT_NO, c.PROD_NO, c.NOW_CNT, c.CART_CHECK,
+            p.prod_title,p.prod_image, p.prod_price,
+            op.opt_FIRST, op.opt_second, op.opt_stock
+        FROM
+            carts c, products p, PROD_OPTIONS op
+        WHERE 1=1
+          AND c.user_id = #{userId}
+          AND c.prod_no = p.prod_no
+          AND c.opt_no = op.opt_no
+          AND c.CART_CHECK = 'Y'
+    </select>
+    <insert id="doBuyItem">
+        INSERT INTO BUY_HISTORY
+        (USER_ID, BUY_USER_NAME, USER_HP, USER_ZIP, USER_ADD1, USER_ADD2, BUY_DATE, USER_WANT, TOTAL_PRICE)
+        VALUES(#{user.userId}, #{user.userName}, #{user.userHp}, #{user.userZip},#{user.userAdd1}, #{user.userAdd2}, SYSDATE , #{userWant}, #{totalPrice})
+    </insert>
 
 </mapper>

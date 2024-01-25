@@ -1,5 +1,7 @@
 package com.study.user.vo;
 
+import com.study.attach.vo.AttachVO;
+
 public class UserVO {
     private String userId           ;            /*아이디        */
     private String userName         ;            /*이름          */
@@ -15,13 +17,13 @@ public class UserVO {
     private String userRegDate      ;            /*등록일자       */
     private String userLogin        ;            /*로그인여부     */
     private String userOut          ;            /*탈퇴여부       */
-    private String userIcon         ;            /*프로필아이콘   */
     private String userIntroduce    ;            /*프로필내용     */
+    private AttachVO userAttach    ;             /*유저프로필아이콘*/
 
     public UserVO() {
     }
 
-    public UserVO(String userId, String userName, String userPass, String userBirth, String userGender, String userHp, String userEmail, int userZip, String userAdd1, String userAdd2, String userClass, String userRegDate, String userLogin, String userOut, String userIcon, String userIntroduce) {
+    public UserVO(String userId, String userName, String userPass, String userBirth, String userGender, String userHp, String userEmail, int userZip, String userAdd1, String userAdd2, String userClass, String userRegDate, String userLogin, String userOut,  String userIntroduce) {
         this.userId = userId;
         this.userName = userName;
         this.userPass = userPass;
@@ -36,7 +38,6 @@ public class UserVO {
         this.userRegDate = userRegDate;
         this.userLogin = userLogin;
         this.userOut = userOut;
-        this.userIcon = userIcon;
         this.userIntroduce = userIntroduce;
     }
 
@@ -57,7 +58,6 @@ public class UserVO {
                 ", userRegDate='" + userRegDate + '\'' +
                 ", userLogin='" + userLogin + '\'' +
                 ", userOut='" + userOut + '\'' +
-                ", userIcon='" + userIcon + '\'' +
                 ", userIntroduce='" + userIntroduce + '\'' +
                 '}';
     }
@@ -174,13 +174,6 @@ public class UserVO {
         this.userOut = userOut;
     }
 
-    public String getUserIcon() {
-        return userIcon;
-    }
-
-    public void setUserIcon(String userIcon) {
-        this.userIcon = userIcon;
-    }
 
     public String getUserIntroduce() {
         return userIntroduce;
@@ -188,5 +181,13 @@ public class UserVO {
 
     public void setUserIntroduce(String userIntroduce) {
         this.userIntroduce = userIntroduce;
+    }
+
+    public AttachVO getUserAttach() {
+        return userAttach;
+    }
+
+    public void setUserAttach(AttachVO userAttach) {
+        this.userAttach = userAttach;
     }
 }

@@ -12,16 +12,18 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     const cartNum = () => {
-        let cartCnt = 0;
         let userId = $("#getUserTag").data("userId") || ""
 
-        let list = JSON.parse(localStorage.getItem("cart"))
-        list.map((v, i) => {
-            if (v.userId === userId) {
-                cartCnt++;
+        $.ajax({
+            url:"/cart/cartCount",
+            data:{userId : userId},
+            success:function (result){
+                console.log(result)
+                $("#cartIcon").text(result);
+
             }
         })
-        $("#cartIcon").text(cartCnt)
+
 
     }
     cartNum();

@@ -1,5 +1,7 @@
 package com.study.user.web;
 
+import com.study.attach.dao.IAttachDAO;
+import com.study.attach.vo.AttachVO;
 import com.study.user.service.IUserService;
 import com.study.user.vo.UserVO;
 import org.springframework.stereotype.Controller;
@@ -14,15 +16,19 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.List;
 
 @Controller
 public class UserController {
     @Inject
     IUserService userService;
-
+@Inject
+    IAttachDAO attachDAO;
     @RequestMapping("/user/userProfile.wow")
     public String goProfile(Model model, String userId) {
         UserVO user = userService.getUser(userId);
+        List<AttachVO> attaches = attachDAO.getAttaches("userIcon", userId);
+        user.setUserAttach(attaches.get(0));
         model.addAttribute("user", user);
             return "user/userProfile";
 

@@ -26,6 +26,7 @@ public class CartController {
     @Inject
     IUserService userService;
 
+
     @RequestMapping("/cart/cart.wow")
     public String goCart(HttpSession session, Model model, String userId) {
         if (session.getAttribute("USER_INFO") == null) {
@@ -36,10 +37,19 @@ public class CartController {
         return "product/cart";
     }
 
+
+
     @RequestMapping("/cart/cartItemDupleCheck")
     @ResponseBody
     public int cartItemDupleCheck(String userId, int optNo) {
         return cartService.cartItemDupleCheck(userId, optNo);
+    }
+
+
+    @RequestMapping("/cart/cartCount")
+    @ResponseBody
+    public int cartCount(String userId) {
+        return cartService.getCartListCount(userId);
     }
 
     @RequestMapping("/cart/addCart")
@@ -83,10 +93,31 @@ public class CartController {
 
     @PostMapping("/cart/buyItem.wow")
     public String buyItem(UserVO user, String userWant, String totalPrice) {
+        List<CartVO> cartList = cartService.getCheckCartList(user.getUserId());
+        if (userWant.isEmpty()) {
+            userWant = "요구사항 없음";
+        }
+        //구매시 재고 체크
+        int stockChk = 0;
+        for(CartVO cart : cartList){
+            if (cart.getNowCnt()>cart.getOptStock()){
+                stockChk++;
+            }
+        }
+        //재고 넘칠 시, 리다이렉트
+        if (stockChk>0) {
+            return "redirect:/common/alert.wow?msg=stockOver&url=/cart/cart.wow?userId=" + user.getUserId();
+        }
         int resultRow = cartService.doBuyItem(user, userWant, totalPrice);
         if (resultRow > 0) {
-
-//            cartService.getBuyItemNo(user, userWant, totalPrice);
+            //성공시 해당 구매번호 가져오고
+            int num = cartService.getBuyItemNo(user, userWant, totalPrice);
+            // 그 옵션마다 저장 후, 재고 수정, 카트에서 지우기
+            for (CartVO cart : cartList) {
+                cartService.insertBuyOpt(num, cart.getOptNo(), cart.getNowCnt(), cart.getProdNo());
+                cartService.decreaseItemStock(cart.getOptNo(), cart.getNowCnt(), cart.getProdNo());
+                cartService.deleteCartItem(user.getUserId(), cart.getOptNo());
+            }
             return "redirect:/common/alert.wow?msg=canBuy&url=/";
         } else {
             return "redirect:/common/alert.wow?msg=cantBuy&url=/product/buyItem.wow?userId=" + user.getUserId();

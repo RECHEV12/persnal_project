@@ -48,7 +48,28 @@ public class CartServiceImpl implements ICartService{
     }
 
     @Override
+    public int getCartListCount(String userId) {
+        return cartDAO.getCartListCount(userId);
+    }
+
+
+    @Override
     public int doBuyItem(UserVO user, String userWant, String totalPrice) {
         return cartDAO.doBuyItem(user, userWant, totalPrice);
+    }
+
+    @Override
+    public int getBuyItemNo(UserVO user, String userWant, String totalPrice) {
+        return cartDAO.getBuyItemNo(user,userWant,totalPrice);
+    }
+
+    @Override
+    public void insertBuyOpt(int buyNo, int optNo, int nowCnt, int prodNo) {
+        cartDAO.insertBuyOpt(buyNo,optNo,nowCnt,prodNo);
+    }
+
+    @Override
+    public void decreaseItemStock(int optNo, int nowCnt, int prodNo) {
+        cartDAO.decreaseItemStock(optNo,nowCnt,prodNo);
     }
 }

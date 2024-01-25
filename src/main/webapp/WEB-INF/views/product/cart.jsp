@@ -85,7 +85,7 @@
 <%@include file="/WEB-INF/inc/script.jsp" %>
 </body>
 <script>
-let cartEmpty = ${cartList.size()};
+    let cartEmpty = ${cartList.size()};
     // 삭제버튼에 기능 추가
     $(document).ready(() => {
         $("#cartBox").on("click", 'button[name="deleteItem"]', function (e) {
@@ -93,16 +93,16 @@ let cartEmpty = ${cartList.size()};
             const parent = $($($(e.target).parent()).parent()).parent();
 
             $.ajax({
-                url:"/cart/deleteCartItem",
-                data:{userId :"${loginUserId}" ,optNo : $(parent).data("opt")},
-                success: function (resultRow){
-                    console.log("삭제",resultRow)
+                url: "/cart/deleteCartItem",
+                data: {userId: "${loginUserId}", optNo: $(parent).data("opt")},
+                success: function (resultRow) {
+                    console.log("삭제", resultRow)
                     alert("장바구니에서 삭제되었습니다.")
                 }
             })
-
-            $(parent).remove();
             cartNum();
+            $(parent).remove();
+
             cartEmpty--;
             addEmptyDiv();
         });
@@ -110,7 +110,7 @@ let cartEmpty = ${cartList.size()};
 
     // 비어있을 경우 빈 화면 보여주기
     const addEmptyDiv = () => {
-        if (cartEmpty===0) {
+        if (cartEmpty === 0) {
             let div = "<div name='noCartItem'>현재 아이템이 없습니다</div>"
             $("#cartBox").append(div);
         }
@@ -118,27 +118,27 @@ let cartEmpty = ${cartList.size()};
     addEmptyDiv();
 
 
-$(document).ready(() => {
-    $("#cartBox").on("click", 'input[name="itemCheck"]', function (e) {
-        let checked;
-        const optNo = $($(e.target).parents("div[name=cartItem]")).data("opt");
-        if($(e.target).prop('checked')){
-            console.log("체크")
-            checked = "Y"
+    $(document).ready(() => {
+        $("#cartBox").on("click", 'input[name="itemCheck"]', function (e) {
+            let checked;
+            const optNo = $($(e.target).parents("div[name=cartItem]")).data("opt");
+            if ($(e.target).prop('checked')) {
+                console.log("체크")
+                checked = "Y"
 
-        }else {
-            checked = "N"
-        }
-        $.ajax({
-            url : "/cart/cartItemSetChecked",
-            data:{userId :"${loginUserId}" ,optNo : Number(optNo), check : checked},
-            success : function (resultRow){
-
+            } else {
+                checked = "N"
             }
-        })
+            $.ajax({
+                url: "/cart/cartItemSetChecked",
+                data: {userId: "${loginUserId}", optNo: Number(optNo), check: checked},
+                success: function (resultRow) {
 
+                }
+            })
+
+        });
     });
-});
 
 
     // 체크박스별로 가격 합산 함수
@@ -190,12 +190,12 @@ $(document).ready(() => {
     // 갯수 변경 스토리지 적용 함수
     const changeStorageCnt = (optNo, changeCnt) => {
         $.ajax({
-            url:"/cart/changeCnt",
-            data:{userId : "${loginUserId}", optNo : Number(optNo), cnt : Number(changeCnt)},
-            success : function (resultRow){
-                console.log("갯수변경",resultRow)
+            url: "/cart/changeCnt",
+            data: {userId: "${loginUserId}", optNo: Number(optNo), cnt: Number(changeCnt)},
+            success: function (resultRow) {
+                console.log("갯수변경", resultRow)
             },
-            error : (err)=>{
+            error: (err) => {
                 console.log(err)
             }
         })

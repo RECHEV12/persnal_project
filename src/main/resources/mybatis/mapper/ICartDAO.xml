@@ -6,53 +6,70 @@
     <select id="cartItemDupleCheck" resultType="java.lang.Integer">
         SELECT COUNT(*)
         FROM CARTS
-        WHERE 1=1
+        WHERE 1 = 1
           AND USER_ID = #{userId}
           AND OPT_NO = #{optNo}
     </select>
 
     <delete id="deleteCartItem">
-        DELETE FROM CARTS
-        WHERE USER_ID=#{userId} AND OPT_NO=#{optNo}
+        DELETE
+        FROM CARTS
+        WHERE USER_ID = #{userId}
+          AND OPT_NO = #{optNo}
     </delete>
     <update id="changeCnt">
         UPDATE CARTS
-        SET  NOW_CNT= #{cnt}
-        WHERE USER_ID =#{userId}
-          AND OPT_NO =#{optNo}
+        SET NOW_CNT= #{cnt}
+        WHERE USER_ID = #{userId}
+          AND OPT_NO = #{optNo}
     </update>
     <update id="cartItemSetChecked">
         UPDATE CARTS
-        SET  CART_CHECK=#{check}
-        WHERE USER_ID =#{userId}
-          AND OPT_NO =#{optNo}
+        SET CART_CHECK=#{check}
+        WHERE USER_ID = #{userId}
+          AND OPT_NO = #{optNo}
     </update>
     <insert id="addCart">
         INSERT INTO CARTS
-            (USER_ID  , OPT_NO  , PROD_NO  , NOW_CNT  )
-        VALUES
-            (#{userId}, #{optNo}, #{prodNo}, #{nowCnt})
+            (USER_ID, OPT_NO, PROD_NO, NOW_CNT)
+        VALUES (#{userId}, #{optNo}, #{prodNo}, #{nowCnt})
     </insert>
     <select id="getCartList" resultType="com.study.product.cart.vo.CartVO" parameterType="string">
-        SELECT
-            c.USER_ID, c.OPT_NO, c.PROD_NO, c.NOW_CNT, c.CART_CHECK,
-            p.prod_title,p.prod_image, p.prod_price,
-            op.opt_FIRST, op.opt_second, op.opt_stock
-        FROM
-            carts c, products p, PROD_OPTIONS op
-        WHERE 1=1
+        SELECT c.USER_ID,
+               c.OPT_NO,
+               c.PROD_NO,
+               c.NOW_CNT,
+               c.CART_CHECK,
+               p.prod_title,
+               p.prod_image,
+               p.prod_price,
+               op.opt_FIRST,
+               op.opt_second,
+               op.opt_stock
+        FROM carts c,
+             products p,
+             PROD_OPTIONS op
+        WHERE 1 = 1
           AND c.user_id = #{userId}
           AND c.prod_no = p.prod_no
           AND c.opt_no = op.opt_no
     </select>
     <select id="getCheckCartList" resultType="com.study.product.cart.vo.CartVO" parameterType="string">
-        SELECT
-            c.USER_ID, c.OPT_NO, c.PROD_NO, c.NOW_CNT, c.CART_CHECK,
-            p.prod_title,p.prod_image, p.prod_price,
-            op.opt_FIRST, op.opt_second, op.opt_stock
-        FROM
-            carts c, products p, PROD_OPTIONS op
-        WHERE 1=1
+        SELECT c.USER_ID,
+               c.OPT_NO,
+               c.PROD_NO,
+               c.NOW_CNT,
+               c.CART_CHECK,
+               p.prod_title,
+               p.prod_image,
+               p.prod_price,
+               op.opt_FIRST,
+               op.opt_second,
+               op.opt_stock
+        FROM carts c,
+             products p,
+             PROD_OPTIONS op
+        WHERE 1 = 1
           AND c.user_id = #{userId}
           AND c.prod_no = p.prod_no
           AND c.opt_no = op.opt_no
@@ -60,8 +77,40 @@
     </select>
     <insert id="doBuyItem">
         INSERT INTO BUY_HISTORY
-        (USER_ID, BUY_USER_NAME, USER_HP, USER_ZIP, USER_ADD1, USER_ADD2, BUY_DATE, USER_WANT, TOTAL_PRICE)
-        VALUES(#{user.userId}, #{user.userName}, #{user.userHp}, #{user.userZip},#{user.userAdd1}, #{user.userAdd2}, SYSDATE , #{userWant}, #{totalPrice})
+        (BUY_NO, USER_ID, BUY_USER_NAME, USER_HP, USER_ZIP, USER_ADD1, USER_ADD2, BUY_DATE, USER_WANT, TOTAL_PRICE)
+        VALUES (SEQ_BUY_HISTORY.NEXTVAL, #{user.userId}, #{user.userName}, #{user.userHp}, #{user.userZip},
+                #{user.userAdd1}, #{user.userAdd2}, SYSDATE, #{userWant}, #{totalPrice})
     </insert>
+    <select id="getBuyItemNo" resultType="java.lang.Integer">
+        SELECT BUY_NO
+        FROM BUY_HISTORY
+        WHERE USER_ID = #{user.userId}
+          AND BUY_USER_NAME = #{user.userName}
+          AND USER_ZIP = #{user.userZip}
+          AND USER_WANT = #{userWant}
+          AND TOTAL_PRICE = #{totalPrice}
+    </select>
+    <select id="getCartListCount" resultType="java.lang.Integer" parameterType="string">
+        SELECT COUNT(*)
+        FROM CARTS
+        WHERE user_id = #{userId}
+    </select>
+    <insert id="insertBuyOpt">
+        INSERT INTO BUY_OPT
+            (USER_BUY_NO, OPT_NO, NOW_CNT, PROD_NO)
+        VALUES (#{buyNo}, #{optNo}, #{nowCnt}, #{prodNo})
+    </insert>
+    <update id="decreaseItemStock">
+        UPDATE PROD_OPTIONS
+        SET OPT_STOCK=
+          (
+            SELECT (OPT_STOCK - #{nowCnt})
+            FROM PROD_OPTIONS
+           WHERE OPT_NO = #{optNo}
+          AND OPT_PROD_NO = #{prodNo}
+        )
+        WHERE OPT_NO = #{optNo}
+        AND OPT_PROD_NO = #{prodNo}
+    </update>
 
 </mapper>

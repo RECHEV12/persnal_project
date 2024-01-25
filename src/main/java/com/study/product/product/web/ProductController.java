@@ -98,16 +98,6 @@ public class ProductController {
     }
 
 
-    @RequestMapping("attach/showImg.wow")
-    public ResponseEntity<byte[]> showImg(String fileName) throws IOException {
-        String filePath = "/home/pc12/aspringproject/persnal_project/src/main/webapp/resources/image";
-        File file = new File(filePath, fileName);
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", Files.probeContentType(file.toPath()));
-        ResponseEntity<byte[]> result = new ResponseEntity<>(FileUtils.readFileToByteArray(file), headers, HttpStatus.OK);
-        return result;
-    }
-
     private List<OptionVO> getOptList(int prodNo) {
         return optionService.getOptList(prodNo);
     }
@@ -116,7 +106,6 @@ public class ProductController {
     @ResponseBody
     public OptionVO getOptPrice(int prodNo, String opt_first, String opt_second) {
         OptionVO option = optionService.getOptPrice(prodNo, opt_first, opt_second);
-        System.out.println(option);
         return option;
     }
 

@@ -15,6 +15,10 @@ public interface ICartDAO {
     public int addCart(@Param("userId") String userId, @Param("prodNo")int prodNo, @Param("optNo")int optNo, @Param("nowCnt")int nowCnt);
     public int cartItemSetChecked(@Param("userId") String userId, @Param("optNo")int optNo, @Param("check")String check);
     public List<CartVO> getCartList(String userId);
+    public int getCartListCount(String userId);
     public List<CartVO> getCheckCartList(String userId);
     public int doBuyItem(@Param("user") UserVO user,@Param("userWant") String userWant,@Param("totalPrice") String totalPrice);
+    public int getBuyItemNo(@Param("user") UserVO user,@Param("userWant") String userWant,@Param("totalPrice") String totalPrice);
+    public void insertBuyOpt(@Param("buyNo") int buyNo, @Param("optNo")int optNo,@Param("nowCnt") int nowCnt, @Param("prodNo")int prodNo);
+    public void decreaseItemStock(@Param("optNo")int optNo,@Param("nowCnt") int nowCnt, @Param("prodNo")int prodNo);
 }

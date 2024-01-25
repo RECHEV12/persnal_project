@@ -16,7 +16,7 @@ ${user}
 <div>
     <div>
         <img class=""
-             src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=${user.userIcon}"/>
+             src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=${user.userAttach.atchFileName}&filePath=${user.userAttach.atchPath}"/>
         <p>이름 : ${user.userName}</p>
     </div>
 

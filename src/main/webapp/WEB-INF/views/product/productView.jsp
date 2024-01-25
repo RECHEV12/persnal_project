@@ -13,7 +13,7 @@
 <%@include file="/WEB-INF/inc/top.jsp" %>
 <body>
 <%
-    UserVO nowUser = (UserVO)session.getAttribute("USER_INFO");
+    UserVO nowUser = (UserVO) session.getAttribute("USER_INFO");
     request.setAttribute("nowUserId", nowUser.getUserId());
 %>
 <!-- Product section-->
@@ -161,8 +161,7 @@ ${product}
             } else {
                 $("#showSecondOpt").text(text);
                 $("#priceDiv").removeAttr("hidden")
-                $("#prodCnt").val(1);
-                changePrice();
+
                 //전부설정 확인시 아작스 통신
                 $.ajax({
                     url: "/prod/getProdPrice.wow",
@@ -173,9 +172,12 @@ ${product}
                         opt_second: $("#secondOpt").val()
                     },
                     success: function (product) {
+                        console.log(product)
                         thisOptCnt = product.optStock;
                         nowOptNo = product.optNo;
                         $("#stock").text(product.optStock);
+                        $("#prodCnt").val(Number($("#stock").text()) === 0 ? 0 : 1);
+                        changePrice();
                     }
                 })
 

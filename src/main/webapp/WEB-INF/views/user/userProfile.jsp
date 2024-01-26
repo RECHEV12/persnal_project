@@ -12,7 +12,6 @@
 <body>
 <%@include file="/WEB-INF/inc/top.jsp" %>
 
-${user}
 <div>
     <div>
         <img class=""

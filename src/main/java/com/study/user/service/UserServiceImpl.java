@@ -46,7 +46,7 @@ public class UserServiceImpl implements IUserService {
                         System.out.println("회원가입까진 성공했으나 파일저장 실패");
                         return 0;
                     }
-                }else {
+                } else {
                     return 1;
                 }
             } catch (IOException e) {
@@ -56,6 +56,39 @@ public class UserServiceImpl implements IUserService {
             System.out.println("회원가입 실패");
             return 0;
         }
+    }
+
+    @Override
+    public int userModify(UserVO user, MultipartFile boFiles, HttpSession session) {
+        UserVO userInfo = (UserVO) session.getAttribute("USER_INFO");
+        UserVO userFromDB = userDAO.getUser(userInfo.getUserId());
+        if (userFromDB.getUserPass().equals(user.getUserPass())) {
+            user.setUserId(userInfo.getUserId());
+            int resultRow = userDAO.userModify(user);
+            if (!boFiles.isEmpty()) {
+                try {
+                    AttachVO attachByUserId = attachDAO.getAttachByUserId(user.getUserId());
+                    int[] arr = new int[1];
+                    arr[0] = attachByUserId.getAtchNo();
+                    int i = attachDAO.deleteAtches(arr);
+                    AttachVO attach = attachUtils.getAttachByMultipart(boFiles, "userIcon", "users");
+                    attach.setAtchParentNo(user.getUserId());
+                    attachDAO.insertAttach(attach);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if (resultRow == 1) {
+                return 1;
+            } else {
+                return 0;
+            }
+
+        } else {
+            return 0;
+
+        }
+
     }
 
 

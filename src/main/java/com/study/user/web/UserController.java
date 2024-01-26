@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.inject.Inject;
@@ -42,10 +43,34 @@ public class UserController {
     }
 
     @RequestMapping("/user/myPage.wow")
-    public String goMyPage(Model model) {
-//        UserVO user = userService.getUser(userId);
-//        model.addAttribute("user", user);
-        return "user/myPage";
+    public String goMyPage(Model model, HttpSession session) {
+        UserVO userInfo = (UserVO) session.getAttribute("USER_INFO");
+        if (userInfo==null){
+            return "redirect:/common/alert.wow?msg=users&url=/user/login.wow";
+        }else {
+            UserVO user = userService.getUser(userInfo.getUserId());
+            List<AttachVO> attaches = attachDAO.getAttaches("userIcon", userInfo.getUserId());
+            if (!attaches.isEmpty()) {
+                user.setUserAttach(attaches.get(0));
+            } else {
+                user.setUserAttach(attachDAO.getAttach(1));
+            }
+            model.addAttribute("user", user);
+            return "user/myPage";
+        }
+
+    }
+
+
+    @PostMapping("/user/userModify.wow")
+    public String userModify(UserVO user,  MultipartFile boFiles ,HttpSession session) {
+        int resultRow = userService.userModify(user,boFiles,session);
+        if (resultRow == 1){
+            return "redirect:/common/alert.wow?msg=successModify&url=/user/userProfile.wow?userId="+((UserVO) session.getAttribute("USER_INFO")).getUserId();
+        }else {
+
+            return "redirect:/common/alert.wow?msg=failedModify&url=/user/logout.wow";
+        }
     }
 
     @GetMapping("/user/login.wow")
@@ -101,5 +126,6 @@ public class UserController {
             return "redirect:/common/alert.wow?msg=failedSignUp&url=/user/logout.wow";
         }
     }
+
 
 }

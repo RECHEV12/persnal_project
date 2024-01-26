@@ -36,6 +36,16 @@
             attach
         WHERE atch_no=#{atchNo}
     </select>
+    <select id="getAttachByUserId" resultType="com.study.attach.vo.AttachVO" parameterType="string">
+        SELECT
+            atch_no,    atch_parent_no,    atch_category,
+            atch_file_name,    atch_original_name,    atch_file_size,
+            atch_fancy_size,    atch_content_type,    atch_path,
+            atch_down_hit,    atch_del_yn,    atch_reg_date
+        FROM
+            attach
+        WHERE atch_parent_no=#{atchParentNo}
+    </select>
     <delete id="deleteAtches">
         DELETE
         FROM attach

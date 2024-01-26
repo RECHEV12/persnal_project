@@ -87,6 +87,12 @@ public class CommonController {
             case "failedSignUp":
                 getMsg = "회원가입에 실패했습니다. 값을 다시 확인해주세요";
                 break;
+            case "successModify":
+                getMsg = "정보수정에 성공했습니다.";
+                break;
+            case "failedModify":
+                getMsg = "정보수정에 실패했습니다. 값을 다시 확인해주세요";
+                break;
 
         }
 

@@ -11,5 +11,6 @@ public interface IAttachDAO {
     public int insertAttach(AttachVO attach);
     public List<AttachVO> getAttaches(@Param("category") String atchCategory, @Param("boNo") String atchParentNo);
     public AttachVO getAttach(int atchNo);
+    public AttachVO getAttachByUserId(String atchParentNo);
     public int deleteAtches(@Param("delAtchNos") int[] delAtchNos);
 }

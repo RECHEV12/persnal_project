@@ -16,7 +16,6 @@
                u.USER_REG_DATE,
                u.USER_LOGIN,
                u.USER_OUT,
-               pf.user_icon      AS user_icon,
                pf.user_introduce AS user_introduce
         FROM USERS u,
              profile pf
@@ -24,4 +23,20 @@
           AND u.user_id = #{userId}
           AND u.user_id = pf.user_id
     </select>
+    <insert id="insertUser" parameterType="com.study.user.vo.UserVO">
+        INSERT INTO USERS
+            (USER_ID     , USER_NAME       , USER_PASS   , USER_BIRTH                         , USER_GENDER  ,
+             USER_HP     , USER_EMAIL      , USER_ZIP    , USER_ADD1                          , USER_ADD2    ,
+             USER_CLASS  , USER_REG_DATE   , USER_LOGIN  , USER_OUT                                            )
+        VALUES
+            (#{userId}   , #{userName}     , #{userPass}  , TO_DATE(#{userBirth},'YYYY-MM-DD'), #{userGender},
+             #{userHp}   , #{userEmail}    , #{userZip}   , #{userAdd1}                       , #{userAdd2}  ,
+             'C'         , SYSDATE         , 'N'          , 'N'
+              )
+    </insert>
+    <insert id="insertIntroduce" parameterType="string">
+        INSERT INTO PROFILE
+            (USER_ID, USER_INTRODUCE)
+        VALUES(#{userId}, 'hi' )
+    </insert>
 </mapper>

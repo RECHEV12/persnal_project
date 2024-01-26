@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -22,15 +23,21 @@ import java.util.List;
 public class UserController {
     @Inject
     IUserService userService;
-@Inject
+    @Inject
     IAttachDAO attachDAO;
+
     @RequestMapping("/user/userProfile.wow")
     public String goProfile(Model model, String userId) {
         UserVO user = userService.getUser(userId);
         List<AttachVO> attaches = attachDAO.getAttaches("userIcon", userId);
-        user.setUserAttach(attaches.get(0));
+        if (!attaches.isEmpty()) {
+
+            user.setUserAttach(attaches.get(0));
+        } else {
+            user.setUserAttach(attachDAO.getAttach(1));
+        }
         model.addAttribute("user", user);
-            return "user/userProfile";
+        return "user/userProfile";
 
     }
 
@@ -55,7 +62,7 @@ public class UserController {
             if (rememberId == null) {
                 rememberId = "false";
             }
-            userService.rememberMe(rememberId,user.getUserId(),request,response);
+            userService.rememberMe(rememberId, user.getUserId(), request, response);
             if (user1 != null) {
                 if (user.getUserPass().equals(user1.getUserPass())) {
                     HttpSession session = request.getSession();
@@ -83,6 +90,16 @@ public class UserController {
     @GetMapping("/user/signUp.wow")
     public String goSignUp() {
         return "user/signUp";
+    }
+
+    @PostMapping("/user/signUp.wow")
+    public String signUpCheck(UserVO user, MultipartFile boFiles) {
+        int resultRow = userService.insertUser(user, boFiles);
+        if (resultRow == 1) {
+            return "redirect:/common/alert.wow?msg=successSignUp&url=/user/login.wow";
+        } else {
+            return "redirect:/common/alert.wow?msg=failedSignUp&url=/user/logout.wow";
+        }
     }
 
 }

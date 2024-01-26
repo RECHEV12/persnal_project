@@ -27,10 +27,11 @@ import java.util.Arrays;
 @Controller
 public class CommonController {
 
-@Inject
+    @Inject
     StudyAttachUtils studyAttachUtils;
-@Inject
+    @Inject
     IAttachDAO iAttachDAO;
+
     @RequestMapping("/")
     public String home(Model model) {
         return "home";
@@ -42,8 +43,9 @@ public class CommonController {
 
         return "common/fileSave";
     }
+
     @PostMapping("/common/save.wow")
-    public String dd(Model model,@RequestParam(name = "boFiles", required = false) MultipartFile boFiles) {
+    public String dd(Model model, @RequestParam(name = "boFiles", required = false) MultipartFile boFiles) {
         System.out.println("bofile===>" + boFiles);
         try {
             AttachVO attachByMultipart = studyAttachUtils.getAttachByMultipart(boFiles, "userIcon", "users");
@@ -78,6 +80,12 @@ public class CommonController {
 
             case "stockOver":
                 getMsg = "구매하려는 상품의 재고가 부족합니다. 수량을 다시 선택해주세요";
+                break;
+            case "successSignUp":
+                getMsg = "회원가입에 성공했습니다.";
+                break;
+            case "failedSignUp":
+                getMsg = "회원가입에 실패했습니다. 값을 다시 확인해주세요";
                 break;
 
         }

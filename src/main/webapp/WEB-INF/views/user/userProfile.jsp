@@ -21,6 +21,7 @@ ${user}
     </div>
 
 
+
     <div>
         생년월일 : ${user.userBirth}
     </div>

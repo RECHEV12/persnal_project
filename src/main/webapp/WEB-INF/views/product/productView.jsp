@@ -21,7 +21,7 @@
     <div class="container px-4 px-lg-5 my-5">
         <div class="row gx-4 gx-lg-5 align-items-center">
             <div class="col-md-6"><img class="img-thumbnail"
-                                       src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=${product.prodImage}"
+                                       src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=${product.prodImgFileName}&filePath=${product.prodImgFilePath}"
                                        style="height: 600px;width: 600px"/></div>
             <div class="col-md-6">
                 <a href="/user/userProfile.wow?userId=${product.prodUserId}">
@@ -119,18 +119,48 @@
                 </li>
             </ul>
         </div>
+        <div id="showTab">
+
+        </div>
     </div>
 </section>
-${product}
-
 </body>
 <%@include file="/WEB-INF/inc/footer.jsp" %>
 <%@include file="/WEB-INF/inc/script.jsp" %>
 <script>
+
     let thisOptCnt = 0;
     let nowProdNo = $("#priceDiv").data("prodNo");
     let nowOptNo = 0;
     let nowPrice = Number($("#price").text());
+
+
+    const changeTab = (e) => {
+        $("a[name=prodView] ").map((i, v) => {
+            $(v).attr("class", "nav-link");
+        })
+        $($(e.target)).attr("class", "nav-link active")
+        showTab();
+    }
+    const showTab = () => {
+        $("a[name=prodView] ").map((i, v) => {
+            if ($(v).attr("class") === "nav-link active") {
+                let nowTabTitle = $(v).text();
+                console.log(nowTabTitle)
+                $("#showTab").load("/product/tabShow.wow", {title: nowTabTitle, prodNo: String(nowProdNo)})
+            }
+
+        })
+
+    }
+    showTab();
+
+    $("a[name=prodView] ").map((i, v) => {
+        $(v).on("click", (e) => changeTab(e))
+
+    })
+
+
     //첫번째 옵션 선택
     $("#firstOpt").on("change", (e) => {
         let text = $(e.target).val()
@@ -311,4 +341,5 @@ ${product}
     })
 
 </script>
+
 </html>

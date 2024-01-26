@@ -41,18 +41,23 @@
                c.NOW_CNT,
                c.CART_CHECK,
                p.prod_title,
-               p.prod_image,
                p.prod_price,
                op.opt_FIRST,
                op.opt_second,
-               op.opt_stock
+               op.opt_stock,
+               atch.ATCH_FILE_NAME AS prod_img_file_name,
+               atch.ATCH_PATH      AS prod_img_file_path
         FROM carts c,
              products p,
-             PROD_OPTIONS op
+             PROD_OPTIONS op,
+             ATTACH atch
         WHERE 1 = 1
           AND c.user_id = #{userId}
           AND c.prod_no = p.prod_no
           AND c.opt_no = op.opt_no
+          AND p.prod_no || '' = atch.ATCH_PARENT_NO
+          AND atch.ATCH_CATEGORY = 'prodImg'
+
     </select>
     <select id="getCheckCartList" resultType="com.study.product.cart.vo.CartVO" parameterType="string">
         SELECT c.USER_ID,
@@ -61,18 +66,22 @@
                c.NOW_CNT,
                c.CART_CHECK,
                p.prod_title,
-               p.prod_image,
                p.prod_price,
                op.opt_FIRST,
                op.opt_second,
-               op.opt_stock
+               op.opt_stock,
+               atch.ATCH_FILE_NAME AS prod_img_file_name,
+               atch.ATCH_PATH      AS prod_img_file_path
         FROM carts c,
              products p,
-             PROD_OPTIONS op
+             PROD_OPTIONS op,
+             ATTACH atch
         WHERE 1 = 1
           AND c.user_id = #{userId}
           AND c.prod_no = p.prod_no
           AND c.opt_no = op.opt_no
+          AND p.prod_no || '' = atch.ATCH_PARENT_NO
+          AND atch.ATCH_CATEGORY = 'prodImg'
           AND c.CART_CHECK = 'Y'
     </select>
     <insert id="doBuyItem">

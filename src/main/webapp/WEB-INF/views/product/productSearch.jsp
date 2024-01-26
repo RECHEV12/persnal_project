@@ -30,7 +30,7 @@
                     <div>
                         <div class="">
                             <img class="img-thumbnail"
-                                 src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=${prod.prodImage}" style="height: 230px; width: 230px"/>
+                                 src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=${prod.prodImgFileName}&filePath=${prod.prodImgFilePath}" style="height: 230px; width: 230px"/>
                         </div>
                         <div class="card-body" style="text-align: left">
                             <p class="card-subtitle" style="color: #6c757d; font-size: 14px">${prod.prodUserName}</p>

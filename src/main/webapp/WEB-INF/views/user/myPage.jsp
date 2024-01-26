@@ -67,8 +67,8 @@
             </div>
             <div>
 
-                    <img class=""
-                         src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=${user.userAttach.atchFileName}&filePath=${user.userAttach.atchPath}"/>
+                <img class="" id="nowImg"
+                     src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=${user.userAttach.atchFileName}&filePath=${user.userAttach.atchPath}"/>
 
 
                 <label for="boFiles">
@@ -84,4 +84,18 @@
 <%@include file="/WEB-INF/inc/footer.jsp" %>
 <%@include file="/WEB-INF/inc/script.jsp" %>
 </body>
+<script>
+    $("#boFiles").on("change", () => {
+        let input = document.getElementById("boFiles");
+        let fReader = new FileReader();
+        fReader.readAsDataURL(input.files[0]);
+        fReader.onloadend = function(event) {
+            let img = document.getElementById("nowImg");
+            img.src = event.target.result;
+            console.log("path: ", event.target.result);
+        }
+
+
+    })
+</script>
 </html>

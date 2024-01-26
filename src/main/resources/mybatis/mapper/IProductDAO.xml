@@ -3,52 +3,48 @@
 <mapper namespace="com.study.product.product.dao.IProductDAO">
     <select id="getProdListByKeyword" resultType="com.study.product.product.vo.ProductVO" parameterType="com.study.product.product.vo.ProductSearchVO">
         SELECT
-        p.prod_no,
-        p.prod_title,
-        p.prod_content,
-        p.prod_total_sell,
-        p.prod_price,
-        p.prod_image,
-        p.prod_cate_code,
+        p.prod_no         , p.prod_title, p.prod_content,
+        p.prod_total_sell , p.prod_price, p.prod_cate_code,
         TO_CHAR(p.prod_reg_date,'YYYY-MM-DD') AS prod_reg_date,
-        p.prod_del_yn,
-        p.prod_user_id,
-        u.user_name AS prod_user_name
+        p.prod_del_yn, p.prod_user_id, u.user_name AS prod_user_name,
+        atch.ATCH_FILE_NAME AS prod_img_file_name, atch.ATCH_PATH AS prod_img_file_path
         FROM
-        products p, users u
-        WHERE
-        p.prod_del_yn = 'N'
+        products p
+        LEFT JOIN users u
+        ON p.prod_user_id=u.user_id
+        AND p.prod_del_yn = 'N'
+        LEFT JOIN ATTACH atch
+        ON p.prod_no=atch.ATCH_PARENT_NO
+        AND atch.ATCH_CATEGORY = 'prodImg'
+        WHERE 1=1
         <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(search.searchWord)">
             <if test='search.searchType  == "name"'>AND p.prod_title Like '%' || #{search.searchWord} || '%'</if>
             <if test='search.searchType  == "user"'>AND u.user_name Like '%' || #{search.searchWord} || '%'</if>
         </if>
-        AND u.user_id=p.prod_user_id
-        ORDER BY p.prod_no asc
+        ORDER BY p.prod_no ASC
     </select>
 
     <select id="getProdListByCategory" resultType="com.study.product.product.vo.ProductVO">
         SELECT
-        prod_no,
-        prod_title,
-        prod_content,
-        prod_total_sell,
-        prod_price,
-        prod_image,
-        prod_cate_code,
-        TO_CHAR(prod_reg_date,'YYYY-MM-DD') AS prod_reg_date,
-        prod_del_yn,
-        p.prod_user_id,
-        u.user_name AS prod_user_name
+        p.prod_no         , p.prod_title, p.prod_content,
+        p.prod_total_sell , p.prod_price, p.prod_cate_code,
+        TO_CHAR(p.prod_reg_date,'YYYY-MM-DD') AS prod_reg_date,
+        p.prod_del_yn, p.prod_user_id, u.user_name AS prod_user_name,
+        atch.ATCH_FILE_NAME AS prod_img_file_name, atch.ATCH_PATH AS prod_img_file_path
         FROM
-        products p, users u
-        WHERE
-        prod_del_yn = 'N'
+        products p
+        LEFT JOIN users u
+        ON p.prod_user_id=u.user_id
+        AND p.prod_del_yn = 'N'
+        LEFT JOIN ATTACH atch
+        ON p.prod_no=atch.ATCH_PARENT_NO
+        AND atch.ATCH_CATEGORY = 'prodImg'
+        WHERE 1=1
         <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(category)">
             <if test='category  == "fassion"'>AND prod_cate_code Like '%' || 'CL' || '%'</if>
             <if test='category  == "food"'>AND prod_cate_code Like '%' || 'FD' || '%'</if>
         </if>
-        AND u.user_id=p.prod_user_id
-        ORDER BY prod_no asc
+        ORDER BY p.prod_no ASC
     </select>
     <select id="getProduct" resultType="com.study.product.product.vo.ProductVO" parameterType="int">
         SELECT
@@ -57,18 +53,22 @@
             prod_content,
             prod_total_sell,
             prod_price,
-            prod_image,
             prod_cate_code,
             TO_CHAR(prod_reg_date,'YYYY-MM-DD') AS prod_reg_date,
             prod_del_yn,
             p.prod_user_id,
-            u.user_name AS prod_user_name
+            u.user_name AS prod_user_name,
+            atch.ATCH_FILE_NAME AS prod_img_file_name,
+            atch.ATCH_PATH AS prod_img_file_path
         FROM
-            products p, users u
-        WHERE
-            prod_del_yn = 'N'
-        AND prod_no = #{prodNo}
-          AND u.user_id=p.prod_user_id
+            products p
+                INNER JOIN users u
+                           ON p.prod_user_id = u.user_id
+                               AND p.prod_del_yn = 'N'
+                INNER JOIN ATTACH atch
+                           ON p.prod_no || '' = atch.ATCH_PARENT_NO
+                               AND atch.ATCH_CATEGORY = 'prodImg'
+        WHERE p.prod_no = #{prodNo}
     </select>
 
 </mapper>

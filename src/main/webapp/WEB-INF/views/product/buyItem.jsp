@@ -27,7 +27,7 @@
 
                     <div class="mx-3" style="width: 15%;  text-align: center">
                         <img class="img-thumbnail"
-                             src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=${cart.prodImage}"
+                             src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=${cart.prodImgFileName}&filePath=${cart.prodImgFilePath}"
                              style="height: 100%;"/>
                     </div>
                     <div class="mx-3" style="width: 50%">

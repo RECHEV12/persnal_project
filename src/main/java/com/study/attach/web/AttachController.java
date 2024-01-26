@@ -50,6 +50,7 @@ public class AttachController {
         File file = new File(filePath,fileName);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", Files.probeContentType(file.toPath()));
+        System.out.println("============================================="+file);
         ResponseEntity<byte[]> result = new ResponseEntity<>(FileUtils.readFileToByteArray(file),headers, HttpStatus.OK);
         return result;
     }

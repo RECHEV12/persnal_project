@@ -1,5 +1,7 @@
 package com.study.product.product.web;
 
+import com.study.attach.dao.IAttachDAO;
+import com.study.attach.vo.AttachVO;
 import com.study.product.option.service.IOptionService;
 import com.study.product.product.service.IProductService;
 import com.study.product.option.vo.OptionVO;
@@ -31,6 +33,8 @@ public class ProductController {
     @Inject
     IOptionService optionService;
 
+    @Inject
+    IAttachDAO attachDAO;
 
     //키워드 검색
     @RequestMapping("/product/productSearch.wow")
@@ -90,7 +94,7 @@ public class ProductController {
                 optSecond.add(nowSecond);
             }
         }
-
+        System.out.println(product);
         model.addAttribute("product", product);
         model.addAttribute("optFirst", optFirst);
         model.addAttribute("optSecond", optSecond);
@@ -109,7 +113,22 @@ public class ProductController {
         return option;
     }
 
+    @RequestMapping("/product/tabShow.wow")
+    public String tabShow(Model model, String title, String prodNo) {
+        if (title.equals("상품정보")) {
+            List<AttachVO> imgList = attachDAO.getAttaches("prodDetail", prodNo);
+            model.addAttribute("imgList", imgList);
+            return "product/prodImg";
+        } else if (title.equals("리뷰")) {
 
+            return "product/prodReview";
+        } else if (title.equals("문의")) {
+
+            return "product/prodAsk";
+        } else {
+            return "";
+        }
+    }
 
 
 }

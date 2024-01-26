@@ -7,11 +7,13 @@ public class CartVO {
     private int nowCnt;
     private String cartCheck;
     private String prodTitle;
-    private String prodImage;
     private int prodPrice;
     private String optFirst;
     private String optSecond;
     private int optStock;
+    private String prodImgFileName;        /*섬네일 파일 이름   */
+    private String prodImgFilePath;        /*섬네일 파일 주소   */
+
 
     @Override
     public String toString() {
@@ -22,11 +24,12 @@ public class CartVO {
                 ", nowCnt=" + nowCnt +
                 ", cartCheck='" + cartCheck + '\'' +
                 ", prodTitle='" + prodTitle + '\'' +
-                ", prodImage='" + prodImage + '\'' +
                 ", prodPrice=" + prodPrice +
                 ", optFirst='" + optFirst + '\'' +
                 ", optSecond='" + optSecond + '\'' +
                 ", optStock=" + optStock +
+                ", prodImgFileName='" + prodImgFileName + '\'' +
+                ", prodImgFilePath='" + prodImgFilePath + '\'' +
                 '}';
     }
 
@@ -70,13 +73,7 @@ public class CartVO {
         this.prodTitle = prodTitle;
     }
 
-    public String getProdImage() {
-        return prodImage;
-    }
 
-    public void setProdImage(String prodImage) {
-        this.prodImage = prodImage;
-    }
 
     public int getProdPrice() {
         return prodPrice;
@@ -116,5 +113,21 @@ public class CartVO {
 
     public void setCartCheck(String cartCheck) {
         this.cartCheck = cartCheck;
+    }
+
+    public String getProdImgFileName() {
+        return prodImgFileName;
+    }
+
+    public void setProdImgFileName(String prodImgFileName) {
+        this.prodImgFileName = prodImgFileName;
+    }
+
+    public String getProdImgFilePath() {
+        return prodImgFilePath;
+    }
+
+    public void setProdImgFilePath(String prodImgFilePath) {
+        this.prodImgFilePath = prodImgFilePath;
     }
 }

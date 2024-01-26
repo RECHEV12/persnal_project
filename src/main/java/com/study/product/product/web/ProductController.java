@@ -7,6 +7,8 @@ import com.study.product.product.service.IProductService;
 import com.study.product.option.vo.OptionVO;
 import com.study.product.product.vo.ProductSearchVO;
 import com.study.product.product.vo.ProductVO;
+import com.study.product.reviews.service.IReviewsService;
+import com.study.product.reviews.vo.ReviewsVO;
 import org.apache.commons.io.FileUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -32,6 +34,8 @@ public class ProductController {
 
     @Inject
     IOptionService optionService;
+    @Inject
+    IReviewsService reviewsService;
 
     @Inject
     IAttachDAO attachDAO;
@@ -120,7 +124,10 @@ public class ProductController {
             model.addAttribute("imgList", imgList);
             return "product/prodImg";
         } else if (title.equals("리뷰")) {
-
+            List<ReviewsVO> reviewsList = reviewsService.getReviewsList(Integer.parseInt(prodNo));
+            List<AttachVO> reviImgList = attachDAO.getAttachesForReviews("reviImg");
+            model.addAttribute("reviewsList",reviewsList);
+            model.addAttribute("reviImgList",reviImgList);
             return "product/prodReview";
         } else if (title.equals("문의")) {
 

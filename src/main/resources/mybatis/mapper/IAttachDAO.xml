@@ -26,6 +26,17 @@
         AND atch_category = #{category}
         ORDER BY  atch_no asc
     </select>
+    <select id="getAttachesForReviews" resultType="com.study.attach.vo.AttachVO">
+        SELECT
+            atch_no,    atch_parent_no,    atch_category,
+            atch_file_name,    atch_original_name,    atch_file_size,
+            atch_fancy_size,    atch_content_type,    atch_path,
+            atch_down_hit,    atch_del_yn,    atch_reg_date
+        FROM
+            attach
+        WHERE atch_category = #{category}
+        ORDER BY  atch_no asc
+    </select>
     <select id="getAttach" resultType="com.study.attach.vo.AttachVO" parameterType="int">
         SELECT
             atch_no,    atch_parent_no,    atch_category,
@@ -46,6 +57,7 @@
             attach
         WHERE atch_parent_no=#{atchParentNo}
     </select>
+
     <delete id="deleteAtches">
         DELETE
         FROM attach

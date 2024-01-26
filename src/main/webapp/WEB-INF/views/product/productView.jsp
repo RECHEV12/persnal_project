@@ -134,7 +134,7 @@
     let nowOptNo = 0;
     let nowPrice = Number($("#price").text());
 
-
+        //탭 변경 = 클래스 이름 변경
     const changeTab = (e) => {
         $("a[name=prodView] ").map((i, v) => {
             $(v).attr("class", "nav-link");
@@ -142,6 +142,8 @@
         $($(e.target)).attr("class", "nav-link active")
         showTab();
     }
+
+    // 아작스 로딩
     const showTab = () => {
         $("a[name=prodView] ").map((i, v) => {
             if ($(v).attr("class") === "nav-link active") {
@@ -155,9 +157,9 @@
     }
     showTab();
 
+    // 각 탭에 클릭이벤트
     $("a[name=prodView] ").map((i, v) => {
         $(v).on("click", (e) => changeTab(e))
-
     })
 
 
@@ -339,6 +341,7 @@
 
 
     })
+
 
 </script>
 

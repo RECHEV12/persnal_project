@@ -11,14 +11,15 @@
 </head>
 <body>
 <%@include file="/WEB-INF/inc/top.jsp" %>
-<a href="/user/userModify.wow">회원정보수정</a>
-<a href="/user/userPassChange.wow">비밀번호수정</a>
-<div>
-    <p>주문내역</p>
-    <c:forEach items="" var="">
-
-    </c:forEach>
-</div>
+<form action="/user/userPassChange.wow" method="post">
+    <label for="nowPass">현재 비밀번호</label>
+    <input type="password" id="nowPass" name="nowPass">
+    <label for="nowPassChk">현재 비밀번호 확인</label>
+    <input type="password" id="nowPassChk" name="nowPassChk">
+    <label for="newPass">바꿀 비밀번호</label>
+    <input type="password" id="newPass" name="newPass">
+    <button type="submit">변경하기</button>
+</form>
 
 <%@include file="/WEB-INF/inc/footer.jsp" %>
 <%@include file="/WEB-INF/inc/script.jsp" %>

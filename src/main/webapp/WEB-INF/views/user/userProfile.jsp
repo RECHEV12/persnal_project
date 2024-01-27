@@ -44,7 +44,7 @@
 <c:if test="${userId != null}">
     <c:if test="${userId eq user.userId}">
         <a href="/user/myPage.wow">
-            <button>수정</button>
+            <button>회원관리</button>
         </a>
     </c:if>
 </c:if>

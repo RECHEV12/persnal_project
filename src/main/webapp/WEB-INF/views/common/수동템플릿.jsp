@@ -11,14 +11,7 @@
 </head>
 <body>
 <%@include file="/WEB-INF/inc/top.jsp" %>
-<a href="/user/userModify.wow">회원정보수정</a>
-<a href="/user/userPassChange.wow">비밀번호수정</a>
-<div>
-    <p>주문내역</p>
-    <c:forEach items="" var="">
 
-    </c:forEach>
-</div>
 
 <%@include file="/WEB-INF/inc/footer.jsp" %>
 <%@include file="/WEB-INF/inc/script.jsp" %>

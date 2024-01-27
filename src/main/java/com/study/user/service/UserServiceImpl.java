@@ -91,6 +91,11 @@ public class UserServiceImpl implements IUserService {
 
     }
 
+    @Override
+    public void passChange(String newPass, String userId) {
+        userDAO.passChange(newPass, userId);
+    }
+
 
     @Override
     public void rememberMe(String rememberId, String userId, HttpServletRequest request, HttpServletResponse response) {

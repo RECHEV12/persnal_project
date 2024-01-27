@@ -13,6 +13,7 @@ public interface IUserService {
     public int insertUser(UserVO user, MultipartFile boFiles);
 
 public int userModify(UserVO user, MultipartFile boFiles, HttpSession session);
+public void passChange(String newPass, String userId);
 
     public void rememberMe(String rememberId, String userId, HttpServletRequest request, HttpServletResponse response);
 

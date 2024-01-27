@@ -43,11 +43,34 @@ public class UserController {
     }
 
     @RequestMapping("/user/myPage.wow")
-    public String goMyPage(Model model, HttpSession session) {
+    public String goMyPage() {
+        return "user/myPage";
+    }
+
+    @GetMapping("/user/userPassChange.wow")
+    public String goUserPassChange() {
+        return "user/userPassChange";
+    }
+
+    @PostMapping("/user/userPassChange.wow")
+    public String userPassChangePOST(String nowPass, String nowPassChk, String newPass, HttpSession session) {
         UserVO userInfo = (UserVO) session.getAttribute("USER_INFO");
-        if (userInfo==null){
+        String userId = userInfo.getUserId();
+        if (nowPass.equals(nowPassChk)) {
+            userService.passChange(newPass, userId);
+            return "redirect:/common/alert.wow?msg=successChangePass&url=/user/myPage.wow";
+        } else {
+            //입력한 비번 다름
+            return "redirect:/common/alert.wow?msg=failedChangePass&url=/user/userPassChange.wow";
+        }
+    }
+
+    @GetMapping("/user/userModify.wow")
+    public String userModify(Model model, HttpSession session) {
+        UserVO userInfo = (UserVO) session.getAttribute("USER_INFO");
+        if (userInfo == null) {
             return "redirect:/common/alert.wow?msg=users&url=/user/login.wow";
-        }else {
+        } else {
             UserVO user = userService.getUser(userInfo.getUserId());
             List<AttachVO> attaches = attachDAO.getAttaches("userIcon", userInfo.getUserId());
             if (!attaches.isEmpty()) {
@@ -56,28 +79,28 @@ public class UserController {
                 user.setUserAttach(attachDAO.getAttach(1));
             }
             model.addAttribute("user", user);
-            return "user/myPage";
+            return "user/userModify";
         }
 
     }
 
 
     @PostMapping("/user/userModify.wow")
-    public String userModify(UserVO user,  MultipartFile boFiles ,HttpSession session) {
-        int resultRow = userService.userModify(user,boFiles,session);
-        if (resultRow == 1){
-            return "redirect:/common/alert.wow?msg=successModify&url=/user/userProfile.wow?userId="+((UserVO) session.getAttribute("USER_INFO")).getUserId();
-        }else {
+    public String userModify(UserVO user, MultipartFile boFiles, HttpSession session) {
+        int resultRow = userService.userModify(user, boFiles, session);
+        if (resultRow == 1) {
+            return "redirect:/common/alert.wow?msg=successModify&url=/user/userProfile.wow?userId=" + ((UserVO) session.getAttribute("USER_INFO")).getUserId();
+        } else {
 
             return "redirect:/common/alert.wow?msg=failedModify&url=/user/logout.wow";
         }
     }
 
+
     @GetMapping("/user/login.wow")
     public String goLogin() {
         return "user/login";
     }
-
 
     @PostMapping("/user/login.wow")
     public String loginChk(Model model, UserVO user, String rememberId, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {

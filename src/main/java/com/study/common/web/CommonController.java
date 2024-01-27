@@ -93,6 +93,12 @@ public class CommonController {
             case "failedModify":
                 getMsg = "정보수정에 실패했습니다. 값을 다시 확인해주세요";
                 break;
+            case "successChangePass":
+                getMsg = "비밀번호를 변경하였습니다.";
+                break;
+            case "failedChangePass":
+                getMsg = "현재비밀번호가 일치하지 않습니다.";
+                break;
 
         }
 

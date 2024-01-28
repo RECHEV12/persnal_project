@@ -26,4 +26,14 @@ public class OptionServiceImpl implements IOptionService {
     public OptionVO getOptPrice(int prodNo, String opt_first, String opt_second) {
         return optionDAO.getOptPrice(prodNo,opt_first,opt_second);
     }
+
+    @Override
+    public void addReviNo(String userId, int parentNo, int buyNo, int optNo, int reviNo) {
+        optionDAO.addReviNo(userId, parentNo, buyNo, optNo, reviNo);
+    }
+
+    @Override
+    public int deleteReviNo(String userId, int parentNo, int buyNo, int optNo) {
+       return optionDAO.deleteReviNo(userId, parentNo, buyNo, optNo);
+    }
 }

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.study.product.history.dao.IHistoryDAO">
+    <select id="getHistoryList" resultType="com.study.product.history.vo.HistoryVO" parameterType="string">
+        SELECT USER_ID, BUY_USER_NAME, USER_HP, USER_ZIP, USER_ADD1, USER_ADD2, TO_CHAR(BUY_DATE,'YYYY-MM-DD') AS BUY_DATE , USER_WANT, TOTAL_PRICE, BUY_NO
+        FROM BUY_HISTORY
+        WHERE USER_ID = #{userId}
+        ORDER BY BUY_DATE ASC
+    </select>
+    <select id="getHistoryOptes" resultType="com.study.product.cart.vo.CartVO" parameterType="string">
+        SELECT po.OPT_FIRST ,
+               po.OPT_SECOND  ,
+               bo.REVI_NO,
+               bo.NOW_CNT, bo.PROD_NO,
+               bo.USER_BUY_NO,p.PROD_TITLE ,
+               p.PROD_PRICE ,
+               atch.ATCH_FILE_NAME AS prod_img_file_name,
+               atch.ATCH_PATH AS prod_img_file_path
+        FROM BUY_OPT bo
+                 INNER JOIN PRODUCTS p
+                            ON bo.prod_no = p.prod_no
+                                AND p.prod_del_yn = 'N'
+                 INNER JOIN ATTACH atch
+                            ON p.prod_no || '' = atch.ATCH_PARENT_NO
+                                AND atch.ATCH_CATEGORY = 'prodImg'
+                 INNER JOIN PROD_OPTIONS po
+                            ON po.OPT_NO = bo.OPT_NO
+        WHERE bo.USER_ID = #{userId}
+    </select>
+
+    <select id="getHistoryListByNumber" resultType="com.study.product.history.vo.HistoryVO">
+        SELECT USER_ID, BUY_USER_NAME, USER_HP, USER_ZIP, USER_ADD1, USER_ADD2, TO_CHAR(BUY_DATE,'YYYY-MM-DD') AS BUY_DATE , USER_WANT, TOTAL_PRICE, BUY_NO
+        FROM BUY_HISTORY
+        WHERE USER_ID = #{userId}
+        AND BUY_NO = #{buyNo}
+    </select>
+    <select id="getHistoryOptesByNumber" resultType="com.study.product.cart.vo.CartVO">
+        SELECT
+            bo.OPT_NO,
+            po.OPT_FIRST ,
+            bo.REVI_NO,
+               po.OPT_SECOND  ,
+               bo.NOW_CNT, bo.PROD_NO,
+               bo.USER_BUY_NO,p.PROD_TITLE ,
+               p.PROD_PRICE ,
+               atch.ATCH_FILE_NAME AS prod_img_file_name,
+               atch.ATCH_PATH AS prod_img_file_path
+        FROM BUY_OPT bo
+                 INNER JOIN PRODUCTS p
+                            ON bo.prod_no = p.prod_no
+                                AND p.prod_del_yn = 'N'
+                 INNER JOIN ATTACH atch
+                            ON p.prod_no || '' = atch.ATCH_PARENT_NO
+                                AND atch.ATCH_CATEGORY = 'prodImg'
+                 INNER JOIN PROD_OPTIONS po
+                            ON po.OPT_NO = bo.OPT_NO
+        WHERE bo.USER_ID = #{userId}
+          AND bo.USER_BUY_NO = #{buyNo}
+    </select>
+    <select id="getHistoryOptByOptNo" resultType="com.study.product.cart.vo.CartVO">
+        SELECT bo.OPT_NO,
+               bo.REVI_NO,
+               po.OPT_FIRST,
+               po.OPT_SECOND,
+               bo.NOW_CNT,
+               bo.PROD_NO,
+               bo.USER_BUY_NO,
+               p.PROD_TITLE,
+               p.PROD_PRICE,
+               atch.ATCH_FILE_NAME AS prod_img_file_name,
+               atch.ATCH_PATH      AS prod_img_file_path
+        FROM BUY_OPT bo
+                 INNER JOIN PRODUCTS p
+                            ON bo.prod_no = p.prod_no
+                                AND p.prod_del_yn = 'N'
+                 INNER JOIN ATTACH atch
+                            ON p.prod_no || '' = atch.ATCH_PARENT_NO
+                                AND atch.ATCH_CATEGORY = 'prodImg'
+                 INNER JOIN PROD_OPTIONS po
+                            ON po.OPT_NO = bo.OPT_NO
+        WHERE bo.USER_ID = #{userId}
+          AND bo.OPT_NO = #{optNo}
+          AND bo.USER_BUY_NO = #{buyNo}
+    </select>
+</mapper>

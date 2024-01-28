@@ -1,16 +1,50 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.study.product.reviews.dao.IReviewsDAO">
+    <update id="modifyReview">
+        UPDATE REVIEWS
+        SET REVI_CONTENT=#{reviContent}
+          , REVI_STAR=#{reviStar}
+          , REVI_MOD_DATE=SYSDATE
+          , REVI_IP='111.11.11.1'
+        WHERE REVI_NO = #{reviNo}
+    </update>
+
     <select id="getReviewsList" resultType="com.study.product.reviews.vo.ReviewsVO" parameterType="int">
-        SELECT revi.REVI_NO, revi.REVI_CONTENT, revi.REVI_STAR, revi.REVI_REG_DATE, revi.REVI_MOD_DATE, revi.REVI_IP, revi.REVI_USER_ID, revi.REVI_PARENT_NO, u.USER_NAME AS USER_NAME
+        SELECT revi.REVI_NO,
+               revi.OPT_NO,
+               revi.BUY_NO,
+               revi.REVI_CONTENT,
+               revi.REVI_STAR,
+               revi.REVI_REG_DATE,
+               revi.REVI_MOD_DATE,
+               revi.REVI_IP,
+               revi.REVI_USER_ID,
+               revi.REVI_PARENT_NO,
+               u.USER_NAME AS USER_NAME
         FROM REVIEWS revi
                  INNER JOIN users u
                             ON u.user_id = revi.revi_user_id
         WHERE revi.REVI_PARENT_NO = #{prodNo}
         ORDER BY revi.REVI_NO DESC
     </select>
+    <select id="getReviNumber" resultType="java.lang.Integer">
+        SELECT REVI_NO
+        FROM REVIEWS
+        WHERE REVI_USER_ID = #{userId}
+          AND REVI_PARENT_NO = #{parentNo}
+          AND BUY_NO = #{buyNo}
+          AND OPT_NO = #{optNo}
+    </select>
     <delete id="deleteReview" parameterType="int">
-        DELETE FROM REVIEWS
-        WHERE REVI_NO=#{reviNo}
+        DELETE
+        FROM REVIEWS
+        WHERE REVI_NO = #{reviNo}
     </delete>
+    <insert id="insertReview">
+        INSERT INTO REVIEWS
+        (REVI_NO, REVI_CONTENT, REVI_STAR, REVI_REG_DATE, REVI_IP, REVI_USER_ID, REVI_PARENT_NO, BUY_NO, OPT_NO)
+        VALUES ( SEQ_REVIEWS.NEXTVAL, #{review.reviContent}, #{review.reviStar}, SYSDATE
+               , '111.11.11.1', #{userId}, ${review.reviParentNo}, #{buyNo}, #{optNo})
+    </insert>
 </mapper>

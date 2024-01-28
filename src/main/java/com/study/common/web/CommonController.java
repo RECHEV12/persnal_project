@@ -99,6 +99,12 @@ public class CommonController {
             case "failedChangePass":
                 getMsg = "현재비밀번호가 일치하지 않습니다.";
                 break;
+           case "successReview":
+                getMsg = "리뷰를 등록했습니다.";
+                break;
+           case "failedReview":
+                getMsg = "리뷰 등록에 실패했습니다.";
+                break;
 
         }
 

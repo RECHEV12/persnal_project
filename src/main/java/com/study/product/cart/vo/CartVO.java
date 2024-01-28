@@ -13,7 +13,10 @@ public class CartVO {
     private int optStock;
     private String prodImgFileName;        /*섬네일 파일 이름   */
     private String prodImgFilePath;        /*섬네일 파일 주소   */
+    private int userBuyNo;        /*섬네일 파일 주소   */
 
+    private String buyNo;
+    private String reviNo;
 
     @Override
     public String toString() {
@@ -30,7 +33,18 @@ public class CartVO {
                 ", optStock=" + optStock +
                 ", prodImgFileName='" + prodImgFileName + '\'' +
                 ", prodImgFilePath='" + prodImgFilePath + '\'' +
+                ", userBuyNo=" + userBuyNo +
+                ", buyNo='" + buyNo + '\'' +
+                ", reviNo='" + reviNo + '\'' +
                 '}';
+    }
+
+    public String getBuyNo() {
+        return buyNo;
+    }
+
+    public void setBuyNo(String buyNo) {
+        this.buyNo = buyNo;
     }
 
     public String getUserId() {
@@ -129,5 +143,21 @@ public class CartVO {
 
     public void setProdImgFilePath(String prodImgFilePath) {
         this.prodImgFilePath = prodImgFilePath;
+    }
+
+    public int getUserBuyNo() {
+        return userBuyNo;
+    }
+
+    public void setUserBuyNo(int userBuyNo) {
+        this.userBuyNo = userBuyNo;
+    }
+
+    public String getReviNo() {
+        return reviNo;
+    }
+
+    public void setReviNo(String reviNo) {
+        this.reviNo = reviNo;
     }
 }

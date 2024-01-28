@@ -60,7 +60,7 @@ public class ProductController {
     }
 
     @RequestMapping("/product/productView.wow")
-    public String prodView(Model model, int prodNo, HttpServletRequest request, HttpSession session) {
+    public String prodView(Model model, int prodNo,  HttpSession session) {
         if (session.getAttribute("USER_INFO") == null) {
             return "redirect:/common/alert.wow?msg=users&url=/user/login.wow";
         }
@@ -126,8 +126,10 @@ public class ProductController {
         } else if (title.equals("리뷰")) {
             List<ReviewsVO> reviewsList = reviewsService.getReviewsList(Integer.parseInt(prodNo));
             List<AttachVO> reviImgList = attachDAO.getAttachesForReviews("reviImg");
+            List<OptionVO> optList = optionService.getOptList(Integer.parseInt(prodNo));
             model.addAttribute("reviewsList",reviewsList);
             model.addAttribute("reviImgList",reviImgList);
+            model.addAttribute("optList",optList);
             return "product/prodReview";
         } else if (title.equals("문의")) {
 

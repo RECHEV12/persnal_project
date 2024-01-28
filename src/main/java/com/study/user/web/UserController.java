@@ -2,6 +2,9 @@ package com.study.user.web;
 
 import com.study.attach.dao.IAttachDAO;
 import com.study.attach.vo.AttachVO;
+import com.study.product.cart.vo.CartVO;
+import com.study.product.history.service.IHistoryService;
+import com.study.product.history.vo.HistoryVO;
 import com.study.user.service.IUserService;
 import com.study.user.vo.UserVO;
 import org.springframework.stereotype.Controller;
@@ -26,6 +29,8 @@ public class UserController {
     IUserService userService;
     @Inject
     IAttachDAO attachDAO;
+    @Inject
+    IHistoryService historyService;
 
     @RequestMapping("/user/userProfile.wow")
     public String goProfile(Model model, String userId) {
@@ -43,8 +48,23 @@ public class UserController {
     }
 
     @RequestMapping("/user/myPage.wow")
-    public String goMyPage() {
+    public String goMyPage(Model model, HttpSession session) {
+        String userId = userIdFromSession(session);
+        List<HistoryVO> historyList = historyService.getHistoryList(userId);
+        List<CartVO> optList = historyService.getHistoryOptes(userId);
+        model.addAttribute("historyList", historyList);
+        model.addAttribute("optList", optList);
         return "user/myPage";
+    }
+
+    @RequestMapping("/user/historyDetail.wow")
+    public String historyDetail(Model model, HttpSession session, int buyNo) {
+        String userId = userIdFromSession(session);
+        HistoryVO history = historyService.getHistoryListByNumber(userId, buyNo);
+        List<CartVO> optList = historyService.getHistoryOptesByNumber(userId, buyNo);
+        model.addAttribute("history", history);
+        model.addAttribute("optList", optList);
+        return "user/historyDetail";
     }
 
     @GetMapping("/user/userPassChange.wow")
@@ -54,8 +74,7 @@ public class UserController {
 
     @PostMapping("/user/userPassChange.wow")
     public String userPassChangePOST(String nowPass, String nowPassChk, String newPass, HttpSession session) {
-        UserVO userInfo = (UserVO) session.getAttribute("USER_INFO");
-        String userId = userInfo.getUserId();
+        String userId = userIdFromSession(session);
         if (nowPass.equals(nowPassChk)) {
             userService.passChange(newPass, userId);
             return "redirect:/common/alert.wow?msg=successChangePass&url=/user/myPage.wow";
@@ -98,7 +117,8 @@ public class UserController {
 
 
     @GetMapping("/user/login.wow")
-    public String goLogin() {
+    public String goLogin(HttpSession session) {
+
         return "user/login";
     }
 
@@ -150,5 +170,11 @@ public class UserController {
         }
     }
 
-
+    public static String userIdFromSession(HttpSession session) {
+        UserVO userInfo = (UserVO) session.getAttribute("USER_INFO");
+        if (userInfo == null) {
+            return null;
+        }
+        return userInfo.getUserId();
+    }
 }

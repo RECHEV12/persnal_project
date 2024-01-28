@@ -11,6 +11,26 @@ public class ReviewsVO {
     private int reviParentNo;
     private String userName;
 
+    private String buyNo;
+
+    private int optNo;
+
+    public String getBuyNo() {
+        return buyNo;
+    }
+
+    public void setBuyNo(String buyNo) {
+        this.buyNo = buyNo;
+    }
+
+    public int getOptNo() {
+        return optNo;
+    }
+
+    public void setOptNo(int optNo) {
+        this.optNo = optNo;
+    }
+
     @Override
     public String toString() {
         return "ReviewsVO{" +
@@ -23,6 +43,8 @@ public class ReviewsVO {
                 ", reviUserId='" + reviUserId + '\'' +
                 ", reviParentNo=" + reviParentNo +
                 ", userName='" + userName + '\'' +
+                ", buyNo='" + buyNo + '\'' +
+                ", optNo=" + optNo +
                 '}';
     }
 

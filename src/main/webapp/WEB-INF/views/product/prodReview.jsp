@@ -19,15 +19,28 @@
 
 
     <c:forEach items="${reviewsList}" var="review">
-        <div class="border border-success-subtle " name="reviewBox" data-revi-no="${review.reviNo}">
+        <div class="border border-success-subtle " name="reviewBox" data-revi-no="${review.reviNo}"
+             data-parent="${review.reviParentNo}" data-buy-no="${review.buyNo}" data-opt-no="${review.optNo}">
             <div class="" name="top">
                 <div class="d-flex" name="userInfo">
                     <p>
                             ${review.userName}
                     </p>
                     <p>
-                            ${review.reviStar}
+                        || 별점 : <span  name="stars">${review.reviStar}</span>
                     </p>
+
+                    <c:forEach items="${optList}" var="opt">
+                        <c:if test="${review.optNo == opt.optNo}">
+
+                            <p>
+                                옵션1${opt.optFirst}
+                            </p>
+                            <p>
+                                옵션2${opt.optSecond}
+                            </p>
+                        </c:if>
+                    </c:forEach>
                 </div>
                 <div name="imgDiv">
                     <c:forEach items="${reviImgList}" var="reviImg">
@@ -40,12 +53,51 @@
                 </div>
             </div>
             <div class="d-flex" name="bottom">
-                <div name="reviContent">
-                        ${review.reviContent}
-                </div>
+                <div name="reviContent">${review.reviContent}</div>
                 <div>
                     <c:if test="${nowUserId == review.reviUserId}">
-                        <button class="btn btn-secondary">수정</button>
+                        <div class="modal fade" id="id_review_edit_modal" role="dialog">
+                            <div class="modal-dialog">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <form name="frm_reply_edit"
+                                          method="post"
+                                          onclick="return false;">
+                                        <div class="modal-header">
+                                            <button type="button" class="btn-close" data-dismiss="modal"
+                                                    onclick="closModal()"></button>
+                                            <h4 class="modal-title">리뷰수정</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div>
+                                                <label for="star1">1</label>
+                                                <input type="radio" name="reviStar" id="star1" value="1">
+                                                <label for="star2">2</label>
+                                                <input type="radio" name="reviStar" id="star2" value="2">
+                                                <label for="star3">3</label>
+                                                <input type="radio" name="reviStar" id="star3" value="3">
+                                                <label for="star4">4</label>
+                                                <input type="radio" name="reviStar" id="star4" value="4">
+                                                <label for="star5">5</label>
+                                                <input type="radio" name="reviStar" id="star5" value="5" checked>
+                                            </div>
+                                            <textarea rows="3" name="reviContent"
+                                                      class="form-control">${review.reviContent}</textarea>
+                                            <input type="hidden" name="reviNo" value="${review.reviNo}">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button id="btn_reply_modify" type="button"
+                                                    class="btn btn-sm btn-info">저장
+                                            </button>
+                                            <button type="button" class="btn btn-default btn-sm"
+                                                    data-dismiss="modal" onclick="closModal()">닫기
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary" name="modifyReview">수정</button>
                         <button type="button" class="btn btn-danger" name="deleteReview">삭제</button>
                     </c:if>
                 </div>
@@ -57,19 +109,78 @@
 </body>
 <script>
     $("#reviMainBox").on("click", 'button[name="deleteReview"]', function (e) {
-        if(confirm("정말 삭제하시겠습니까?")){
+        if (confirm("정말 삭제하시겠습니까?")) {
+            const dataPack = $($(e.target).parents("div[name=reviewBox]"))
             $.ajax({
-                url:"/reviews/deleteReview.wow",
-                data:{reviNo:Number($($(e.target).parents("div[name=reviewBox]")).data("reviNo"))},
-                method:'POST',
-                success:function (resultRow){
-                    console.log("리뷰 지우기",resultRow)
+                url: "/reviews/deleteReview.wow",
+                data: {
+                    reviNo: Number(dataPack.data("reviNo"))
+                },
+                method: 'POST',
+                success: function (resultRow) {
+                    if (resultRow == 1) {
+                        $.ajax({
+                            url: "/reviews/deleteReviNo.wow",
+                            method: 'POST',
+                            data: {
+                                parentNo: Number(dataPack.data("parent")),
+                                buyNo: Number(dataPack.data("buyNo")),
+                                optNo: Number(dataPack.data("optNo")),
+                                userId: '${nowUserId}'
+                            },
+                            success: function (rows) {
+                                console.log("리뷰 지우기", rows)
 
+                            },
+                            error: (err) => {
+                                console.log(err)
+                            }
+                        })
+                        $.ajax({
+                            url: "/reviews/deleteReviewAttach.wow",
+                            method: 'POST',
+                            data: {
+                                parentNo: Number(dataPack.data("parent")),
+                                reviNo: Number(dataPack.data("reviNo"))
+                            },
+                            success: function (rows) {
+                                console.log("리뷰 지우기", rows)
+
+                            },
+                            error: (err) => {
+                                console.log(err)
+                            }
+                        })
+                    }
                 }
             })
             $($(e.target).parents("div[name=reviewBox]")).remove()
         }
 
     })
+    $("#reviMainBox").on("click", 'button[name="modifyReview"]', function (e) {
+        $("#id_review_edit_modal").modal('show');
+    })
+    $("#btn_reply_modify").on("click", function (e) {
+        const $form = $("form[name='frm_reply_edit']")
+        $.ajax({
+            url: "/reviews/modifyReview.wow",
+            data: $form.serialize(),
+            method: 'POST',
+            success: function (resultRow) {
+                console.log(resultRow)
+                showTab()
+                closModal();
+            },
+            error: function (ddd) {
+                console.log(ddd)
+            }
+        })
+    });
+
+    const closModal = () => {
+        $("#id_review_edit_modal").modal('hide');
+    }
+
 </script>
 </html>

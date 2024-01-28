@@ -36,7 +36,9 @@
                     </div>
 
                     <div class="col-6" style="text-align: right">
-                        <span>ㅁㄴㅇㄹ</span>
+                        <button type="button" onclick="copyToClipboard()" data-page="${page}">
+                            Click me to copy current page URL
+                        </button>
                     </div>
                 </div>
                 <div>
@@ -129,6 +131,9 @@
 <%@include file="/WEB-INF/inc/script.jsp" %>
 <script>
 
+
+
+
     let thisOptCnt = 0;
     let nowProdNo = $("#priceDiv").data("prodNo");
     let nowOptNo = 0;
@@ -149,7 +154,7 @@
             if ($(v).attr("class") === "nav-link active") {
                 let nowTabTitle = $(v).text();
                 console.log(nowTabTitle)
-                $("#showTab").load("/product/tabShow.wow", {title: nowTabTitle, prodNo: String(nowProdNo)})
+                $("#showTab").load("/product/tabShow.wow", {title: nowTabTitle, prodNo: String(nowProdNo), curPage:1})
             }
 
         })
@@ -341,7 +346,15 @@
 
 
     })
-
+    function copyToClipboard() {
+        let tempInput = document.createElement("input");
+        tempInput.setAttribute("value", window.location.href);
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+        alert("URL을 복사했습니다.");
+    }
 
 </script>
 

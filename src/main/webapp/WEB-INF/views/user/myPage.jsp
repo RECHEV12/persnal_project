@@ -46,6 +46,7 @@
         </a>
 
     </c:forEach>
+    <a href="/product/insertProduct.wow">asdf</a>
 </div>
 
 <%@include file="/WEB-INF/inc/footer.jsp" %>

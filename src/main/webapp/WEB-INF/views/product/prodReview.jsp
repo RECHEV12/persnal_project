@@ -27,7 +27,7 @@
                             ${review.userName}
                     </p>
                     <p>
-                        || 별점 : <span  name="stars">${review.reviStar}</span>
+                        || 별점 : <span name="stars">${review.reviStar}</span>
                     </p>
 
                     <c:forEach items="${optList}" var="opt">
@@ -105,9 +105,81 @@
 
         </div>
     </c:forEach>
+    <nav class="text-center">
+        <ul class="pagination">
+
+            <!-- 첫 페이지  -->
+            <li>
+                <button type="button" onclick="goFirst()" data-page="1">
+                    <span aria-hidden="true">&laquo;</span>
+                </button>
+            </li>
+
+            <!-- 이전 페이지 -->
+            <c:if test="${paging.firstPage != 1}">
+                <li>
+                    <button type="button" onclick="goBefore()"
+                            data-page="${paging.firstPage - 1}">
+                        <span aria-hidden="true">&lt;</span>
+                    </button>
+                </li>
+            </c:if>
+
+            <!-- 페이지 넘버링  -->
+            <c:forEach var="page" begin="${paging.firstPage}" end="${paging.lastPage}">
+                <li ${paging.curPage==page ?"class='active'":""}>
+                    <button type="button" onclick="goPage(${page})"
+                            data-page="${page}">
+                            ${page}
+                    </button>
+                </li>
+            </c:forEach>
+            <!-- 다음  페이지  -->
+            <c:if test="${paging.lastPage != paging.totalPageCount}">
+                <li>
+                    <button type="button" onclick="goAfter()"
+                            data-page="${paging.lastPage + 1}">
+                        <span aria-hidden="true">&gt;</span>
+                    </button>
+
+                </li>
+            </c:if>
+
+            <!-- 마지막 페이지 -->
+            <li>
+                <button onclick="goLast()" data-page="${paging.totalPageCount}">
+                    <span aria-hidden="true">&raquo;</span>
+                </button>
+            </li>
+        </ul>
+    </nav>
 </div>
 </body>
 <script>
+    goFirst = () => {
+        $("#showTab").load("/product/tabShow.wow", {title: "리뷰", prodNo: String(nowProdNo), curPage: 1})
+    }
+    goLast = () => {
+        $("#showTab").load("/product/tabShow.wow", {
+            title: "리뷰",
+            prodNo: String(nowProdNo),
+            curPage:${paging.totalPageCount}
+        })
+
+    }
+    goBefore = () => {
+
+        $("#showTab").load("/product/tabShow.wow", {title: "리뷰", prodNo: String(nowProdNo), curPage: ${paging.firstPage - 1}})
+
+    }
+    goAfter = () => {
+        $("#showTab").load("/product/tabShow.wow", {title: "리뷰", prodNo: String(nowProdNo), curPage: ${paging.lastPage + 1}})
+
+    }
+    goPage = (number) => {
+        $("#showTab").load("/product/tabShow.wow", {title: "리뷰", prodNo: String(nowProdNo), curPage: number})
+
+    }
     $("#reviMainBox").on("click", 'button[name="deleteReview"]', function (e) {
         if (confirm("정말 삭제하시겠습니까?")) {
             const dataPack = $($(e.target).parents("div[name=reviewBox]"))
@@ -178,7 +250,7 @@
         })
     });
 
-    const closModal = () => {
+    closModal = () => {
         $("#id_review_edit_modal").modal('hide');
     }
 

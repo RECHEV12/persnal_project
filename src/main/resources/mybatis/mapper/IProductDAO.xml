@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.study.product.product.dao.IProductDAO">
+    <insert id="insertProduct" parameterType="com.study.product.product.vo.ProductVO">
+        INSERT INTO STD209.PRODUCTS
+        (PROD_NO, PROD_TITLE, PROD_CONTENT, PROD_TOTAL_SELL, PROD_PRICE, PROD_CATE_CODE, PROD_REG_DATE, PROD_DEL_YN,
+         PROD_USER_ID)
+        VALUES ( SEQ_PRODUCTS.NEXTVAL, #{prodTitle}, #{prodContent}, 0
+               , #{prodPrice}, #{prodCateCode}, SYSDATE
+               , 'N'
+               , #{prodUserId});
+    </insert>
     <select id="getProdListByKeyword" resultType="com.study.product.product.vo.ProductVO" parameterType="com.study.product.product.vo.ProductSearchVO">
         SELECT
         p.prod_no         , p.prod_title, p.prod_content,

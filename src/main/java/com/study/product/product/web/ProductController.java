@@ -2,6 +2,7 @@ package com.study.product.product.web;
 
 import com.study.attach.dao.IAttachDAO;
 import com.study.attach.vo.AttachVO;
+import com.study.common.vo.PagingVO;
 import com.study.product.option.service.IOptionService;
 import com.study.product.product.service.IProductService;
 import com.study.product.option.vo.OptionVO;
@@ -9,14 +10,14 @@ import com.study.product.product.vo.ProductSearchVO;
 import com.study.product.product.vo.ProductVO;
 import com.study.product.reviews.service.IReviewsService;
 import com.study.product.reviews.vo.ReviewsVO;
+import com.study.user.vo.UserVO;
 import org.apache.commons.io.FileUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -60,7 +62,7 @@ public class ProductController {
     }
 
     @RequestMapping("/product/productView.wow")
-    public String prodView(Model model, int prodNo,  HttpSession session) {
+    public String prodView(Model model, int prodNo, HttpSession session) {
         if (session.getAttribute("USER_INFO") == null) {
             return "redirect:/common/alert.wow?msg=users&url=/user/login.wow";
         }
@@ -118,18 +120,22 @@ public class ProductController {
     }
 
     @RequestMapping("/product/tabShow.wow")
-    public String tabShow(Model model, String title, String prodNo) {
+    public String tabShow(Model model, String title, String prodNo, @ModelAttribute("paging") PagingVO paging) {
         if (title.equals("상품정보")) {
             List<AttachVO> imgList = attachDAO.getAttaches("prodDetail", prodNo);
             model.addAttribute("imgList", imgList);
             return "product/prodImg";
         } else if (title.equals("리뷰")) {
-            List<ReviewsVO> reviewsList = reviewsService.getReviewsList(Integer.parseInt(prodNo));
+            paging.setTotalRowCount(reviewsService.getReviewCount(Integer.parseInt(prodNo)));
+            paging.pageSetting();
+
+            List<ReviewsVO> reviewsList = reviewsService.getReviewsList(paging,Integer.parseInt(prodNo));
             List<AttachVO> reviImgList = attachDAO.getAttachesForReviews("reviImg");
             List<OptionVO> optList = optionService.getOptList(Integer.parseInt(prodNo));
-            model.addAttribute("reviewsList",reviewsList);
-            model.addAttribute("reviImgList",reviImgList);
-            model.addAttribute("optList",optList);
+
+            model.addAttribute("reviewsList", reviewsList);
+            model.addAttribute("reviImgList", reviImgList);
+            model.addAttribute("optList", optList);
             return "product/prodReview";
         } else if (title.equals("문의")) {
 
@@ -139,5 +145,19 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/product/insertProduct.wow")
+    public String goInsertProduct() {
+        return "product/insertProduct";
+    }
+
+    @PostMapping("/product/insertProduct.wow")
+    public String doInsertProduct(ProductVO product, HttpSession session, @RequestParam("optFirst")String[] optFirstValues,   @RequestParam("optSecond")String[] optSecondValues) {
+//        UserVO userInfo = (UserVO) session.getAttribute("USER_INFO");
+//        product.setProdUserId(userInfo.getUserId());
+        System.out.println(Arrays.toString(optFirstValues));
+        int resultRow = productService.insertProduct(product);
+//        optionService.addOpt();
+        return "redirect:/common/alert.wow?msg=failedChangePass&url=/user/userPassChange.wow";
+    }
 
 }

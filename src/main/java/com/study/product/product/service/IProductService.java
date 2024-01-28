@@ -10,5 +10,6 @@ public interface IProductService {
     public List<ProductVO> getProdListByCategory(String category);
 
     public ProductVO getProduct(int prodNo);
+    public int insertProduct(ProductVO product);
 
 }

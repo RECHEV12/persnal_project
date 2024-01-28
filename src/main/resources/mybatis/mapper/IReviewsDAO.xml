@@ -11,7 +11,9 @@
     </update>
 
     <select id="getReviewsList" resultType="com.study.product.reviews.vo.ReviewsVO" parameterType="int">
-        SELECT revi.REVI_NO,
+        SELECT * FROM
+       (SELECT  a.*, rownum AS rnum
+           FROM(SELECT revi.REVI_NO,
                revi.OPT_NO,
                revi.BUY_NO,
                revi.REVI_CONTENT,
@@ -26,7 +28,8 @@
                  INNER JOIN users u
                             ON u.user_id = revi.revi_user_id
         WHERE revi.REVI_PARENT_NO = #{prodNo}
-        ORDER BY revi.REVI_NO DESC
+        ORDER BY revi.REVI_NO DESC) a)
+        where rnum between #{paging.firstRow} AND #{paging.lastRow}
     </select>
     <select id="getReviNumber" resultType="java.lang.Integer">
         SELECT REVI_NO
@@ -35,6 +38,13 @@
           AND REVI_PARENT_NO = #{parentNo}
           AND BUY_NO = #{buyNo}
           AND OPT_NO = #{optNo}
+    </select>
+    <select id="getReviewCount" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM REVIEWS revi
+                INNER JOIN users u
+                ON u.user_id = revi.revi_user_id
+        WHERE revi.REVI_PARENT_NO = #{prodNo}
     </select>
     <delete id="deleteReview" parameterType="int">
         DELETE

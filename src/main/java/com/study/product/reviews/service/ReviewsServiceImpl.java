@@ -3,6 +3,7 @@ package com.study.product.reviews.service;
 import com.study.attach.dao.IAttachDAO;
 import com.study.attach.vo.AttachVO;
 import com.study.common.util.StudyAttachUtils;
+import com.study.common.vo.PagingVO;
 import com.study.product.reviews.dao.IReviewsDAO;
 import com.study.product.reviews.vo.ReviewsVO;
 import org.springframework.stereotype.Service;
@@ -18,9 +19,10 @@ public class ReviewsServiceImpl implements IReviewsService {
     IReviewsDAO reviewsDAO;
 
 
+
     @Override
-    public List<ReviewsVO> getReviewsList(int prodNo) {
-        return reviewsDAO.getReviewsList(prodNo);
+    public List<ReviewsVO> getReviewsList(PagingVO paging, int prodNo) {
+        return reviewsDAO.getReviewsList(paging, prodNo);
     }
 
     @Override
@@ -44,5 +46,10 @@ public class ReviewsServiceImpl implements IReviewsService {
     @Override
     public int modifyReview(int reviNo, int reviStar, String reviContent) {
         return reviewsDAO.modifyReview(reviNo, reviStar, reviContent);
+    }
+
+    @Override
+    public int getReviewCount(int prodNo) {
+        return reviewsDAO.getReviewCount(prodNo);
     }
 }

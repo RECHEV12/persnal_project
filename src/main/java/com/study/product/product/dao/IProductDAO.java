@@ -12,5 +12,6 @@ public interface IProductDAO {
     public List<ProductVO> getProdListByKeyword(@Param("search") ProductSearchVO productSearch);
     public List<ProductVO> getProdListByCategory(String category);
     public ProductVO getProduct(int prodNo);
+    public int insertProduct(ProductVO product);
 
 }

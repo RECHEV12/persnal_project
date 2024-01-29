@@ -3,25 +3,49 @@
 <mapper namespace="com.study.product.ask.dao.IAskDAO">
     <insert id="insertAsk" parameterType="com.study.product.ask.vo.AskVO">
         INSERT INTO ASK
-        (ASK_NO, ASK_CONTENT, ASK_REG_DATE, ASK_IP, ASK_USER_ID, ASK_PARENT_NO)
-        VALUES(SEQ_ASK.NEXTVAL, #{askContent}, SYSDATE
-              , '111.11.11.1', #{askUserId}, #{askParentNo})
+            (ASK_NO, ASK_CONTENT, ASK_REG_DATE, ASK_IP, ASK_USER_ID, ASK_PARENT_NO)
+        VALUES ( SEQ_ASK.NEXTVAL, #{askContent}, SYSDATE
+               , '111.11.11.1', #{askUserId}, #{askParentNo})
     </insert>
+    <insert id="insertAskReply" parameterType="com.study.product.ask.vo.AskReplyVO">
+        INSERT INTO ASK_REPLY
+            (REPLY_CONTENT, REPLY_PARENT_NO, REPLY_NO)
+        VALUES (#{replyContent}, #{replyParentNo}, SEQ_REPLY.NEXTVAL)
+
+    </insert>
+    <delete id="deleteAsk" parameterType="int">
+        DELETE FROM ASK
+        WHERE ASK_NO=#{askNo}
+    </delete>
+
+    <delete id="deleteAskReplyByReplyNo" parameterType="int">
+        DELETE
+        FROM ASK_REPLY
+        WHERE REPLY_NO = #{askReplyNo}
+    </delete>
+    <delete id="deleteAskReplyByAskNo" parameterType="int">
+        DELETE
+        FROM ASK_REPLY
+        WHERE REPLY_PARENT_NO = #{askNo}
+    </delete>
     <select id="getAskList" resultType="com.study.product.ask.vo.AskVO" parameterType="int">
-        SELECT * FROM
-            (SELECT  a.*, rownum AS rnum
-             FROM(
-        SELECT a.ASK_NO, a.ASK_CONTENT, a.ASK_REG_DATE, a.ASK_MOD_DATE, a.ASK_IP, u.user_name
-        FROM ASK a
-        LEFT JOIN users u
-        ON u.user_id = a.ASK_USER_ID
-        WHERE a.ASK_PARENT_NO = #{parentNo}
-        ORDER BY ASK_NO DESC) a)
+        SELECT *
+        FROM (SELECT a.*, rownum AS rnum
+              FROM (SELECT a.ASK_NO, a.ASK_CONTENT, a.ASK_REG_DATE, a.ASK_MOD_DATE, a.ASK_IP, u.user_name, a.ask_user_id
+                    FROM ASK a
+                             LEFT JOIN users u
+                                       ON u.user_id = a.ASK_USER_ID
+                    WHERE a.ASK_PARENT_NO = #{parentNo}
+                    ORDER BY ASK_NO DESC) a)
         where rnum between #{paging.firstRow} AND #{paging.lastRow}
     </select>
     <select id="getAskCount" resultType="java.lang.Integer" parameterType="int">
         SELECT count(*)
         FROM ASK
         WHERE ASK_PARENT_NO = #{parentNo}
+    </select>
+    <select id="getAskReplyList" resultType="com.study.product.ask.vo.AskReplyVO">
+        SELECT REPLY_CONTENT, REPLY_PARENT_NO, REPLY_NO
+        FROM ASK_REPLY
     </select>
 </mapper>

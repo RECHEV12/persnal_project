@@ -11,7 +11,7 @@
 </head>
 <body>
 <%@include file="/WEB-INF/inc/top.jsp" %>
-<form action="/product/insertAsk.wow" method="post">
+<form action="/ask/insertAsk.wow" method="post">
     <label for="askContent">문의 내용</label>
     <textarea id="askContent" name="askContent"></textarea>
     <input type="hidden" name="askParentNo" value="${prodNo}">

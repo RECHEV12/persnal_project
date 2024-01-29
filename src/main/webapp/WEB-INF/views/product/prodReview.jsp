@@ -157,7 +157,7 @@
 </body>
 <script>
     goFirst = () => {
-        $("#showTab").load("/product/tabShow.wow", {title: "리뷰", prodNo: String(nowProdNo), curPage: 1})
+        $("#showTab").load("/product/tabShow.wow", {title: "리뷰", prodNo: String(nowProdNo), curPage: 1 })
     }
     goLast = () => {
         $("#showTab").load("/product/tabShow.wow", {

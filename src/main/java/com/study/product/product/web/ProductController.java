@@ -4,6 +4,7 @@ import com.study.attach.dao.IAttachDAO;
 import com.study.attach.vo.AttachVO;
 import com.study.common.vo.PagingVO;
 import com.study.product.ask.service.IAskService;
+import com.study.product.ask.vo.AskReplyVO;
 import com.study.product.ask.vo.AskVO;
 import com.study.product.option.service.IOptionService;
 import com.study.product.product.service.IProductService;
@@ -124,7 +125,7 @@ public class ProductController {
     }
 
     @RequestMapping("/product/tabShow.wow")
-    public String tabShow(Model model, String title, String prodNo, @ModelAttribute("paging") PagingVO paging) {
+    public String tabShow(Model model, String title, String prodNo, @ModelAttribute("paging") PagingVO paging,String prodUserId) {
         if (title.equals("상품정보")) {
             List<AttachVO> imgList = attachDAO.getAttaches("prodDetail", prodNo);
             model.addAttribute("imgList", imgList);
@@ -145,7 +146,10 @@ public class ProductController {
             paging.setTotalRowCount(askService.getAskCount(Integer.parseInt(prodNo)));
             paging.pageSetting();
             List<AskVO> askList = askService.getAskList(paging, Integer.parseInt(prodNo));
+            List<AskReplyVO> askReplyList = askService.getAskReplyList();
             model.addAttribute(askList);
+            model.addAttribute("prodUserId",prodUserId);
+            model.addAttribute("askReplyList",askReplyList);
             return "product/prodAsk";
         } else {
             return "";
@@ -166,22 +170,7 @@ public class ProductController {
 //        optionService.addOpt();
         return "redirect:/common/alert.wow?msg=failedChangePass&url=/user/userPassChange.wow";
     }
-    @GetMapping("/product/insertAsk.wow")
-    public String goInsertAsk(Model model, int prodNo) {
-        model.addAttribute("prodNo",prodNo);
-        return "product/insertAsk";
-    }
 
-    @PostMapping("/product/insertAsk.wow")
-    public String doInsertAsk(AskVO ask,HttpSession session) {
-        UserVO userInfo = (UserVO) session.getAttribute("USER_INFO");
-        ask.setAskUserId(userInfo.getUserId());
-        int resultRow = askService.insertAsk(ask);
-        if (resultRow==1){
-        return "redirect:/common/alert.wow?msg=success&url=/product/productView.wow?prodNo="+ask.getAskParentNo();
-        }else {
-        return "redirect:/common/alert.wow?msg=failed&url=/product/productView.wow?prodNo="+ask.getAskParentNo();
-        }
-    }
+
 
 }

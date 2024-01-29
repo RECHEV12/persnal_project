@@ -135,7 +135,7 @@ public class UserController {
     }
 
     @PostMapping("/user/login.wow")
-    public String loginChk(Model model, UserVO user, String rememberId, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+    public String loginChk(UserVO user, String rememberId, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         if (user.getUserId() != null) {
             UserVO user1 = userService.getUser(user.getUserId());
 

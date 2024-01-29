@@ -96,7 +96,7 @@
                 </div>
                 <div class="my-2">
                     배송비 : 무료배송
-                    <a href="/product/insertAsk.wow?prodNo=${product.prodNo}">문의하기</a>
+                    <a href="/ask/insertAsk.wow?prodNo=${product.prodNo}">문의하기</a>
                 </div>
                 <div class="my-2">
                     배송일 3일 이내
@@ -133,14 +133,12 @@
 <script>
 
 
-
-
     let thisOptCnt = 0;
     let nowProdNo = $("#priceDiv").data("prodNo");
     let nowOptNo = 0;
     let nowPrice = Number($("#price").text());
 
-        //탭 변경 = 클래스 이름 변경
+    //탭 변경 = 클래스 이름 변경
     const changeTab = (e) => {
         $("a[name=prodView] ").map((i, v) => {
             $(v).attr("class", "nav-link");
@@ -155,7 +153,12 @@
             if ($(v).attr("class") === "nav-link active") {
                 let nowTabTitle = $(v).text();
                 console.log(nowTabTitle)
-                $("#showTab").load("/product/tabShow.wow", {title: nowTabTitle, prodNo: String(nowProdNo), curPage:1})
+                $("#showTab").load("/product/tabShow.wow", {
+                    title: nowTabTitle,
+                    prodNo: String(nowProdNo),
+                    curPage: 1,
+                    prodUserId:'${product.prodUserId}'
+                })
             }
 
         })
@@ -347,6 +350,7 @@
 
 
     })
+
     function copyToClipboard() {
         let tempInput = document.createElement("input");
         tempInput.setAttribute("value", window.location.href);

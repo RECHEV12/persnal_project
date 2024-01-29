@@ -7,6 +7,9 @@ public class OptionVO {
     private int optStock     ;      /*옵션별 재고     */
     private int optProdNo    ;      /*옵션 해당 제품  */
 
+    public OptionVO() {
+    }
+
     @Override
     public String toString() {
         return "OptionVO{" +

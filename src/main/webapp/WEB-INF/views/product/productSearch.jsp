@@ -36,7 +36,6 @@
                             <p class="card-subtitle" style="color: #6c757d; font-size: 14px">${prod.prodUserName}</p>
                             <p class="card-title" style="font-size: 20px">${prod.prodTitle}</p>
                             <p>${prod.prodPrice}원</p>
-                            <p>5.0dd</p>
                         </div>
                     </div>
                 </a>

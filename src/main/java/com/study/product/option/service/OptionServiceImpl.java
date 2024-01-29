@@ -1,7 +1,7 @@
 package com.study.product.option.service;
 
+import com.study.common.vo.CodeVO;
 import com.study.product.option.dao.IOptionDAO;
-import com.study.product.option.service.IOptionService;
 import com.study.product.option.vo.OptionVO;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +20,16 @@ public class OptionServiceImpl implements IOptionService {
     @Override
     public OptionVO getOpt(int optNo) {
         return optionDAO.getOpt(optNo);
+    }
+
+    @Override
+    public void insertOpt(OptionVO option) {
+        optionDAO.insertOpt(option);
+    }
+
+    @Override
+    public List<CodeVO> getCodeList() {
+        return optionDAO.getCodeList();
     }
 
     @Override

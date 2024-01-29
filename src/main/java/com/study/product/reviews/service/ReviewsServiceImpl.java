@@ -25,6 +25,8 @@ public class ReviewsServiceImpl implements IReviewsService {
         return reviewsDAO.getReviewsList(paging, prodNo);
     }
 
+
+
     @Override
     public int deleteReview(int reviNo) {
         return reviewsDAO.deleteReview(reviNo);

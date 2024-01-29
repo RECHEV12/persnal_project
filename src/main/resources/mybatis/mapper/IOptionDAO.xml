@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.study.product.option.dao.IOptionDAO">
+    <insert id="insertOpt" parameterType="com.study.product.option.vo.OptionVO">
+        INSERT INTO PROD_OPTIONS
+            (OPT_NO, OPT_FIRST, OPT_SECOND, OPT_STOCK, OPT_PROD_NO)
+        VALUES(SEQ_OPTIONS.NEXTVAL, #{optFirst}, #{optSecond}, #{optStock}
+              , #{optProdNo})
+
+    </insert>
     <update id="addReviNo">
         UPDATE BUY_OPT
         SET REVI_NO= #{reviNo}
@@ -24,7 +31,7 @@
     </select>
     <select id="getOpt" resultType="com.study.product.option.vo.OptionVO" parameterType="int">
         SELECT OPT_NO, OPT_FIRST, OPT_SECOND, OPT_STOCK, OPT_PROD_NO
-        FROM OPTIONS
+        FROM PROD_OPTIONS
         WHERE OPT_NO = #{optNo}
     </select>
     <select id="getOptPrice" resultType="com.study.product.option.vo.OptionVO">
@@ -33,5 +40,9 @@
         WHERE OPT_PROD_NO = #{prodNo}
         AND OPT_FIRST = #{first}
         AND OPT_SECOND = #{second}
+    </select>
+    <select id="getCodeList" resultType="com.study.common.vo.CodeVO">
+        SELECT CATE_CODE, CATE_NAME, CATE_PARENT
+        FROM CATEGRORIES
     </select>
 </mapper>

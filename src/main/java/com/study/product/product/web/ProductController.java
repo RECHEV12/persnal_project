@@ -2,6 +2,8 @@ package com.study.product.product.web;
 
 import com.study.attach.dao.IAttachDAO;
 import com.study.attach.vo.AttachVO;
+import com.study.common.util.StudyAttachUtils;
+import com.study.common.vo.CodeVO;
 import com.study.common.vo.PagingVO;
 import com.study.product.ask.service.IAskService;
 import com.study.product.ask.vo.AskReplyVO;
@@ -21,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -47,6 +50,9 @@ public class ProductController {
     @Inject
     IAskService askService;
 
+    @Inject
+    StudyAttachUtils attachUtils;
+
     //키워드 검색
     @RequestMapping("/product/productSearch.wow")
     public String prodSearch(Model model, ProductSearchVO productSearch) {
@@ -72,7 +78,7 @@ public class ProductController {
             return "redirect:/common/alert.wow?msg=users&url=/user/login.wow";
         }
         ProductVO product = productService.getProduct(prodNo);
-        List<OptionVO> optList = getOptList(prodNo);
+        List<OptionVO> optList = optionService.getOptList(prodNo);
 
         List<String> optFirst = new ArrayList<>();
         List<String> optSecond = new ArrayList<>();
@@ -113,10 +119,6 @@ public class ProductController {
     }
 
 
-    private List<OptionVO> getOptList(int prodNo) {
-        return optionService.getOptList(prodNo);
-    }
-
     @RequestMapping("/prod/getProdPrice.wow")
     @ResponseBody
     public OptionVO getOptPrice(int prodNo, String opt_first, String opt_second) {
@@ -125,52 +127,95 @@ public class ProductController {
     }
 
     @RequestMapping("/product/tabShow.wow")
-    public String tabShow(Model model, String title, String prodNo, @ModelAttribute("paging") PagingVO paging,String prodUserId) {
+    public String tabShow(Model model, String title, String prodNo, @ModelAttribute("paging") PagingVO paging, String prodUserId) {
+
         if (title.equals("상품정보")) {
             List<AttachVO> imgList = attachDAO.getAttaches("prodDetail", prodNo);
             model.addAttribute("imgList", imgList);
             return "product/prodImg";
-        } else if (title.equals("리뷰")) {
+        }
+        if (title.equals("리뷰")) {
             paging.setTotalRowCount(reviewsService.getReviewCount(Integer.parseInt(prodNo)));
             paging.pageSetting();
-
-            List<ReviewsVO> reviewsList = reviewsService.getReviewsList(paging,Integer.parseInt(prodNo));
+            List<ReviewsVO> reviewsList = reviewsService.getReviewsList(paging, Integer.parseInt(prodNo));
             List<AttachVO> reviImgList = attachDAO.getAttachesForReviews("reviImg");
             List<OptionVO> optList = optionService.getOptList(Integer.parseInt(prodNo));
+            double totalStar = 0;
+            for (ReviewsVO reviews : reviewsList) {
+                totalStar += reviews.getReviStar();
+            }
+            totalStar = totalStar / reviewsList.size();
+
+            model.addAttribute("totalStar", totalStar);
+
 
             model.addAttribute("reviewsList", reviewsList);
             model.addAttribute("reviImgList", reviImgList);
             model.addAttribute("optList", optList);
             return "product/prodReview";
-        } else if (title.equals("문의")) {
+        }
+        if (title.equals("문의")) {
             paging.setTotalRowCount(askService.getAskCount(Integer.parseInt(prodNo)));
             paging.pageSetting();
             List<AskVO> askList = askService.getAskList(paging, Integer.parseInt(prodNo));
             List<AskReplyVO> askReplyList = askService.getAskReplyList();
             model.addAttribute(askList);
-            model.addAttribute("prodUserId",prodUserId);
-            model.addAttribute("askReplyList",askReplyList);
+            model.addAttribute("prodUserId", prodUserId);
+            model.addAttribute("askReplyList", askReplyList);
             return "product/prodAsk";
-        } else {
-            return "";
         }
+        return "";
     }
 
     @GetMapping("/product/insertProduct.wow")
-    public String goInsertProduct() {
+    public String goInsertProduct(Model model) {
+        List<CodeVO> codeList = optionService.getCodeList();
+        model.addAttribute("codeList", codeList);
         return "product/insertProduct";
     }
 
     @PostMapping("/product/insertProduct.wow")
-    public String doInsertProduct(ProductVO product, HttpSession session, @RequestParam("optFirst")String[] optFirstValues,   @RequestParam("optSecond")String[] optSecondValues) {
-//        UserVO userInfo = (UserVO) session.getAttribute("USER_INFO");
-//        product.setProdUserId(userInfo.getUserId());
-        System.out.println(Arrays.toString(optFirstValues));
+    public String doInsertProduct(ProductVO product, HttpSession session,
+                                  @RequestParam("optFirst") String[] optFirstValues, @RequestParam("optSecond") String[] optSecondValues,
+                                  @RequestParam("optStock") int[] optStockValues, MultipartFile boFiles, MultipartFile[] detailImg) {
+
+        UserVO userInfo = (UserVO) session.getAttribute("USER_INFO");
+        product.setProdUserId(userInfo.getUserId());
         int resultRow = productService.insertProduct(product);
-//        optionService.addOpt();
-        return "redirect:/common/alert.wow?msg=failedChangePass&url=/user/userPassChange.wow";
+        if (resultRow == 1) {
+            int prodNo = productService.getProdNo(product.getProdUserId(), product.getProdTitle());
+            for (int i = 0; i < optFirstValues.length; i++) {
+                String first = optFirstValues[i];
+                String second = optSecondValues[i];
+                int stock = optStockValues[i];
+                OptionVO option = new OptionVO();
+                option.setOptFirst(first);
+                option.setOptSecond(second);
+                option.setOptStock(stock);
+                option.setOptProdNo(prodNo);
+                optionService.insertOpt(option);
+            }
+            try {
+                AttachVO attach = attachUtils.getAttachByMultipart(boFiles, "prodImg", "prod");
+                List<AttachVO> attachListByMultiparts = attachUtils.getAttachListByMultiparts(detailImg, "prodDetail", "prod");
+
+                productService.insertAttachList(attachListByMultiparts,String.valueOf(prodNo));
+                attach.setAtchParentNo(String.valueOf(prodNo));
+                attachDAO.insertAttach(attach);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            return "redirect:/common/alert.wow?msg=success&url=/user/myPage.wow";
+        }
+        return "redirect:/common/alert.wow?msg=failed&url=/user/myPage.wow";
     }
 
-
+    @GetMapping("/product/productEdit.wow")
+    public String goInsertProduct(Model model,int prodNo) {
+        ProductVO product = productService.getProduct(prodNo);
+        model.addAttribute("product", product);
+        return "product/productEdit";
+    }
 
 }

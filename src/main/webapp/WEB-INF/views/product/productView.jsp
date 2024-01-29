@@ -102,6 +102,12 @@
                     배송일 3일 이내
                 </div>
                 <div>
+                    <c:if test="${product.prodUserId==nowUserId}">
+                        <a href="/product/productEdit.wow?prodNo=${product.prodNo}">
+
+                        <button class="btn btn-dark">제품 정보 수정</button>
+                        </a>
+                    </c:if>
                 </div>
             </div>
         </div>
@@ -157,7 +163,7 @@
                     title: nowTabTitle,
                     prodNo: String(nowProdNo),
                     curPage: 1,
-                    prodUserId:'${product.prodUserId}'
+                    prodUserId: '${product.prodUserId}'
                 })
             }
 
@@ -213,12 +219,21 @@
                         opt_second: $("#secondOpt").val()
                     },
                     success: function (product) {
-                        console.log(product)
-                        thisOptCnt = product.optStock;
-                        nowOptNo = product.optNo;
-                        $("#stock").text(product.optStock);
-                        $("#prodCnt").val(Number($("#stock").text()) === 0 ? 0 : 1);
-                        changePrice();
+                        console.log(product == "")
+                        if (product != "") {
+                            thisOptCnt = product.optStock;
+                            nowOptNo = product.optNo;
+                            $("#stock").text(product.optStock);
+                            $("#prodCnt").val(Number($("#stock").text()) === 0 ? 0 : 1);
+                            changePrice();
+                        } else {
+                            $("#showFirstOpt").text("옵션을 선택해주세요")
+                            $("#showSecondOpt").text("옵션을 선택해주세요")
+                            $("#secondOpt").val("blank")
+                            $("#firstOpt").val("blank")
+                            $("#priceDiv").attr("hidden", "hidden")
+                            alert("없는 상품입니다")
+                        }
                     }
                 })
 

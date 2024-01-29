@@ -10,6 +10,7 @@ import java.util.List;
 public interface IReviewsService {
     public List<ReviewsVO> getReviewsList(@Param("paging") PagingVO paging, @Param("prodNo") int prodNo);
 
+
     public int deleteReview(int reviNo);
 
     public int insertReview(ReviewsVO review, String userId, int buyNo, int optNo);

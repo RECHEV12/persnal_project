@@ -46,6 +46,25 @@
                 ON u.user_id = revi.revi_user_id
         WHERE revi.REVI_PARENT_NO = #{prodNo}
     </select>
+    <select id="getReviewsListNotPaging" resultType="com.study.product.reviews.vo.ReviewsVO" parameterType="int">
+        (SELECT revi.REVI_NO,
+                revi.OPT_NO,
+                revi.BUY_NO,
+                revi.REVI_CONTENT,
+                revi.REVI_STAR,
+                revi.REVI_REG_DATE,
+                revi.REVI_MOD_DATE,
+                revi.REVI_IP,
+                revi.REVI_USER_ID,
+                revi.REVI_PARENT_NO,
+                u.USER_NAME AS USER_NAME
+         FROM REVIEWS revi
+                  INNER JOIN users u
+                             ON u.user_id = revi.revi_user_id
+         WHERE revi.REVI_PARENT_NO = #{prodNo}
+         ORDER BY revi.REVI_NO DESC
+
+    </select>
     <delete id="deleteReview" parameterType="int">
         DELETE
         FROM REVIEWS

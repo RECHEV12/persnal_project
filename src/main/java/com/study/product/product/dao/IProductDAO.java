@@ -13,5 +13,6 @@ public interface IProductDAO {
     public List<ProductVO> getProdListByCategory(String category);
     public ProductVO getProduct(int prodNo);
     public int insertProduct(ProductVO product);
+    public int getProdNo(@Param("userId") String prodUserId, @Param("title") String prodTitle);
 
 }

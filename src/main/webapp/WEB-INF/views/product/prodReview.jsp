@@ -16,7 +16,7 @@
     request.setAttribute("nowUserId", nowUser.getUserId());
 %>
 <div id="reviMainBox">
-
+    <span>총별점 : ${totalStar=='NaN'?'리뷰없음':totalStar}</span>
 
     <c:forEach items="${reviewsList}" var="review">
         <div class="border border-success-subtle " name="reviewBox" data-revi-no="${review.reviNo}"
@@ -157,7 +157,7 @@
 </body>
 <script>
     goFirst = () => {
-        $("#showTab").load("/product/tabShow.wow", {title: "리뷰", prodNo: String(nowProdNo), curPage: 1 })
+        $("#showTab").load("/product/tabShow.wow", {title: "리뷰", prodNo: String(nowProdNo), curPage: 1})
     }
     goLast = () => {
         $("#showTab").load("/product/tabShow.wow", {
@@ -169,17 +169,26 @@
     }
     goBefore = () => {
 
-        $("#showTab").load("/product/tabShow.wow", {title: "리뷰", prodNo: String(nowProdNo), curPage: ${paging.firstPage - 1}})
+        $("#showTab").load("/product/tabShow.wow", {
+            title: "리뷰",
+            prodNo: String(nowProdNo),
+            curPage: ${paging.firstPage - 1}
+        })
 
     }
     goAfter = () => {
-        $("#showTab").load("/product/tabShow.wow", {title: "리뷰", prodNo: String(nowProdNo), curPage: ${paging.lastPage + 1}})
+        $("#showTab").load("/product/tabShow.wow", {
+            title: "리뷰",
+            prodNo: String(nowProdNo),
+            curPage: ${paging.lastPage + 1}
+        })
 
     }
     goPage = (number) => {
         $("#showTab").load("/product/tabShow.wow", {title: "리뷰", prodNo: String(nowProdNo), curPage: number})
 
     }
+
     $("#reviMainBox").on("click", 'button[name="deleteReview"]', function (e) {
         if (confirm("정말 삭제하시겠습니까?")) {
             const dataPack = $($(e.target).parents("div[name=reviewBox]"))

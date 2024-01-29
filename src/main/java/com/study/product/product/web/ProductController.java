@@ -159,5 +159,19 @@ public class ProductController {
 //        optionService.addOpt();
         return "redirect:/common/alert.wow?msg=failedChangePass&url=/user/userPassChange.wow";
     }
+    @GetMapping("/product/insertAsk.wow")
+    public String goInsertAsk() {
+        return "product/insertAsk";
+    }
+
+    @PostMapping("/product/insertAsk.wow")
+    public String doInsertAsk(ProductVO product, HttpSession session, @RequestParam("optFirst")String[] optFirstValues,   @RequestParam("optSecond")String[] optSecondValues) {
+//        UserVO userInfo = (UserVO) session.getAttribute("USER_INFO");
+//        product.setProdUserId(userInfo.getUserId());
+        System.out.println(Arrays.toString(optFirstValues));
+        int resultRow = productService.insertProduct(product);
+//        optionService.addOpt();
+        return "redirect:/common/alert.wow?msg=failedChangePass&url=/user/userPassChange.wow";
+    }
 
 }

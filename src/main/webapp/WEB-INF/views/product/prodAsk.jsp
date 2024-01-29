@@ -1,16 +1,29 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: pc12
-  Date: 24. 1. 26.
-  Time: 오후 2:55
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.study.user.vo.UserVO" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%request.setCharacterEncoding("UTF-8");%>
 <html>
 <head>
-    <title>Title</title>
+    <%@ page language="java" contentType="text/html; charset=UTF-8"
+             pageEncoding="UTF-8" %>
+    <%@include file="/WEB-INF/inc/header.jsp" %>
+    <title>
+
+    </title>
 </head>
 <body>
-문의
+<div id="askContainer">
+    <c:forEach items="">
+
+    </c:forEach>
+</div>
 </body>
 </html>
+<script>
+    const blankChk = ()=>{
+        if($("#askContainer").children().length==0){
+            let div = "<div>문의가 없습니다</div>"
+            $("#askContainer").append(div)
+        }
+    }
+    blankChk()
+</script>

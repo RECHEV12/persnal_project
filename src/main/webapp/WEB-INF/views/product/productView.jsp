@@ -96,6 +96,7 @@
                 </div>
                 <div class="my-2">
                     배송비 : 무료배송
+                    <a href="/product/insertAsk.wow">문의하기</a>
                 </div>
                 <div class="my-2">
                     배송일 3일 이내

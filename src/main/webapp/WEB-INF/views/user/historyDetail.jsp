@@ -11,8 +11,6 @@
 </head>
 <body>
 <%@include file="/WEB-INF/inc/top.jsp" %>
-${history}
-${optList}
 
 <div>
 
@@ -33,7 +31,7 @@ ${optList}
                             <div class="d-flex">
                                 <div>
                                     <img class="img-thumbnail"
-                                         src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=${cart.prodImgFileName}&filePath=${cart.prodImgFilePath}"
+                                         src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=${opt.prodImgFileName}&filePath=${opt.prodImgFilePath}"
                                          style="height: 100%;"/>
                                 </div>
                                 <div>

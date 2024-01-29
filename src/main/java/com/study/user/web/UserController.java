@@ -5,6 +5,9 @@ import com.study.attach.vo.AttachVO;
 import com.study.product.cart.vo.CartVO;
 import com.study.product.history.service.IHistoryService;
 import com.study.product.history.vo.HistoryVO;
+import com.study.product.product.service.IProductService;
+import com.study.product.product.vo.ProductSearchVO;
+import com.study.product.product.vo.ProductVO;
 import com.study.user.service.IUserService;
 import com.study.user.vo.UserVO;
 import org.springframework.stereotype.Controller;
@@ -31,6 +34,8 @@ public class UserController {
     IAttachDAO attachDAO;
     @Inject
     IHistoryService historyService;
+    @Inject
+    IProductService productService;
 
     @RequestMapping("/user/userProfile.wow")
     public String goProfile(Model model, String userId) {
@@ -49,11 +54,18 @@ public class UserController {
 
     @RequestMapping("/user/myPage.wow")
     public String goMyPage(Model model, HttpSession session) {
-        String userId = userIdFromSession(session);
+        UserVO userInfo = (UserVO) session.getAttribute("USER_INFO");
+        String userId = userInfo.getUserId();
+
         List<HistoryVO> historyList = historyService.getHistoryList(userId);
         List<CartVO> optList = historyService.getHistoryOptes(userId);
+        ProductSearchVO ProductSearchVO = new ProductSearchVO("user", userInfo.getUserName());
+        List<ProductVO> myProdList = productService.getProdListByKeyword(ProductSearchVO);
         model.addAttribute("historyList", historyList);
         model.addAttribute("optList", optList);
+        model.addAttribute("myProdList", myProdList);
+
+
         return "user/myPage";
     }
 

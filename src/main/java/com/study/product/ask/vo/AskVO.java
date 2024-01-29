@@ -8,6 +8,7 @@ public class AskVO {
     private String askIp;
     private String askUserId;
     private int askParentNo;
+    private String userName;
 
     @Override
     public String toString() {
@@ -19,6 +20,7 @@ public class AskVO {
                 ", askIp='" + askIp + '\'' +
                 ", askUserId='" + askUserId + '\'' +
                 ", askParentNo=" + askParentNo +
+                ", userName='" + userName + '\'' +
                 '}';
     }
 
@@ -76,5 +78,13 @@ public class AskVO {
 
     public void setAskParentNo(int askParentNo) {
         this.askParentNo = askParentNo;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

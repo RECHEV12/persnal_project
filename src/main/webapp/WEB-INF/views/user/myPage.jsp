@@ -46,7 +46,24 @@
         </a>
 
     </c:forEach>
-    <a href="/product/insertProduct.wow">asdf</a>
+    <a href="/product/insertProduct.wow">제품등록</a>
+    <div>
+        <p>내 제품</p>
+        <c:forEach items="${myProdList}" var="my">
+            <div class="d-flex">
+                <div>
+                    <img class="img-thumbnail"
+                         src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=${my.prodImgFileName}&filePath=${my.prodImgFilePath}"
+                         style="height: 100%;"/>
+                </div>
+                <div>
+                    <span>제품명 : ${my.prodTitle} || </span>
+                    <span>가격 : ${my.prodPrice}</span>
+                </div>
+            </div>
+
+        </c:forEach>
+    </div>
 </div>
 
 <%@include file="/WEB-INF/inc/footer.jsp" %>

@@ -28,7 +28,7 @@
         WHERE 1=1
         <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(search.searchWord)">
             <if test='search.searchType  == "name"'>AND p.prod_title Like '%' || #{search.searchWord} || '%'</if>
-            <if test='search.searchType  == "user"'>AND u.user_name Like '%' || #{search.searchWord} || '%'</if>
+            <if test='search.searchType  == "user"'>AND u.user_name = #{search.searchWord}</if>
         </if>
         ORDER BY p.prod_no ASC
     </select>

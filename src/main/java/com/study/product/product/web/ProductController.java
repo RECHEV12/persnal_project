@@ -3,6 +3,8 @@ package com.study.product.product.web;
 import com.study.attach.dao.IAttachDAO;
 import com.study.attach.vo.AttachVO;
 import com.study.common.vo.PagingVO;
+import com.study.product.ask.service.IAskService;
+import com.study.product.ask.vo.AskVO;
 import com.study.product.option.service.IOptionService;
 import com.study.product.product.service.IProductService;
 import com.study.product.option.vo.OptionVO;
@@ -41,6 +43,8 @@ public class ProductController {
 
     @Inject
     IAttachDAO attachDAO;
+    @Inject
+    IAskService askService;
 
     //키워드 검색
     @RequestMapping("/product/productSearch.wow")
@@ -138,7 +142,10 @@ public class ProductController {
             model.addAttribute("optList", optList);
             return "product/prodReview";
         } else if (title.equals("문의")) {
-
+            paging.setTotalRowCount(askService.getAskCount(Integer.parseInt(prodNo)));
+            paging.pageSetting();
+            List<AskVO> askList = askService.getAskList(paging, Integer.parseInt(prodNo));
+            model.addAttribute(askList);
             return "product/prodAsk";
         } else {
             return "";
@@ -160,18 +167,21 @@ public class ProductController {
         return "redirect:/common/alert.wow?msg=failedChangePass&url=/user/userPassChange.wow";
     }
     @GetMapping("/product/insertAsk.wow")
-    public String goInsertAsk() {
+    public String goInsertAsk(Model model, int prodNo) {
+        model.addAttribute("prodNo",prodNo);
         return "product/insertAsk";
     }
 
     @PostMapping("/product/insertAsk.wow")
-    public String doInsertAsk(ProductVO product, HttpSession session, @RequestParam("optFirst")String[] optFirstValues,   @RequestParam("optSecond")String[] optSecondValues) {
-//        UserVO userInfo = (UserVO) session.getAttribute("USER_INFO");
-//        product.setProdUserId(userInfo.getUserId());
-        System.out.println(Arrays.toString(optFirstValues));
-        int resultRow = productService.insertProduct(product);
-//        optionService.addOpt();
-        return "redirect:/common/alert.wow?msg=failedChangePass&url=/user/userPassChange.wow";
+    public String doInsertAsk(AskVO ask,HttpSession session) {
+        UserVO userInfo = (UserVO) session.getAttribute("USER_INFO");
+        ask.setAskUserId(userInfo.getUserId());
+        int resultRow = askService.insertAsk(ask);
+        if (resultRow==1){
+        return "redirect:/common/alert.wow?msg=success&url=/product/productView.wow?prodNo="+ask.getAskParentNo();
+        }else {
+        return "redirect:/common/alert.wow?msg=failed&url=/product/productView.wow?prodNo="+ask.getAskParentNo();
+        }
     }
 
 }

@@ -36,8 +36,6 @@
                                 <tbody>
                                 <c:forEach items="${optList}" var="opt">
                                     <c:if test="${history.buyNo == opt.userBuyNo}">
-
-
                                         <tr>
                                             <td>
                                                 <div class="d-flex mb-2">

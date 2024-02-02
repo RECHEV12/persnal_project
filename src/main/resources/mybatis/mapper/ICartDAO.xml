@@ -106,8 +106,8 @@
     </select>
     <insert id="insertBuyOpt">
         INSERT INTO BUY_OPT
-            (USER_BUY_NO, OPT_NO, NOW_CNT, PROD_NO)
-        VALUES (#{buyNo}, #{optNo}, #{nowCnt}, #{prodNo})
+            (USER_BUY_NO, OPT_NO, NOW_CNT, PROD_NO, USER_ID)
+        VALUES (#{buyNo}, #{optNo}, #{nowCnt}, #{prodNo}, #{userId})
     </insert>
     <update id="decreaseItemStock">
         UPDATE PROD_OPTIONS

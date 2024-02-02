@@ -6,6 +6,7 @@ public class OptionVO {
     private String optSecond ;      /*2번 옵션        */
     private int optStock     ;      /*옵션별 재고     */
     private int optProdNo    ;      /*옵션 해당 제품  */
+    private String optDelYn;
 
     public OptionVO() {
     }
@@ -18,7 +19,16 @@ public class OptionVO {
                 ", optSecond='" + optSecond + '\'' +
                 ", optStock=" + optStock +
                 ", optProdNo=" + optProdNo +
+                ", optDelYn='" + optDelYn + '\'' +
                 '}';
+    }
+
+    public String getOptDelYn() {
+        return optDelYn;
+    }
+
+    public void setOptDelYn(String optDelYn) {
+        this.optDelYn = optDelYn;
     }
 
     public int getOptNo() {

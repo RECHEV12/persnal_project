@@ -60,6 +60,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public int userModify(UserVO user, MultipartFile boFiles, HttpSession session) {
+        System.out.println("=====>>suerse" + user);
         UserVO userInfo = (UserVO) session.getAttribute("USER_INFO");
         UserVO userFromDB = userDAO.getUser(userInfo.getUserId());
         if (userFromDB.getUserPass().equals(user.getUserPass())) {

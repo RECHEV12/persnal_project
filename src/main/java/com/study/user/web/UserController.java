@@ -15,7 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.inject.Inject;
@@ -56,11 +55,19 @@ public class UserController {
     public String goMyPage(Model model, HttpSession session) {
         UserVO userInfo = (UserVO) session.getAttribute("USER_INFO");
         String userId = userInfo.getUserId();
+        UserVO user = userService.getUser(userId);
+        List<AttachVO> attaches = attachDAO.getAttaches("userIcon", userId);
+        if (!attaches.isEmpty()) {
 
+            user.setUserAttach(attaches.get(0));
+        } else {
+            user.setUserAttach(attachDAO.getAttach(1));
+        }
         List<HistoryVO> historyList = historyService.getHistoryList(userId);
         List<CartVO> optList = historyService.getHistoryOptes(userId);
         ProductSearchVO ProductSearchVO = new ProductSearchVO("user", userInfo.getUserName());
         List<ProductVO> myProdList = productService.getProdListByKeyword(ProductSearchVO);
+        model.addAttribute("user", user);
         model.addAttribute("historyList", historyList);
         model.addAttribute("optList", optList);
         model.addAttribute("myProdList", myProdList);

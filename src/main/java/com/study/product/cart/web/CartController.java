@@ -114,7 +114,7 @@ public class CartController {
             int num = cartService.getBuyItemNo(user, userWant, totalPrice);
             // 그 옵션마다 저장 후, 재고 수정, 카트에서 지우기
             for (CartVO cart : cartList) {
-                cartService.insertBuyOpt(num, cart.getOptNo(), cart.getNowCnt(), cart.getProdNo());
+                cartService.insertBuyOpt(num, cart.getOptNo(), cart.getNowCnt(), cart.getProdNo(), user.getUserId());
                 cartService.decreaseItemStock(cart.getOptNo(), cart.getNowCnt(), cart.getProdNo());
                 cartService.deleteCartItem(user.getUserId(), cart.getOptNo());
             }

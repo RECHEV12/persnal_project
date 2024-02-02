@@ -15,8 +15,52 @@
     UserVO nowUser = (UserVO) session.getAttribute("USER_INFO");
     request.setAttribute("nowUserId", nowUser.getUserId());
 %>
-<div id="reviMainBox">
-    <span>총별점 : ${totalStar=='NaN'?'리뷰없음':totalStar}</span>
+
+<div class="container">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-12 col-lg-10">
+            <div class=" text-dark" id="reviMainBox">
+                <h4 class="mb-0">리뷰</h4>
+                <p class="fw-light mb-4 pb-2">총별점 : ${totalStar=='NaN'?'리뷰없음':totalStar}</p>
+//TODO 리뷰 포이치 조지기
+                <c:forEach items="${reviewsList}" var="review">
+                    <div class="card-body p-4" name="reviewBox" data-revi-no="${review.reviNo}"
+                         data-parent="${review.reviParentNo}" data-buy-no="${review.buyNo}" data-opt-no="${review.optNo}">
+                        <div class="d-flex flex-start">
+                            <img class="rounded-circle shadow-1-strong me-3"
+                                 src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(26).webp" alt="avatar"
+                                 width="60"
+                                 height="60"/>
+                            <div>
+                                <h6 class="fw-bold mb-1">Lara Stewart</h6>
+                                <div class="d-flex align-items-center mb-3">
+                                    <p class="mb-0">
+                                        March 15, 2021
+                                        <span class="badge bg-success">Approved</span>
+                                    </p>
+                                    <a href="#!" class="link-muted"><i class="fas fa-pencil-alt ms-2"></i></a>
+                                    <a href="#!" class="text-success"><i class="fas fa-redo-alt ms-2"></i></a>
+                                    <a href="#!" class="link-danger"><i class="fas fa-heart ms-2"></i></a>
+                                </div>
+                                <p class="mb-0">
+                                    Contrary to popular belief, Lorem Ipsum is not simply random text. It
+                                    has roots in a piece of classical Latin literature from 45 BC, making it
+                                    over 2000 years old. Richard McClintock, a Latin professor at
+                                    Hampden-Sydney College in Virginia, looked up one of the more obscure
+                                    Latin words, consectetur, from a Lorem Ipsum passage, and going through
+                                    the cites.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="my-0" style="height: 1px;"/>
+                </c:forEach>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="reviMaisnBox">
+
 
     <c:forEach items="${reviewsList}" var="review">
         <div class="border border-success-subtle " name="reviewBox" data-revi-no="${review.reviNo}"
@@ -62,7 +106,7 @@
                                 <div class="modal-content">
                                     <form name="frm_reply_edit"
                                           method="post"
-                                          onclick="return false;">
+                                    >
                                         <div class="modal-header">
                                             <button type="button" class="btn-close" data-dismiss="modal"
                                                     onclick="closModal()"></button>
@@ -71,15 +115,20 @@
                                         <div class="modal-body">
                                             <div>
                                                 <label for="star1">1</label>
-                                                <input type="radio" name="reviStar" id="star1" value="1">
+                                                <input type="radio" name="reviStar" id="star1"
+                                                       value="1" ${review.reviStar==1?'checked':''}>
                                                 <label for="star2">2</label>
-                                                <input type="radio" name="reviStar" id="star2" value="2">
+                                                <input type="radio" name="reviStar" id="star2"
+                                                       value="2"${review.reviStar==2?'checked':''}>
                                                 <label for="star3">3</label>
-                                                <input type="radio" name="reviStar" id="star3" value="3">
+                                                <input type="radio" name="reviStar" id="star3"
+                                                       value="3"${review.reviStar==3?'checked':''}>
                                                 <label for="star4">4</label>
-                                                <input type="radio" name="reviStar" id="star4" value="4">
+                                                <input type="radio" name="reviStar" id="star4"
+                                                       value="4"${review.reviStar==4?'checked':''}>
                                                 <label for="star5">5</label>
-                                                <input type="radio" name="reviStar" id="star5" value="5" checked>
+                                                <input type="radio" name="reviStar" id="star5"
+                                                       value="5" ${review.reviStar==5?'checked':''}>
                                             </div>
                                             <textarea rows="3" name="reviContent"
                                                       class="form-control">${review.reviContent}</textarea>
@@ -97,6 +146,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <button class="btn btn-secondary" name="modifyReview">수정</button>
                         <button type="button" class="btn btn-danger" name="deleteReview">삭제</button>
                     </c:if>
@@ -154,6 +204,8 @@
         </ul>
     </nav>
 </div>
+
+
 </body>
 <script>
     goFirst = () => {
@@ -186,7 +238,6 @@
     }
     goPage = (number) => {
         $("#showTab").load("/product/tabShow.wow", {title: "리뷰", prodNo: String(nowProdNo), curPage: number})
-
     }
 
     $("#reviMainBox").on("click", 'button[name="deleteReview"]', function (e) {
@@ -262,6 +313,7 @@
     closModal = () => {
         $("#id_review_edit_modal").modal('hide');
     }
+
 
 </script>
 </html>

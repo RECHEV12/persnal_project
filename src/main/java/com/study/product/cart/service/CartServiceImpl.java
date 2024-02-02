@@ -64,8 +64,8 @@ public class CartServiceImpl implements ICartService{
     }
 
     @Override
-    public void insertBuyOpt(int buyNo, int optNo, int nowCnt, int prodNo) {
-        cartDAO.insertBuyOpt(buyNo,optNo,nowCnt,prodNo);
+    public void insertBuyOpt(int buyNo, int optNo, int nowCnt, int prodNo, String userId) {
+        cartDAO.insertBuyOpt(buyNo,optNo,nowCnt,prodNo, userId);
     }
 
     @Override

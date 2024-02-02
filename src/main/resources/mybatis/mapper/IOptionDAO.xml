@@ -25,21 +25,23 @@
           AND  OPT_NO = #{optNo}
     </update>
     <select id="getOptList" resultType="com.study.product.option.vo.OptionVO" parameterType="int">
-        SELECT OPT_NO, OPT_FIRST, OPT_SECOND, OPT_STOCK, OPT_PROD_NO
+        SELECT OPT_NO, OPT_FIRST, OPT_SECOND, OPT_STOCK, OPT_PROD_NO,OPT_DEL_YN
         FROM PROD_OPTIONS
         WHERE OPT_PROD_NO = #{prodNo}
+        AND OPT_DEL_YN = 'N'
     </select>
     <select id="getOpt" resultType="com.study.product.option.vo.OptionVO" parameterType="int">
-        SELECT OPT_NO, OPT_FIRST, OPT_SECOND, OPT_STOCK, OPT_PROD_NO
+        SELECT OPT_NO, OPT_FIRST, OPT_SECOND, OPT_STOCK, OPT_PROD_NO,OPT_DEL_YN
         FROM PROD_OPTIONS
         WHERE OPT_NO = #{optNo}
     </select>
     <select id="getOptPrice" resultType="com.study.product.option.vo.OptionVO">
-        SELECT OPT_NO, OPT_FIRST, OPT_SECOND, OPT_STOCK, OPT_PROD_NO
+        SELECT OPT_NO, OPT_FIRST, OPT_SECOND, OPT_STOCK, OPT_PROD_NO,OPT_DEL_YN
         FROM PROD_OPTIONS
         WHERE OPT_PROD_NO = #{prodNo}
         AND OPT_FIRST = #{first}
         AND OPT_SECOND = #{second}
+          AND OPT_DEL_YN = 'N'
     </select>
     <select id="getCodeList" resultType="com.study.common.vo.CodeVO">
         SELECT CATE_CODE, CATE_NAME, CATE_PARENT

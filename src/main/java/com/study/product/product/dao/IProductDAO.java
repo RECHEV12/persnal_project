@@ -14,5 +14,7 @@ public interface IProductDAO {
     public ProductVO getProduct(int prodNo);
     public int insertProduct(ProductVO product);
     public int getProdNo(@Param("userId") String prodUserId, @Param("title") String prodTitle);
+    public int modifyProduct(ProductVO product);
+    public int deleteProduct(int prodNo);
 
 }

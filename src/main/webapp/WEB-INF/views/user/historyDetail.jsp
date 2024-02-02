@@ -13,7 +13,8 @@
 <%@include file="/WEB-INF/inc/top.jsp" %>
 
 <div>
-
+${history}
+    ${optList}
 
     <div class="border border-dark-subtle">
         <div>주문자 성함 : <span>${history.buyUserName}</span></div>

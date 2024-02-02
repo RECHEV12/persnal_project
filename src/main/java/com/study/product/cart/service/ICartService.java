@@ -17,6 +17,6 @@ public interface ICartService {
     public int getCartListCount(String userId);
     public int doBuyItem(UserVO user, String userWant, String totalPrice);
     public int getBuyItemNo(UserVO user, String userWant, String totalPrice);
-    public void insertBuyOpt(int buyNo,int optNo, int nowCnt, int prodNo);
+    public void insertBuyOpt(int buyNo,int optNo, int nowCnt, int prodNo, String userId);
     public void decreaseItemStock(int optNo, int nowCnt, int prodNo);
 }

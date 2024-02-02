@@ -36,8 +36,8 @@
                     </div>
 
                     <div class="col-6" style="text-align: right">
-                        <button type="button" onclick="copyToClipboard()" data-page="${page}">
-                            Click me to copy current page URL
+                        <button type="button" class="btn btn-link" onclick="copyToClipboard()" data-page="${page}">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-1.785 -1.785 50 50" height="50" width="50"><g id="share-link--share-transmit"><path id="Vector" stroke="#000" stroke-linecap="round" stroke-linejoin="round" d="M9.120178571428573 30.676964285714288C13.241305371428574 30.676964285714288 16.58214285714286 27.336126800000002 16.58214285714286 23.215000000000003S13.241305371428574 15.753035714285716 9.120178571428573 15.753035714285716 1.6582142857142859 19.0938732 1.6582142857142859 23.215000000000003s3.340837485714286 7.461964285714286 7.461964285714286 7.461964285714286Z" stroke-width="3.57"></path><path id="Vector_2" stroke="#000" stroke-linecap="round" stroke-linejoin="round" d="M37.30982142857143 44.77178571428572c4.120994142857143 0 7.461964285714286 -3.3409701428571434 7.461964285714286 -7.461964285714286S41.430815571428575 29.847857142857144 37.30982142857143 29.847857142857144 29.847857142857144 33.18882728571429 29.847857142857144 37.30982142857143s3.3409701428571434 7.461964285714286 7.461964285714286 7.461964285714286Z" stroke-width="3.57"></path><path id="Vector_3" stroke="#000" stroke-linecap="round" stroke-linejoin="round" d="M37.30982142857143 16.58214285714286c4.120994142857143 0 7.461964285714286 -3.340837485714286 7.461964285714286 -7.461964285714286S41.430815571428575 1.6582142857142859 37.30982142857143 1.6582142857142859 29.847857142857144 4.999051771428572 29.847857142857144 9.120178571428573 33.18882728571429 16.58214285714286 37.30982142857143 16.58214285714286Z" stroke-width="3.57"></path><path id="Vector_4" stroke="#000" stroke-linecap="round" stroke-linejoin="round" d="m15.786233164285717 19.89857142857143 14.857600000000003 -7.461964285714286" stroke-width="3.57"></path><path id="Vector_5" stroke="#000" stroke-linecap="round" stroke-linejoin="round" d="m15.786233164285717 26.531428571428574 14.857600000000003 7.461964285714286" stroke-width="3.57"></path></g></svg>
                         </button>
                     </div>
                 </div>
@@ -295,18 +295,18 @@
                             data: cartItem,
                             success: function (resultRow) {
                                 console.log("카트에 추가", resultRow)
+                                $("#showFirstOpt").text("옵션을 선택해주세요")
+                                $("#showSecondOpt").text("옵션을 선택해주세요")
+                                $("#secondOpt").val("blank")
+                                $("#firstOpt").val("blank")
+                                $("#priceDiv").attr("hidden", "hidden")
+                                cartNum();
+                                alert("장바구니에 상품이 추가되었습니다.")
                             },
                             error: (err) => {
                                 console.log(err)
                             }
                         })
-                        $("#showFirstOpt").text("옵션을 선택해주세요")
-                        $("#showSecondOpt").text("옵션을 선택해주세요")
-                        $("#secondOpt").val("blank")
-                        $("#firstOpt").val("blank")
-                        $("#priceDiv").attr("hidden", "hidden")
-                        cartNum();
-                        alert("장바구니에 상품이 추가되었습니다.")
                     } else {
                         console.log("추가실패")
                         alert("동일 상품이 장바구니에 있습니다.")

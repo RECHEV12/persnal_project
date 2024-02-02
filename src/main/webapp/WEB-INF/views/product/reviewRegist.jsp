@@ -11,48 +11,58 @@
 </head>
 <body>
 <%@include file="/WEB-INF/inc/top.jsp" %>
-${cart}
 
-<form method="post" action="/product/reviewRegist.wow" enctype="multipart/form-data">
-    <div>
-        <div class="d-flex">
-            <div>
-                <img class="img-thumbnail"
-                     src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=${cart.prodImgFileName}&filePath=${cart.prodImgFilePath}"
-                     style="height: 100%;"/>
+<form method="post" action="/product/reviewRegist.wow" enctype="multipart/form-data" class="mt-6">
+    <div class="card mt-5 w-75 m-auto">
+        <div class="row pt-3">
+            <div class="col-2">
+                <input type="hidden" name="buyNo" value="${cart.userBuyNo}">
+                <input type="hidden" name="reviParentNo" value="${cart.prodNo}">
+                <input type="hidden" name="optNo" value="${cart.optNo}">
+                <img src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=${cart.prodImgFileName}&filePath=${cart.prodImgFilePath}">
             </div>
-            <div>
-                <span>제품명 : ${cart.prodTitle} || </span>
-                <span>옵션 1 : ${cart.optFirst} / </span>
-                <span>옵션 2 : ${cart.optSecond} || </span>
-                <span>구매수량 : ${cart.nowCnt}  || </span>
+            <div class="col-10">
+                <div class="comment-box ml-2">
+                    <h4>리뷰 작성</h4>
+                    <div class="rating">
+                        <input type="radio" name="reviStar" value="1" id="1"><label for="1">☆1</label>
+                        <input type="radio" name="reviStar" value="2" id="2"><label for="2">☆2</label>
+                        <input type="radio" name="reviStar" value="3" id="3"><label for="3">☆3</label>
+                        <input type="radio" name="reviStar" value="4" id="4"><label for="4">☆4</label>
+                        <input type="radio" name="reviStar" value="5" id="5"><label for="5">☆5</label>
+                    </div>
+                    <div>
+                        <div>제품명 : ${cart.prodTitle}  </div>
+                        <div>
+                            <span>옵션 1 : ${cart.optFirst} / </span>
+                            <span>옵션 2 : ${cart.optSecond}</span>
+                        </div>
+                        <div>구매수량 : ${cart.nowCnt}개</div>
+                    </div>
+                    <div class="comment-area">
+                        <textarea class="form-control" name="reviContent" placeholder="내용을 적어주세요" rows="4"></textarea>
+                    </div>
+                    <div class="comment-btns mt-2">
+                        <div class="row">
+                            <div class="col-12 d-flex">
 
+                                <input type="file" name="boFiles" value="">
+                                <input type="file" name="boFiles" value="">
+                                <input type="file" name="boFiles" value="">
+                                <input type="file" name="boFiles" value="">
+                                <input type="file" name="boFiles" value="">
+
+                            </div>
+                            <div class="col-12 text-end">
+                                <div class="pull-right">
+                                    <button type="submit" class="btn btn-outline-success">등록</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div>
-            별점
-            <label for="star1">1</label>*
-            <input type="radio" name="reviStar" id="star1" value="1">
-            <label for="star2">2</label>
-            <input type="radio" name="reviStar" id="star2" value="2">
-            <label for="star3">3</label>
-            <input type="radio" name="reviStar" id="star3" value="3">
-            <label for="star4">4</label>
-            <input type="radio" name="reviStar" id="star4" value="4">
-            <label for="star5">5</label>
-            <input type="radio" name="reviStar" id="star5" value="5">
-            <input type="hidden" name="buyNo" value="${cart.userBuyNo}">
-            <input type="hidden" name="reviParentNo" value="${cart.prodNo}">
-            <input type="hidden" name="optNo" value="${cart.optNo}">
-        </div>
-        사진첨부(5개까지 가능)
-        <input type="file" name="boFiles" value="">
-        <input type="file" name="boFiles" value="">
-        <input type="file" name="boFiles" value="">
-        <input type="file" name="boFiles" value="">
-        <input type="file" name="boFiles" value="">
-        <textarea name="reviContent"></textarea>
-        <button type="submit">등록</button>
     </div>
 </form>
 <%@include file="/WEB-INF/inc/footer.jsp" %>

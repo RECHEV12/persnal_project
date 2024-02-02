@@ -6,7 +6,7 @@
         SELECT u.USER_ID,
                u.USER_NAME,
                u.USER_PASS,
-               u.USER_BIRTH,
+               TO_CHAR(u.USER_BIRTH, 'YYYY-MM-DD')AS USER_BIRTH,
                u.USER_GENDER,
                u.USER_HP,
                u.USER_EMAIL,

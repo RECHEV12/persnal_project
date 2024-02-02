@@ -53,5 +53,15 @@ public class ProductServiceImpl implements IProductService {
         }
     }
 
+    @Override
+    public int modifyProduct(ProductVO product) {
+        return productDAO.modifyProduct(product);
+    }
+
+    @Override
+    public int deleteProduct(int prodNo) {
+        return productDAO.deleteProduct(prodNo);
+    }
+
 
 }

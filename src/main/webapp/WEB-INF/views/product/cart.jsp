@@ -15,108 +15,128 @@
     UserVO userInfo = (UserVO) session.getAttribute("USER_INFO");
     request.setAttribute("loginUserId", userInfo.getUserId());
 %>
-<div>
-    <div id="cartBox">
-        <c:forEach items="${cartList}" var="cart">
-            <div
-                    name="cartItem"
-                    data-opt="${cart.optNo}"
-                    class="m-auto border border-dark-subtle"
-                    style="display: flex; justify-content:center ;align-items: center; width: 80%; height: 15%"
-            >
 
-                <div style="width: 3%;">
-                    <input type="checkbox" name="itemCheck" ${cart.cartCheck=='Y'?'checked':''}>
-                </div>
-                <div class="mx-3" style="width: 15%;  text-align: center">
-                    <img class="img-thumbnail"
-                         src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=${cart.prodImgFileName}&filePath=${cart.prodImgFilePath}"
-                         style="height: 100%;"/>
-                </div>
-                <div class="mx-3" style="width: 50%">
-                    <div>
-                            ${cart.prodTitle}
-                    </div>
-                    <div>
-                        <span>옵션1 : ${cart.optFirst} / </span>
-                        <span>옵션2 : ${cart.optSecond}</span>
-                    </div>
-                    <div>
-            <span>
-             재고 :
-            </span>
-                        <span name="stock">${cart.optStock}</span>
-                    </div>
-                </div>
-                <div class="d-flex" style="align-items: center; width: 20%" name="btnParent">
-                    <div class="text-center col-6">
-                        <div class=" ">
-                            수량
-                        </div>
-                        <div class="d-flex border-bottom">
-                            <button type="button" name="downBtn" class="btn btn-success"> <</button>
-                            <span><input name="prodCnt" type="number" style="width: 70%; "
-                                         value="${cart.nowCnt}"></span>
-                            <button type="button" name="upBtn" class="btn btn-success"> ></button>
-                        </div>
+<div class="container py-5">
+    <div class="row d-flex justify-content-center align-items-center">
+        <div class="col-12">
+            <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+                <div class="card-body p-0">
+                    <div class="row g-0">
                         <div class="">
-                            가격
+                            <div class="p-5" id="cartBox">
+                                <div class="d-flex justify-content-between align-items-center mb-5">
+                                    <h1 class="fw-bold mb-0 text-black">장바구니</h1>
+                                    <h6 class="mb-0 text-muted" id="cartTotalCnt"></h6>
+                                </div>
+                                <hr class="my-4">
+                                <c:forEach items="${cartList}" var="cart">
+                                    <div name="cartItem"
+                                         data-opt="${cart.optNo}"
+                                         class="row mb-4 d-flex justify-content-between align-items-center">
+                                        <div style="width: 3%;">
+                                            <input type="checkbox"
+                                                   name="itemCheck" ${cart.cartCheck=='Y'?'checked':''}>
+                                        </div>
+                                        <div class="col-md-2 col-lg-2 col-xl-2">
+                                            <img
+                                                    src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=${cart.prodImgFileName}&filePath=${cart.prodImgFilePath}"
+                                                    class="img-fluid rounded-3">
+                                        </div>
+                                        <div class="col-md-3 col-lg-3 col-xl-3">
+                                            <h6 class="text-muted"> ${cart.prodTitle}</h6>
+                                            <h6 class="text-black mb-0"><span>옵션1 : ${cart.optFirst} / </span>
+                                                <span>옵션2 : ${cart.optSecond}</span></h6>
+                                            <h6 class="text-black mb-0">재고 : ${cart.optStock}</h6>
+                                        </div>
+                                        <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                            <button type="button" name="downBtn" class="btn btn-success"> <
+                                            </button>
+
+                                            <input name="prodCnt" value="${cart.nowCnt}" type="number"
+                                                   class="form-control form-control-sm"/>
+
+                                            <button type="button" name="upBtn" class="btn btn-success" data-stock="${cart.optStock}"> >
+                                            </button>
+                                        </div>
+                                        <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1" name="prodPrice"
+                                             data-price="${cart.prodPrice}">${cart.nowCnt * cart.prodPrice}
+                                        </div>
+                                        <div class="text-end">
+                                            <button type="button" class="btn btn-danger" name="deleteItem">삭제
+                                            </button>
+                                        </div>
+                                        <hr class="my-4">
+                                    </div>
+                                </c:forEach>
+                                <div class="pt-5">
+                                    <h6 class="mb-0"><a href="/product/productSearch.wow" class="text-body"><i
+                                            class="fas fa-long-arrow-alt-left me-2"></i>Back to shop</a></h6>
+                                </div>
+                                <div class="p-5">
+
+
+                                    <hr class="my-4">
+                                    <div class="d-flex justify-content-between mb-5">
+                                        <h5 class="text-uppercase">Total price</h5>
+                                        <h5><span id="totalPrice"></span></h5>
+                                    </div>
+                                    <a href="/product/buyItem.wow?userId=${loginUserId}">
+                                        <button type="button" class="btn btn-success btn-success btn-lg"
+                                                data-mdb-ripple-color="green">구매하기
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                        <div name="prodPrice" data-price="${cart.prodPrice}">${cart.nowCnt * cart.prodPrice}</div>
-                    </div>
-                    <div class=" text-center col-6">
-                        <button type="button" class="btn btn-danger" name="deleteItem">삭제</button>
+
                     </div>
                 </div>
             </div>
-        </c:forEach>
-
+        </div>
     </div>
-    <div>
-        <span> 가격 : </span><span id="totalPrice"></span>
-    </div>
-
-    <a href="/product/buyItem.wow?userId=${loginUserId}">
-        <button type="submit" class="btn btn-success">구매하기</button>
-    </a>
 </div>
+
 
 <%@include file="/WEB-INF/inc/footer.jsp" %>
 <%@include file="/WEB-INF/inc/script.jsp" %>
 </body>
 <script>
-    let cartEmpty = ${cartList.size()};
+
     // 삭제버튼에 기능 추가
+
     $(document).ready(() => {
         $("#cartBox").on("click", 'button[name="deleteItem"]', function (e) {
-            console.log("Delete button clicked");
-            const parent = $($($(e.target).parent()).parent()).parent();
-
+            const parent = $($(e.target).closest("div[name=cartItem]"));
+            console.log(parent.data("opt"))
             $.ajax({
                 url: "/cart/deleteCartItem",
-                data: {userId: "${loginUserId}", optNo: $(parent).data("opt")},
+                data: {userId: "${loginUserId}", optNo: parent.data("opt")},
                 success: function (resultRow) {
                     console.log("삭제", resultRow)
                     alert("장바구니에서 삭제되었습니다.")
                 }
             })
             cartNum();
-            $(parent).remove();
+            setTotalItemCnt();
+            parent.remove();
+            sumPrice()
 
-            cartEmpty--;
-            addEmptyDiv();
         });
     });
+     const setTotalItemCnt = ()=>{
+         let userId = $("#getUserTag").data("userId") || ""
+         $.ajax({
+             url:"/cart/cartCount",
+             data:{userId : userId},
+             success:function (result){
+                 console.log(result)
+                 $("#cartTotalCnt").text(result + " items");
 
-    // 비어있을 경우 빈 화면 보여주기
-    const addEmptyDiv = () => {
-        if (cartEmpty === 0) {
-            let div = "<div name='noCartItem'>현재 아이템이 없습니다</div>"
-            $("#cartBox").append(div);
-        }
+             }
+         })
+
     }
-    addEmptyDiv();
-
+setTotalItemCnt();
 
     $(document).ready(() => {
         $("#cartBox").on("click", 'input[name="itemCheck"]', function (e) {
@@ -125,7 +145,6 @@
             if ($(e.target).prop('checked')) {
                 console.log("체크")
                 checked = "Y"
-
             } else {
                 checked = "N"
             }
@@ -152,9 +171,9 @@
     const sumPrice = () => {
         let sum = 0;
         $("input[name=itemCheck]").map((i, v) => {
+            console.log("parent", )
             if ($(v).prop('checked')) {
-                let parent = $($(v).parent()).parent()
-                let checkPrice = $($(parent).find("div[name=prodPrice]")).text()
+                let checkPrice = $($($(v).parents("div[name=cartItem]")).find("div[name=prodPrice]")).text()
                 sum += Number(checkPrice);
             }
         })
@@ -170,7 +189,6 @@
             const optNo = $($(e.target).parents("div[name=cartItem]")).data("opt");
             const nowCnt = Number(numberInput.val());
             if (nowCnt !== 1) {
-
                 numberInput.val(nowCnt - 1)
                 changePrice(e, numberInput.val());
                 sumPrice();
@@ -205,11 +223,11 @@
         $("#cartBox").on("click", 'button[name=upBtn]', function (e) {
             e.preventDefault();
             const numberInput = $($($(e.target).parent()).find("input"))
-            const stockSpan = $($($(e.target).parents("div[name=cartItem]")).find("span[name=stock]"))
             const optNo = $($(e.target).parents("div[name=cartItem]")).data("opt");
-            const thisOptCnt = Number(stockSpan.text())
             const nowCnt = Number(numberInput.val());
-            if (!(thisOptCnt <= nowCnt)) {
+            const stock = $(e.target).data("stock")
+
+            if (!(stock <= nowCnt)) {
                 numberInput.val(nowCnt + 1)
                 changePrice(e, numberInput.val());
                 sumPrice();

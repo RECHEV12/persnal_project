@@ -16,23 +16,15 @@ import com.study.product.product.vo.ProductVO;
 import com.study.product.reviews.service.IReviewsService;
 import com.study.product.reviews.vo.ReviewsVO;
 import com.study.user.vo.UserVO;
-import org.apache.commons.io.FileUtils;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -147,8 +139,6 @@ public class ProductController {
             totalStar = totalStar / reviewsList.size();
 
             model.addAttribute("totalStar", totalStar);
-
-
             model.addAttribute("reviewsList", reviewsList);
             model.addAttribute("reviImgList", reviImgList);
             model.addAttribute("optList", optList);
@@ -198,8 +188,7 @@ public class ProductController {
             try {
                 AttachVO attach = attachUtils.getAttachByMultipart(boFiles, "prodImg", "prod");
                 List<AttachVO> attachListByMultiparts = attachUtils.getAttachListByMultiparts(detailImg, "prodDetail", "prod");
-
-                productService.insertAttachList(attachListByMultiparts,String.valueOf(prodNo));
+                productService.insertAttachList(attachListByMultiparts, String.valueOf(prodNo));
                 attach.setAtchParentNo(String.valueOf(prodNo));
                 attachDAO.insertAttach(attach);
             } catch (IOException e) {
@@ -212,10 +201,61 @@ public class ProductController {
     }
 
     @GetMapping("/product/productEdit.wow")
-    public String goInsertProduct(Model model,int prodNo) {
+    public String goProductEdit(Model model, int prodNo) {
         ProductVO product = productService.getProduct(prodNo);
+        List<CodeVO> codeList = optionService.getCodeList();
+        List<AttachVO> imgList = attachDAO.getAttaches("prodDetail", String.valueOf(prodNo));
+        List<OptionVO> optList = optionService.getOptList(prodNo);
+        model.addAttribute("imgList", imgList);
+        model.addAttribute("codeList", codeList);
         model.addAttribute("product", product);
+        model.addAttribute("optList", optList);
         return "product/productEdit";
+    }
+
+    @PostMapping("/product/productEdit.wow")
+    public String doProductEdit(ProductVO product, MultipartFile boFiles, MultipartFile[] detailImg, int[] delAtchNos) {
+        int resultRow = productService.modifyProduct(product);
+        if (resultRow == 1) {
+            if (!boFiles.isEmpty()) {
+                try {
+                    List<AttachVO> attaches = attachDAO.getAttaches("prodImg", String.valueOf(product.getProdNo()));
+                    int[] arr = new int[1];
+                    arr[0] = attaches.get(0).getAtchNo();
+                    attachDAO.deleteAtches(arr);
+
+                    AttachVO attach = attachUtils.getAttachByMultipart(boFiles, "prodImg", "prod");
+                    attach.setAtchParentNo(String.valueOf(product.getProdNo()));
+                    attachDAO.insertAttach(attach);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            for(MultipartFile m : detailImg){
+             if (!m.isEmpty()){
+                 try {
+                     AttachVO attach = attachUtils.getAttachByMultipart(m, "prodDetail", "prod");
+                     attach.setAtchParentNo(String.valueOf(product.getProdNo()));
+                     attachDAO.insertAttach(attach);
+                 } catch (IOException e) {
+                     throw new RuntimeException(e);
+                 }
+             }
+            }
+            if (delAtchNos != null) attachDAO.deleteAtches(delAtchNos);
+            return "redirect:/common/alert.wow?msg=success&url=/user/myPage.wow";
+        }
+        return "redirect:/common/alert.wow?msg=failed&url=/user/myPage.wow";
+
+    }
+    @RequestMapping("/product/productDelete.wow")
+    public String deleteProduct(int prodNo){
+        int resultRow = productService.deleteProduct(prodNo);
+        if (resultRow==1){
+            return "redirect:/common/alert.wow?msg=success&url=/user/myPage.wow";
+        }else {
+            return "redirect:/common/alert.wow?msg=failed&url=/user/myPage.wow";
+        }
     }
 
 }

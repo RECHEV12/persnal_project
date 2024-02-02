@@ -12,12 +12,33 @@
 <body>
 <%@include file="/WEB-INF/inc/top.jsp" %>
 <form action="/ask/insertAsk.wow" method="post">
-    <label for="askContent">문의 내용</label>
-    <textarea id="askContent" name="askContent"></textarea>
-    <input type="hidden" name="askParentNo" value="${prodNo}">
-<button type="submit">
-    제출
-</button>
+    <div class="card mt-5 w-75 m-auto">
+        <div class="row pt-3">
+                <input type="hidden" name="askParentNo" value="${product.prodNo}">
+            <div class="col-10 m-auto">
+                <div class="comment-box ml-2">
+                    <h4>문의하기</h4>
+                    <div>
+                        <div>제품명 : ${product.prodTitle}</div>
+                    </div>
+                    <div class="comment-area">
+                        <textarea class="form-control" name="askContent" id="askContent" placeholder="내용을 적어주세요" rows="4"></textarea>
+                    </div>
+                    <div class="comment-btns mt-2">
+                        <div class="row">
+
+                            <div class="col-12 text-end">
+                                <div class="pull-right">
+                                    <button type="submit" class="btn btn-outline-success">등록</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </form>
 
 <%@include file="/WEB-INF/inc/footer.jsp" %>

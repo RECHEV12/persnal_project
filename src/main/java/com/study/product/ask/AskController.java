@@ -3,6 +3,8 @@ package com.study.product.ask;
 import com.study.product.ask.service.IAskService;
 import com.study.product.ask.vo.AskReplyVO;
 import com.study.product.ask.vo.AskVO;
+import com.study.product.product.service.IProductService;
+import com.study.product.product.vo.ProductVO;
 import com.study.user.vo.UserVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,10 +20,12 @@ import javax.servlet.http.HttpSession;
 public class AskController {
     @Inject
     IAskService askService;
-
+@Inject
+    IProductService productService;
     @GetMapping("/ask/insertAsk.wow")
     public String goInsertAsk(Model model, int prodNo) {
-        model.addAttribute("prodNo", prodNo);
+        ProductVO product = productService.getProduct(prodNo);
+        model.addAttribute("product", product);
         return "product/insertAsk";
     }
 

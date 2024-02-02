@@ -15,3 +15,4 @@ public interface IAttachDAO {
     public AttachVO getAttachByUserId(String atchParentNo);
     public int deleteAtches(@Param("delAtchNos") int[] delAtchNos);
 }
+

@@ -17,4 +17,7 @@ public interface IProductService {
 
     public void insertAttachList(List<AttachVO> list,String ParentNo);
 
+    public int modifyProduct(ProductVO product);
+    public int deleteProduct(int prodNo);
+
 }

@@ -10,6 +10,17 @@
                , 'N'
                , #{prodUserId})
     </insert>
+    <update id="modifyProduct" parameterType="com.study.product.product.vo.ProductVO">
+        UPDATE STD209.PRODUCTS
+        SET PROD_TITLE=#{prodTitle}, PROD_CONTENT=#{prodContent}
+          , PROD_PRICE=#{prodPrice}, PROD_CATE_CODE=#{prodCateCode}
+        WHERE PROD_NO=#{prodNo}
+    </update>
+    <update id="deleteProduct">
+        UPDATE STD209.PRODUCTS
+        SET PROD_DEL_YN = 'Y'
+        WHERE PROD_NO=#{prodNo}
+    </update>
     <select id="getProdListByKeyword" resultType="com.study.product.product.vo.ProductVO" parameterType="com.study.product.product.vo.ProductSearchVO">
         SELECT
         p.prod_no         , p.prod_title, p.prod_content,
@@ -21,7 +32,6 @@
         products p
         LEFT JOIN users u
         ON p.prod_user_id=u.user_id
-        AND p.prod_del_yn = 'N'
         LEFT JOIN ATTACH atch
         ON p.prod_no=atch.ATCH_PARENT_NO
         AND atch.ATCH_CATEGORY = 'prodImg'
@@ -30,6 +40,7 @@
             <if test='search.searchType  == "name"'>AND p.prod_title Like '%' || #{search.searchWord} || '%'</if>
             <if test='search.searchType  == "user"'>AND u.user_name = #{search.searchWord}</if>
         </if>
+        AND p.prod_del_yn = 'N'
         ORDER BY p.prod_no ASC
     </select>
 
@@ -44,7 +55,7 @@
         products p
         LEFT JOIN users u
         ON p.prod_user_id=u.user_id
-        AND p.prod_del_yn = 'N'
+
         LEFT JOIN ATTACH atch
         ON p.prod_no=atch.ATCH_PARENT_NO
         AND atch.ATCH_CATEGORY = 'prodImg'
@@ -53,6 +64,7 @@
             <if test='category  == "fassion"'>AND prod_cate_code Like '%' || 'CL' || '%'</if>
             <if test='category  == "food"'>AND prod_cate_code Like '%' || 'FD' || '%'</if>
         </if>
+        AND p.prod_del_yn = 'N'
         ORDER BY p.prod_no ASC
     </select>
     <select id="getProduct" resultType="com.study.product.product.vo.ProductVO" parameterType="int">

@@ -13,55 +13,121 @@
 <%@include file="/WEB-INF/inc/top.jsp" %>
 
 <div>
-${history}
-    ${optList}
+    <div class="container-fluid">
+        <div class="container">
+            <!-- Title -->
+            <div class="d-flex justify-content-between align-items-center py-3">
+                <h2 class="h5 mb-0"><a href="#" class="text-muted"></a> 주문번호 #${history.buyNo}</h2>
+            </div>
 
-    <div class="border border-dark-subtle">
-        <div>주문자 성함 : <span>${history.buyUserName}</span></div>
-        <div>주문시간 : <span>${history.buyDate}</span></div>
-        <div>요구사항 : <span>${history.userWant}</span></div>
-        <div>우편번호 : <span>${history.userZip}</span></div>
-        <div>주소 : <span>${history.userAdd1}</span></div>
-        <div>상세주소 : <span>${history.userAdd2}</span></div>
-        <div>
-            <c:forEach items="${optList}" var="opt">
-                <c:if test="${history.buyNo == opt.userBuyNo}">
-                    <div>
-
-                        <a href="/product/productView.wow?prodNo=${opt.prodNo}">
-                            <div class="d-flex">
+            <!-- Main content -->
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Details -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="mb-3 d-flex justify-content-between">
                                 <div>
-                                    <img class="img-thumbnail"
-                                         src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=${opt.prodImgFileName}&filePath=${opt.prodImgFilePath}"
-                                         style="height: 100%;"/>
-                                </div>
-                                <div>
-                                    <span>제품명 : ${opt.prodTitle} || </span>
-                                    <span>옵션 1 : ${opt.optFirst} / </span>
-                                    <span>옵션 2 : ${opt.optSecond} || </span>
-                                    <span>구매수량 : ${opt.nowCnt}  || </span>
-                                    <span>상품 당 총 가격 : ${opt.nowCnt * opt.prodPrice}</span>
+                                    <span class="me-3">${history.buyDate}</span>
+                                    <span class="badge rounded-pill bg-info">당일배송</span>
                                 </div>
                             </div>
-                        </a>
-                        <div>
-                            <c:if test="${opt.reviNo==0}">
-                                <a href="/product/reviewRegist.wow?optNo=${opt.optNo}&buyNo=${history.buyNo}">
-                                    <button>
-                                        리뷰 작성
-                                    </button>
-                                </a>
-                            </c:if>
-                            <c:if test="${opt.reviNo!=0}">
-                                리뷰를 이미 작성했습니다.
-                            </c:if>
+                            <table class="table table-borderless">
+                                <tbody>
+                                <c:forEach items="${optList}" var="opt">
+                                    <c:if test="${history.buyNo == opt.userBuyNo}">
+
+
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex mb-2">
+                                                    <div class="flex-shrink-0">
+                                                        <img
+                                                                src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=${opt.prodImgFileName}&filePath=${opt.prodImgFilePath}"
+                                                                alt=""
+                                                                width="100" class="img-fluid">
+                                                    </div>
+                                                    <div class="flex-lg-grow-1 ms-3">
+                                                        <h6 class="small mb-0"><a
+                                                                href="/product/productView.wow?prodNo=${opt.prodNo}"
+                                                                class="text-reset">
+                                                                ${opt.prodTitle}
+                                                        </a></h6>
+                                                        <span class="small"> ${opt.optFirst} / ${opt.optSecond}</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td> 갯수 : ${opt.nowCnt}</td>
+                                            <td class="text-end"> ${opt.nowCnt * opt.prodPrice}원</td>
+                                        </tr>
+                                    </c:if>
+                                </c:forEach>
+                                </tbody>
+                                <tfoot>
+                                <tr class="fw-bold">
+                                    <td colspan="2">TOTAL</td>
+                                    <td class="text-end">${history.totalPrice}원</td>
+                                </tr>
+                                </tfoot>
+                            </table>
                         </div>
                     </div>
-                </c:if>
-            </c:forEach>
+                    <!-- Payment -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <h3 class="h6">주소</h3>
+                                    ${history.userZip}<br>
+                                    ${history.userAdd1}<br>
+                                    ${history.userAdd2}<br>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h3 class="h6">정보</h3>
+                                    <address>
+                                        <strong>${history.buyUserName}</strong><br>
+                                        전화번호 : ${history.userHp}
+                                    </address>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <!-- Customer Notes -->
+                    <div class="card mb-4 h-50">
+                        <div class="card-body">
+                            <h3 class="h6">주문 요구사항</h3>
+                            <p>${history.userWant}</p>
+                        </div>
+                    </div>
+                    <div class="card mb-4 h-25">
+                        <!-- Shipping information -->
+                        <div class="card-body">
+                            <h3 class="h6">리뷰 작성</h3>
+                            <span>
+                                <c:if test="${opt.reviNo==0}">
+                                <a href="/product/reviewRegist.wow?optNo=${opt.optNo}&buyNo=${history.buyNo}">
+                                    <button class="btn btn-outline-secondary">
+                                        리뷰 작성하러 가기
+                                    </button>
+                                </a>
+                                </c:if>
+                                  <c:if test="${opt.reviNo!=0}">
+                                    <p>
+                                     리뷰를 이미 작성했습니다.
+                                    </p>
+                                  </c:if>
+                            </span>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div>가격 : <span>${history.totalPrice}</span></div>
     </div>
+
 
 
 </div>

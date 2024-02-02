@@ -22,189 +22,145 @@
             <div class=" text-dark" id="reviMainBox">
                 <h4 class="mb-0">리뷰</h4>
                 <p class="fw-light mb-4 pb-2">총별점 : ${totalStar=='NaN'?'리뷰없음':totalStar}</p>
-//TODO 리뷰 포이치 조지기
+<%--                <p class="fw-light mb-4 pb-2">리뷰 개수 : ${reviewsList.size()}</p>--%>
                 <c:forEach items="${reviewsList}" var="review">
                     <div class="card-body p-4" name="reviewBox" data-revi-no="${review.reviNo}"
-                         data-parent="${review.reviParentNo}" data-buy-no="${review.buyNo}" data-opt-no="${review.optNo}">
-                        <div class="d-flex flex-start">
+                         data-parent="${review.reviParentNo}" data-buy-no="${review.buyNo}"
+                         data-opt-no="${review.optNo}" data-content="${review.reviContent}"
+                         data-star="${review.reviStar}">
+                        <div class="d-flex flex-start" name="top">
                             <img class="rounded-circle shadow-1-strong me-3"
-                                 src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(26).webp" alt="avatar"
+                                 src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=${reviImg.atchFileName}&filePath=${reviImg.atchPath}"
+                                 alt="avatar"
                                  width="60"
                                  height="60"/>
                             <div>
-                                <h6 class="fw-bold mb-1">Lara Stewart</h6>
+                                <h6 class="fw-bold mb-1"> ${review.userName}</h6>
                                 <div class="d-flex align-items-center mb-3">
                                     <p class="mb-0">
-                                        March 15, 2021
-                                        <span class="badge bg-success">Approved</span>
+                                            ${review.reviRegDate}
+                                        <span class="badge bg-warning">별점 : <span name="stars">${review.reviStar}</span></span>
+                                        <c:forEach items="${optList}" var="opt">
+                                            <c:if test="${review.optNo == opt.optNo}">
+                                            <span class="badge bg-success">
+                                                ${opt.optFirst} / ${opt.optSecond}</span>
+                                            </c:if>
+                                        </c:forEach>
                                     </p>
-                                    <a href="#!" class="link-muted"><i class="fas fa-pencil-alt ms-2"></i></a>
-                                    <a href="#!" class="text-success"><i class="fas fa-redo-alt ms-2"></i></a>
-                                    <a href="#!" class="link-danger"><i class="fas fa-heart ms-2"></i></a>
                                 </div>
                                 <p class="mb-0">
-                                    Contrary to popular belief, Lorem Ipsum is not simply random text. It
-                                    has roots in a piece of classical Latin literature from 45 BC, making it
-                                    over 2000 years old. Richard McClintock, a Latin professor at
-                                    Hampden-Sydney College in Virginia, looked up one of the more obscure
-                                    Latin words, consectetur, from a Lorem Ipsum passage, and going through
-                                    the cites.
+                                        ${review.reviContent}
                                 </p>
+                                <div>
+                                    <c:if test="${nowUserId == review.reviUserId}">
+                                        <button class="btn btn-secondary" name="modifyReview">수정</button>
+                                        <button type="button" class="btn btn-danger" name="deleteReview">삭제</button>
+                                    </c:if>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <hr class="my-0" style="height: 1px;"/>
                 </c:forEach>
+                <div class="modal fade" id="id_review_edit_modal" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <form name="frm_reply_edit"
+                                  method="post"
+                            >
+                                <div class="modal-header">
+                                    <button type="button" class="btn-close" data-dismiss="modal"
+                                            onclick="closModal()"></button>
+                                    <h4 class="modal-title">리뷰수정</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div>
+                                        <label for="star1">1</label>
+                                        <input type="radio" name="reviStar" id="star1"
+                                               value="1">
+                                        <label for="star2">2</label>
+                                        <input type="radio" name="reviStar" id="star2"
+                                               value="2">
+                                        <label for="star3">3</label>
+                                        <input type="radio" name="reviStar" id="star3"
+                                               value="3">
+                                        <label for="star4">4</label>
+                                        <input type="radio" name="reviStar" id="star4"
+                                               value="4">
+                                        <label for="star5">5</label>
+                                        <input type="radio" name="reviStar" id="star5"
+                                               value="5">
+                                    </div>
+                                    <textarea rows="3" name="reviContent"
+                                              class="form-control">${review.reviContent}</textarea>
+                                    <input type="hidden" name="reviNo" value="${review.reviNo}">
+                                </div>
+                                <div class="modal-footer">
+                                    <button id="btn_reply_modify" type="button"
+                                            class="btn btn-sm btn-info">저장
+                                    </button>
+                                    <button type="button" class="btn btn-default btn-sm"
+                                            data-dismiss="modal" onclick="closModal()">닫기
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div id="reviMaisnBox">
 
-
-    <c:forEach items="${reviewsList}" var="review">
-        <div class="border border-success-subtle " name="reviewBox" data-revi-no="${review.reviNo}"
-             data-parent="${review.reviParentNo}" data-buy-no="${review.buyNo}" data-opt-no="${review.optNo}">
-            <div class="" name="top">
-                <div class="d-flex" name="userInfo">
-                    <p>
-                            ${review.userName}
-                    </p>
-                    <p>
-                        || 별점 : <span name="stars">${review.reviStar}</span>
-                    </p>
-
-                    <c:forEach items="${optList}" var="opt">
-                        <c:if test="${review.optNo == opt.optNo}">
-
-                            <p>
-                                옵션1${opt.optFirst}
-                            </p>
-                            <p>
-                                옵션2${opt.optSecond}
-                            </p>
-                        </c:if>
-                    </c:forEach>
-                </div>
-                <div name="imgDiv">
-                    <c:forEach items="${reviImgList}" var="reviImg">
-                        <c:if test="${reviImg.atchParentNo == review.reviNo}">
-                            <img class=""
-                                 src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=${reviImg.atchFileName}&filePath=${reviImg.atchPath}"
-                                 style="height: 30%;width: 30%"/>
-                        </c:if>
-                    </c:forEach>
-                </div>
-            </div>
-            <div class="d-flex" name="bottom">
-                <div name="reviContent">${review.reviContent}</div>
-                <div>
-                    <c:if test="${nowUserId == review.reviUserId}">
-                        <div class="modal fade" id="id_review_edit_modal" role="dialog">
-                            <div class="modal-dialog">
-                                <!-- Modal content-->
-                                <div class="modal-content">
-                                    <form name="frm_reply_edit"
-                                          method="post"
-                                    >
-                                        <div class="modal-header">
-                                            <button type="button" class="btn-close" data-dismiss="modal"
-                                                    onclick="closModal()"></button>
-                                            <h4 class="modal-title">리뷰수정</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div>
-                                                <label for="star1">1</label>
-                                                <input type="radio" name="reviStar" id="star1"
-                                                       value="1" ${review.reviStar==1?'checked':''}>
-                                                <label for="star2">2</label>
-                                                <input type="radio" name="reviStar" id="star2"
-                                                       value="2"${review.reviStar==2?'checked':''}>
-                                                <label for="star3">3</label>
-                                                <input type="radio" name="reviStar" id="star3"
-                                                       value="3"${review.reviStar==3?'checked':''}>
-                                                <label for="star4">4</label>
-                                                <input type="radio" name="reviStar" id="star4"
-                                                       value="4"${review.reviStar==4?'checked':''}>
-                                                <label for="star5">5</label>
-                                                <input type="radio" name="reviStar" id="star5"
-                                                       value="5" ${review.reviStar==5?'checked':''}>
-                                            </div>
-                                            <textarea rows="3" name="reviContent"
-                                                      class="form-control">${review.reviContent}</textarea>
-                                            <input type="hidden" name="reviNo" value="${review.reviNo}">
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button id="btn_reply_modify" type="button"
-                                                    class="btn btn-sm btn-info">저장
-                                            </button>
-                                            <button type="button" class="btn btn-default btn-sm"
-                                                    data-dismiss="modal" onclick="closModal()">닫기
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
-                        <button class="btn btn-secondary" name="modifyReview">수정</button>
-                        <button type="button" class="btn btn-danger" name="deleteReview">삭제</button>
-                    </c:if>
-                </div>
-            </div>
-
-        </div>
-    </c:forEach>
-    <nav class="text-center">
-        <ul class="pagination">
-
-            <!-- 첫 페이지  -->
-            <li>
-                <button type="button" onclick="goFirst()" data-page="1">
-                    <span aria-hidden="true">&laquo;</span>
-                </button>
-            </li>
-
-            <!-- 이전 페이지 -->
-            <c:if test="${paging.firstPage != 1}">
+        <nav class="text-center">
+            <ul class="pagination">
+                <!-- 첫 페이지  -->
                 <li>
-                    <button type="button" onclick="goBefore()"
-                            data-page="${paging.firstPage - 1}">
-                        <span aria-hidden="true">&lt;</span>
+                    <button class="btn btn-outline-success" type="button" onclick="goFirst()" data-page="1">
+                        <span aria-hidden="true">&laquo;</span>
                     </button>
                 </li>
-            </c:if>
 
-            <!-- 페이지 넘버링  -->
-            <c:forEach var="page" begin="${paging.firstPage}" end="${paging.lastPage}">
-                <li ${paging.curPage==page ?"class='active'":""}>
-                    <button type="button" onclick="goPage(${page})"
-                            data-page="${page}">
-                            ${page}
-                    </button>
-                </li>
-            </c:forEach>
-            <!-- 다음  페이지  -->
-            <c:if test="${paging.lastPage != paging.totalPageCount}">
+                <!-- 이전 페이지 -->
+                <c:if test="${paging.firstPage != 1}">
+                    <li>
+                        <button class="btn btn-outline-success" type="button" onclick="goBefore()"
+                                data-page="${paging.firstPage - 1}">
+                            <span aria-hidden="true">&lt;</span>
+                        </button>
+                    </li>
+                </c:if>
+
+                <!-- 페이지 넘버링  -->
+                <c:forEach var="page" begin="${paging.firstPage}" end="${paging.lastPage}">
+                    <li ${paging.curPage==page ?"class='active'":""}>
+                        <button class="btn btn-outline-success" type="button" onclick="goPage(${page})"
+                                data-page="${page}">
+                                ${page}
+                        </button>
+                    </li>
+                </c:forEach>
+                <!-- 다음  페이지  -->
+                <c:if test="${paging.lastPage != paging.totalPageCount}">
+                    <li>
+                        <button class="btn btn-outline-success" type="button" onclick="goAfter()"
+                                data-page="${paging.lastPage + 1}">
+                            <span aria-hidden="true">&gt;</span>
+                        </button>
+
+                    </li>
+                </c:if>
+
+                <!-- 마지막 페이지 -->
                 <li>
-                    <button type="button" onclick="goAfter()"
-                            data-page="${paging.lastPage + 1}">
-                        <span aria-hidden="true">&gt;</span>
+                    <button class="btn btn-outline-success" onclick="goLast()" data-page="${paging.totalPageCount}">
+                        <span aria-hidden="true">&raquo;</span>
                     </button>
-
                 </li>
-            </c:if>
+            </ul>
+        </nav>
 
-            <!-- 마지막 페이지 -->
-            <li>
-                <button onclick="goLast()" data-page="${paging.totalPageCount}">
-                    <span aria-hidden="true">&raquo;</span>
-                </button>
-            </li>
-        </ul>
-    </nav>
 </div>
-
 
 </body>
 <script>
@@ -291,10 +247,20 @@
 
     })
     $("#reviMainBox").on("click", 'button[name="modifyReview"]', function (e) {
+        let $dataBox = $($(e.target).closest("div[name=reviewBox]"));
+        $($("#id_review_edit_modal").find("textarea[name=reviContent]")).text($dataBox.data("content"))
+        $($("#id_review_edit_modal").find("input[name=reviNo]")).val($dataBox.data("reviNo"))
+        $($("#id_review_edit_modal").find("input[name=reviStar]")).map((i, v) => {
+            if ($(v).val() == $dataBox.data("star")) {
+                $(v).attr("checked", "checked")
+            }
+
+        })
         $("#id_review_edit_modal").modal('show');
     })
     $("#btn_reply_modify").on("click", function (e) {
         const $form = $("form[name='frm_reply_edit']")
+        console.log($form.serialize())
         $.ajax({
             url: "/reviews/modifyReview.wow",
             data: $form.serialize(),

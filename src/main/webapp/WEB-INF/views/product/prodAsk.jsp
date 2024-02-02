@@ -15,73 +15,80 @@
     request.setAttribute("userId", userInfo.getUserId());
 %>
 <body>
-<div id="askContainer">
-
-    <c:if test="${!askVOList.isEmpty()}">
-        <c:forEach items="${askVOList}" var="ask">
-            <div class="border border-success-subtle" name="askDiv" data-ask-no="${ask.askNo}">
-                    ${ask}
-                <div>
-                    문의자 : <span>${ask.userName}</span>
-                </div>
-                <div>
-                    내용 : <span>${ask.askContent}</span>
-                </div>
-                <div>
-                    문의 등록일 : <span>${ask.askRegDate}</span>
-                </div>
-                <c:forEach items="${askReplyList}" var="askReply">
-                    <c:if test="${askReply.replyParentNo == ask.askNo}">
-                        <div class="border border-danger-subtle" name="askReplyDiv"
-                             data-ask-reply-no="${askReply.replyNo}">
-                            ㄴ 답글 내용 : ${askReply.replyContent}
-                            <c:if test="${userId==prodUserId}">
-
-                                <button class="btn btn-danger" type="button" name="replyDelBtn">답글 지우기</button>
-                            </c:if>
-                        </div>
-                    </c:if>
-                </c:forEach>
-                <c:if test="${userId==prodUserId}">
-                    <div class="modal fade" id="id_review_edit_modal" role="dialog">
-                        <div class="modal-dialog">
-                            <!-- Modal content-->
-                            <div class="modal-content">
-                                <form name="frm_reply_edit"
-                                      method="post"
-                                      onclick="return false;">
-                                    <div class="modal-header">
-                                        <button type="button" class="btn-close" data-dismiss="modal"
-                                                onclick="closModal()"></button>
-                                        <h4 class="modal-title">답글달기</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                <textarea rows="3" name="replyContent"
-                                          class="form-control">${ask}</textarea>
-                                        <input type="hidden" name="replyParentNo" value="${ask.askNo}">
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button name="btn_reply_modify" type="button"
-                                                class="btn btn-sm btn-info">저장
-                                        </button>
-                                        <button type="button" class="btn btn-default btn-sm"
-                                                data-dismiss="modal" onclick="closModal()">닫기
-                                        </button>
-                                    </div>
-                                </form>
+<div class="container">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-12 col-lg-10">
+            <div class=" text-dark" id="askContainer">
+                <h4 class="mb-0">문의</h4>
+<%--                <p class="fw-light mb-4 pb-2">문의글 수 : ${askVOList.size()}</p>--%>
+                <c:forEach items="${askVOList}" var="ask">
+                <div class="card-body p-4" name="askDiv" data-ask-no="${ask.askNo}">
+                        <div class="d-flex flex-start" name="top">
+                            <div>
+                                <h6 class="fw-bold mb-1">문의자 : ${ask.userName}</h6>
+                                <div class="d-flex align-items-center mb-3">
+                                    <p class="mb-0">
+                                            ${ask.askRegDate}
+                                    </p>
+                                </div>
+                                <p class="mb-0">
+                                        ${ask.askContent}
+                                </p>
                             </div>
                         </div>
+                        <c:forEach items="${askReplyList}" var="askReply">
+                            <c:if test="${askReply.replyParentNo == ask.askNo}">
+                                <div class="" name="askReplyDiv"
+                                     data-ask-reply-no="${askReply.replyNo}">
+                                    ㄴ 답글 내용 : ${askReply.replyContent}
+                                    <c:if test="${userId==prodUserId}">
+                                        <button class="btn btn-danger " type="button" name="replyDelBtn">답글 지우기</button>
+                                    </c:if>
+                                </div>
+                            </c:if>
+                        </c:forEach>
+                        <c:if test="${userId==prodUserId}">
+                            <button class="btn btn-outline-primary" name="replyBtn">답글달기</button>
+                        </c:if>
+                        <c:if test="${userId==ask.askUserId}">
+                            <button class="btn btn-danger" name="delAskBtn">삭제하기</button>
+                        </c:if>
+
+                    <hr class="my-0" style="height: 1px;"/>
+                </div>
+                    </c:forEach>
+                <div class="modal fade" id="id_review_edit_modal" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <form name="frm_reply_edit"
+                                  method="post"
+                                  onclick="return false;">
+                                <div class="modal-header">
+                                    <button type="button" class="btn-close" data-dismiss="modal"
+                                            onclick="closModal()"></button>
+                                    <h4 class="modal-title">답글달기</h4>
+                                </div>
+                                <div class="modal-body">
+                                <textarea rows="3" name="replyContent"
+                                          class="form-control">${ask}</textarea>
+                                    <input type="hidden" name="replyParentNo" value="">
+                                </div>
+                                <div class="modal-footer">
+                                    <button name="btn_reply_modify" type="button"
+                                            class="btn btn-sm btn-info">저장
+                                    </button>
+                                    <button type="button" class="btn btn-default btn-sm"
+                                            data-dismiss="modal" onclick="closModal()">닫기
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-
-                    <button name="replyBtn">답글달기</button>
-
-                </c:if>
-                <c:if test="${userId==ask.askUserId}">
-                    <button class="btn btn-danger" name="delAskBtn">삭제하기</button>
-                </c:if>
-
+                </div>
             </div>
-        </c:forEach>
+        </div>
+
         <nav class="text-center">
             <ul class="pagination">
 
@@ -130,7 +137,7 @@
                 </li>
             </ul>
         </nav>
-    </c:if>
+    </div>
 </div>
 </body>
 </html>
@@ -176,11 +183,13 @@
         })
 
     }
+
     $("#askContainer").on("click", 'button[name="replyBtn"]', function (e) {
-        $($($(e.target).parent()).find("#id_review_edit_modal")).modal('show');
+        $("input[name=replyParentNo]").val($($(e.target).closest("div[name=askDiv]")).data("askNo"))
+        $("#id_review_edit_modal").modal('show');
     })
     closModal = () => {
-        $($($("button[name='replyBtn']").parent()).find("#id_review_edit_modal")).modal('hide');
+        $("#id_review_edit_modal").modal('hide');
     }
 
     $("#askContainer").on("click", 'button[name="btn_reply_modify"]', function (e) {
@@ -219,6 +228,7 @@
             })
         }
     });
+
     $("#askContainer").on("click", 'button[name="delAskBtn"]', function (e) {
         const dataPack = $($(e.target).parents("div[name=askDiv]"))
         console.log(dataPack.data("askNo"))
@@ -248,11 +258,5 @@
     });
 
 
-    const blankChk = () => {
-        if ($("#askContainer").children().length == 0) {
-            let div = "<div>문의가 없습니다</div>"
-            $("#askContainer").append(div)
-        }
-    }
-    blankChk()
+
 </script>

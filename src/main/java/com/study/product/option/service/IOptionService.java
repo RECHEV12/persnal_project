@@ -12,7 +12,8 @@ public interface IOptionService {
 
     public OptionVO getOpt(int optNo);
     public void insertOpt(OptionVO option);
-
+    public void deleteOpt(int prodNo);
+    public void updateOpt(OptionVO option);
     public OptionVO getOptPrice(int prodNo, String opt_first, String opt_second);
 
     public void addReviNo(@Param("userId") String userId, @Param("parentNo") int parentNo, @Param("buyNo") int buyNo, @Param("optNo") int optNo, @Param("reviNo") int reviNo);

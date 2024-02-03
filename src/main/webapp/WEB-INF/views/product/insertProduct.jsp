@@ -13,13 +13,11 @@
 <%@include file="/WEB-INF/inc/top.jsp" %>
 <section class="vh-100" style="background-color: #146c43;">
     <form method="post" action="/product/insertProduct.wow" enctype="multipart/form-data">
-
-
         <div class="container h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-xl-9">
 
-                    <h1 class="text-white mb-4">Apply for a job</h1>
+                    <h1 class="text-white mb-4">물품 등록</h1>
 
                     <div class="card" style="border-radius: 15px;">
                         <div class="card-body">

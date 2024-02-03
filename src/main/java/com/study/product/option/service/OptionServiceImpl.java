@@ -28,6 +28,16 @@ public class OptionServiceImpl implements IOptionService {
     }
 
     @Override
+    public void deleteOpt(int prodNo) {
+        optionDAO.deleteOpt(prodNo);
+    }
+
+    @Override
+    public void updateOpt(OptionVO option) {
+        optionDAO.updateOpt(option);
+    }
+
+    @Override
     public List<CodeVO> getCodeList() {
         return optionDAO.getCodeList();
     }

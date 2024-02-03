@@ -25,6 +25,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -231,16 +232,16 @@ public class ProductController {
                     throw new RuntimeException(e);
                 }
             }
-            for(MultipartFile m : detailImg){
-             if (!m.isEmpty()){
-                 try {
-                     AttachVO attach = attachUtils.getAttachByMultipart(m, "prodDetail", "prod");
-                     attach.setAtchParentNo(String.valueOf(product.getProdNo()));
-                     attachDAO.insertAttach(attach);
-                 } catch (IOException e) {
-                     throw new RuntimeException(e);
-                 }
-             }
+            for (MultipartFile m : detailImg) {
+                if (!m.isEmpty()) {
+                    try {
+                        AttachVO attach = attachUtils.getAttachByMultipart(m, "prodDetail", "prod");
+                        attach.setAtchParentNo(String.valueOf(product.getProdNo()));
+                        attachDAO.insertAttach(attach);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
             }
             if (delAtchNos != null) attachDAO.deleteAtches(delAtchNos);
             return "redirect:/common/alert.wow?msg=success&url=/user/myPage.wow";
@@ -248,14 +249,60 @@ public class ProductController {
         return "redirect:/common/alert.wow?msg=failed&url=/user/myPage.wow";
 
     }
+
     @RequestMapping("/product/productDelete.wow")
-    public String deleteProduct(int prodNo){
+    public String deleteProduct(int prodNo) {
         int resultRow = productService.deleteProduct(prodNo);
-        if (resultRow==1){
+        if (resultRow == 1) {
+            optionService.deleteOpt(prodNo);
             return "redirect:/common/alert.wow?msg=success&url=/user/myPage.wow";
-        }else {
+        } else {
             return "redirect:/common/alert.wow?msg=failed&url=/user/myPage.wow";
         }
     }
+
+    @GetMapping("/product/modifyOpt.wow")
+    public String goModifyOpt(Model model, int prodNo) {
+        ProductVO product = productService.getProduct(prodNo);
+        List<OptionVO> optList = optionService.getOptList(prodNo);
+        model.addAttribute("product", product);
+        model.addAttribute("optList", optList);
+        return "product/modifyOpt";
+
+    }
+
+    @PostMapping("/product/modifyOpt.wow")
+    public String doModifyOpt(int[] delOpt, int prodNo,String[] optFirst, String[] optSecond, int[] optStock, int[] optNo,String[] newOptFirst, String[] newOptSecond, int[] newOptStock) {
+        System.out.println("optVoList===>>===>" + Arrays.toString(optNo));
+        if (delOpt != null) {
+            for (int i : delOpt) {
+                optionService.deleteOpt(i);
+            }
+        }
+        if (optNo != null) {
+            for (int i = 0; i < optNo.length; i++) {
+                OptionVO opt = new OptionVO();
+                opt.setOptNo(optNo[i]);
+                opt.setOptFirst(optFirst[i]);
+                opt.setOptSecond(optSecond[i]);
+                opt.setOptStock(optStock[i]);
+                optionService.updateOpt(opt);
+            }
+        }
+        if (newOptFirst!=null){
+            for (int i = 0; i < newOptFirst.length; i++) {
+                OptionVO opt2 = new OptionVO();
+                opt2.setOptProdNo(prodNo);
+                opt2.setOptFirst(newOptFirst[i]);
+                opt2.setOptSecond(newOptSecond[i]);
+                opt2.setOptStock(newOptStock[i]);
+                optionService.insertOpt(opt2);
+
+            }
+        }
+
+        return "redirect:/common/alert.wow?msg=success&url=/user/myPage.wow";
+    }
+
 
 }

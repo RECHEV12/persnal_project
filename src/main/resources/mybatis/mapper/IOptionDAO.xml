@@ -24,6 +24,18 @@
           AND  USER_BUY_NO = #{buyNo}
           AND  OPT_NO = #{optNo}
     </update>
+    <update id="updateOpt" parameterType="com.study.product.option.vo.OptionVO">
+        UPDATE PROD_OPTIONS
+        SET OPT_FIRST=#{optFirst}, OPT_SECOND=#{optSecond}, OPT_STOCK=#{optStock}
+        WHERE OPT_NO = #{optNo}
+    </update>
+    <delete id="deleteOpt" parameterType="int">
+        UPDATE PROD_OPTIONS
+        SET OPT_DEL_YN= 'Y'
+        WHERE OPT_PROD_NO = #{prodNo}
+
+
+    </delete>
     <select id="getOptList" resultType="com.study.product.option.vo.OptionVO" parameterType="int">
         SELECT OPT_NO, OPT_FIRST, OPT_SECOND, OPT_STOCK, OPT_PROD_NO,OPT_DEL_YN
         FROM PROD_OPTIONS

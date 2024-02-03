@@ -155,7 +155,12 @@
                                                 </c:forEach>
                                             </c:forEach>
                                         </div>
+                                        <div>
 
+                                            <a href="/product/productEdit.wow?prodNo=${my.prodNo}">
+                                                <button class="btn btn-outline-secondary">제품 정보/옵션 수정</button>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </c:forEach>

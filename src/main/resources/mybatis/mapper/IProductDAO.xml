@@ -16,7 +16,7 @@
           , PROD_PRICE=#{prodPrice}, PROD_CATE_CODE=#{prodCateCode}
         WHERE PROD_NO=#{prodNo}
     </update>
-    <update id="deleteProduct">
+    <update id="deleteProduct" parameterType="int">
         UPDATE STD209.PRODUCTS
         SET PROD_DEL_YN = 'Y'
         WHERE PROD_NO=#{prodNo}
@@ -86,9 +86,9 @@
                 INNER JOIN users u
                            ON p.prod_user_id = u.user_id
                                AND p.prod_del_yn = 'N'
-                INNER JOIN ATTACH atch
-                           ON p.prod_no || '' = atch.ATCH_PARENT_NO
-                               AND atch.ATCH_CATEGORY = 'prodImg'
+                LEFT OUTER JOIN ATTACH atch
+                                ON p.prod_no || '' = atch.ATCH_PARENT_NO
+                                    AND atch.ATCH_CATEGORY = 'prodImg'
         WHERE p.prod_no = #{prodNo}
     </select>
     <select id="getProdNo" resultType="java.lang.Integer">

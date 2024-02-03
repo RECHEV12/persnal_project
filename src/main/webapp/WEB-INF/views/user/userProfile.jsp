@@ -25,7 +25,7 @@
                                     src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=${user.userAttach.atchFileName}&filePath=${user.userAttach.atchPath}"
                                  alt="Avatar" class="img-fluid my-5" style="width: 100px;" />
                             <h5>${user.userName}</h5>
-                            <p>${user.userClass== 'C'?"물품 구입 / 판매 가능":"구매만 가능"}</p>
+                            <p>${user.userClass== 'S'?"물품 구입 / 판매 가능":"구매만 가능"}</p>
                             <p>${user.userIntroduce}</p>
                             <%
                                 UserVO userInfo = (UserVO) session.getAttribute("USER_INFO");

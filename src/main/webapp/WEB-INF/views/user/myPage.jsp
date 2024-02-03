@@ -21,7 +21,7 @@
                              alt="avatar"
                              class="rounded-circle img-fluid" style="width: 150px;">
                         <h5 class="my-3">${user.userName}</h5>
-                        <p class="text-muted mb-1">${user.userClass== 'C'?"물품 구입 / 판매 가능":"구매만 가능"}</p>
+                        <p class="text-muted mb-1">${user.userClass== 'S'?"물품 구입 / 판매 가능":"구매만 가능"}</p>
                         <p class="text-muted mb-4">${user.userIntroduce}</p>
                         <div class="d-flex justify-content-center mb-2">
                             <a href="/user/userModify.wow">
@@ -113,6 +113,9 @@
                         </div>
                     </div>
                 </div>
+                <c:if test="${user.userClass== 'S'}">
+
+
                 내 제품
                 <div class="d-flex row w-full">
                     <div class="">
@@ -142,6 +145,7 @@
                         </c:forEach>
                     </div>
                 </div>
+                </c:if>
             </div>
         </div>
     </div>

@@ -5,6 +5,8 @@ import com.study.attach.vo.AttachVO;
 import com.study.product.cart.vo.CartVO;
 import com.study.product.history.service.IHistoryService;
 import com.study.product.history.vo.HistoryVO;
+import com.study.product.option.service.IOptionService;
+import com.study.product.option.vo.OptionVO;
 import com.study.product.product.service.IProductService;
 import com.study.product.product.vo.ProductSearchVO;
 import com.study.product.product.vo.ProductVO;
@@ -23,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -35,6 +38,8 @@ public class UserController {
     IHistoryService historyService;
     @Inject
     IProductService productService;
+    @Inject
+    IOptionService optionService;
 
     @RequestMapping("/user/userProfile.wow")
     public String goProfile(Model model, String userId) {
@@ -67,10 +72,21 @@ public class UserController {
         List<CartVO> optList = historyService.getHistoryOptes(userId);
         ProductSearchVO ProductSearchVO = new ProductSearchVO("user", userInfo.getUserName());
         List<ProductVO> myProdList = productService.getProdListByKeyword(ProductSearchVO);
+        List<List<OptionVO>> getMyProdOpt = new ArrayList<>();
+        if (!myProdList.isEmpty()){
+            for(ProductVO product : myProdList){
+                List<OptionVO> optList1 = optionService.getOptList(product.getProdNo());
+                getMyProdOpt.add(optList1);
+            }
+        }
         model.addAttribute("user", user);
         model.addAttribute("historyList", historyList);
         model.addAttribute("optList", optList);
         model.addAttribute("myProdList", myProdList);
+        if (!getMyProdOpt.isEmpty()){
+        model.addAttribute("getMyProdOpt", getMyProdOpt);
+
+        }
 
 
         return "user/myPage";

@@ -30,9 +30,11 @@
                             <a href="/user/userPassChange.wow">
                                 <button type="button" class="btn btn-outline-primary ms-1">비밀번호수정</button>
                             </a>
-                            <a href="/product/insertProduct.wow">
-                                <button type="button" class="btn btn-outline-secondary ms-1">제품등록</button>
-                            </a>
+                            <c:if test="${user.userClass== 'S'}">
+                                <a href="/product/insertProduct.wow">
+                                    <button type="button" class="btn btn-outline-secondary ms-1">제품등록</button>
+                                </a>
+                            </c:if>
                         </div>
                     </div>
                 </div>
@@ -43,6 +45,7 @@
                                 <i class="fas fa-globe fa-lg text-warning"></i>
                                 <p class="mb-0">구매내역</p>
                             </li>
+
                             <c:forEach items="${historyList}" var="history">
                                 <a href="/user/historyDetail.wow?buyNo=${history.buyNo}">
                                     <li class="list-group-item  justify-content-between align-items-center p-3">
@@ -114,37 +117,50 @@
                     </div>
                 </div>
                 <c:if test="${user.userClass== 'S'}">
+                    내 제품
+                    <div class="d-flex row w-full">
+                        <div class="">
+                            <c:forEach items="${myProdList}" var="my">
 
+                                <div class="card mb-4 mb-md-0">
+                                    <div class="card-body  d-flex">
+                                        <img class="img-thumbnail w-50"
+                                             src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=${my.prodImgFileName}&filePath=${my.prodImgFilePath}"
+                                             style=""/>
+                                        <div>
+                                            <p class="mb-4">
+                                                <span class="text-primary font-italic me-1">제품명 : </span> ${my.prodTitle}
 
-                내 제품
-                <div class="d-flex row w-full">
-                    <div class="">
-                        <c:forEach items="${myProdList}" var="my">
-                            <div class="card mb-4 mb-md-0">
-                                <div class="card-body  d-flex">
-                                    <img class="img-thumbnail w-50"
-                                         src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=${my.prodImgFileName}&filePath=${my.prodImgFilePath}"
-                                         style=""/>
-                                    <div>
+                                            </p>
+                                            <p class="mb-4">
+                                                <span class="text-primary font-italic me-1">제품소개 : </span> ${my.prodContent}
 
-                                    <p class="mb-4">
-                                        <span class="text-primary font-italic me-1">제품명 : </span> ${my.prodTitle}
+                                            </p>
+                                            <p class="mb-4">
+                                                <span class="text-primary font-italic me-1">가격 : </span> ${my.prodPrice}
+                                                원
+                                            </p>
+                                            <c:forEach items="${getMyProdOpt}" var="prodOpt">
+                                                <c:forEach items="${prodOpt}" var="getOpt" varStatus="status">
+                                                    <c:if test="${getOpt.optProdNo==my.prodNo}">
+                                                        <p class="mb-4">
+                                                            <span class="text-primary font-italic me-1">옵션${status.index + 1} :
+                                                            </span>
+                                                                ${getOpt.optFirst} / ${getOpt.optSecond}
+                                                            <span>
+                                                        </span>
+                                                            <span>  재고 : ${getOpt.optStock}</span>
+                                                        </p>
+                                                    </c:if>
+                                                </c:forEach>
+                                            </c:forEach>
+                                        </div>
 
-                                    </p>   <p class="mb-4">
-                                        <span class="text-primary font-italic me-1">제품소개 : </span> ${my.prodContent}
-
-                                    </p>
-                                    <p class="mb-4">
-                                        <span class="text-primary font-italic me-1">가격 : </span> ${my.prodPrice}
-                                        원
-                                    </p>
                                     </div>
-
                                 </div>
-                            </div>
-                        </c:forEach>
+                            </c:forEach>
+                        </div>
                     </div>
-                </div>
                 </c:if>
             </div>
         </div>
